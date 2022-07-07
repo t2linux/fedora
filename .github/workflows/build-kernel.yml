@@ -1,0 +1,43 @@
+---
+name: Build Fedora Kernel
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: "Checkout"
+        uses: actions/checkout@v3
+      
+      - name: "Build"
+        run: |
+          echo $PWD
+          echo "${{ github.workspace }}"
+          ls
+          mkdir -p ~/rpmbuild
+          docker run -t -v "$PWD":/repo fedora:35 /bin/bash -c "ls && ls /repo &&/repo/build.sh"
+
+      - name: "Tags"
+        id: tag
+        run: |
+          count=$(git rev-list --count HEAD)
+          hash=$(git rev-parse --short HEAD)
+          echo "::set-output name=tag::r${count}.${hash}"
+
+      - name: Artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: t2-packages-${{ steps.tag.outputs.tag }}
+          path: |
+            ${{ github.workspace }}/output/RPMS/*/*
+
+      - name: Release
+        if: ${{ github.ref == 'refs/heads/main' && !contains(github.event.head_commit.message, '[no rel]') }}
+        uses: softprops/action-gh-release@v1
+        with:
+          files: |
+            ${{ github.workspace }}/output/RPMS/*/*.rpm
+          tag_name: repo
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
