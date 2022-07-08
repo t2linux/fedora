@@ -32,7 +32,7 @@ echo "CONFIG_APPLE_BCE=m" >> "/root/rpmbuild/SOURCES/kernel-local"
 echo "CONFIG_APPLE_IBRIDGE=m" >> "/root/rpmbuild/SOURCES/kernel-local"
 
 ### Change buildid to mbp
-sed -i "s/# define buildid.*/%define buildid .t2-fc36/" "/root/rpmbuild"/SPECS/kernel.spec
+sed -i "s/# define buildid.*/%define buildid .t2/" "/root/rpmbuild"/SPECS/kernel.spec
 
 ### Build non-debug rpms
 cd "/root/rpmbuild"/SPECS
