@@ -38,6 +38,6 @@ jobs:
         with:
           files: |
             ${{ github.workspace }}/output/RPMS/*/*.rpm
-          tag_name: repo
+          tag_name: ${{ github.event.head_commit.message }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
