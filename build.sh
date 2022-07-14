@@ -1,10 +1,10 @@
 #!/bin/bash
 
-FEDORA_KERNEL_VERSION=5.18.6-200.fc36
-PATCHES_GIT=https://github.com/AdityaGarg8/linux-t2-patches
-PATCHES_COMMIT=5de541ee8cd4d8cf54a25d35c9eb95c6fca0603e
+FEDORA_KERNEL_VERSION=5.18.9-200.fc36
+PATCHES_GIT=https://github.com/Redecorating/mbp-16.1-linux-wifi
+PATCHES_COMMIT=eca40552100f66ad82f91ead3421b741a90dd0a7
 
-# Dependencies
+# Dependencies 
 dnf install -y fedora-packager git curl pesign ncurses-devel libkcapi libkcapi-devel libkcapi-static libkcapi-tools libbpf fedpkg rpmdevtools dwarves
 
 # Set home build directory
@@ -22,8 +22,25 @@ mkdir /tmp/download && cd /tmp/download
 git clone --single-branch --branch main ${PATCHES_GIT}
 cd *
 git checkout ${PATCHES_COMMIT}
+rm -rf 0001-arch-additions.patch
 for f in *.patch; do mv "$f" "$f.t2"; done
 cp *.patch.t2 /root/rpmbuild/SOURCES/
+
+# Get apple modules
+mkdir /tmp/src && cd /tmp/src
+tar -xf /root/rpmbuild/SOURCES/linux-*.tar.xz
+cd *
+git init
+git config user.name build
+git config user.email build@example.com
+git add --all
+git commit -m "init"
+git clone --depth=1 https://github.com/t2linux/apple-bce-drv drivers/staging/apple-bce
+git clone --depth=1 https://github.com/t2linux/apple-ib-drv drivers/staging/apple-ibridge
+rm -rf drivers/staging/*/.git
+git add drivers/staging
+git commit -m "Add apple-bce and apple-ib"
+git format-patch -n1 --output /root/rpmbuild/SOURCES/apple-bce-and-ib.patch.t2
 
 # Apply patches
 cd /root/rpmbuild/SPECS
