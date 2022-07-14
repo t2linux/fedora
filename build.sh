@@ -4,7 +4,7 @@ FEDORA_KERNEL_VERSION=5.18.9-200.fc36
 PATCHES_GIT=https://github.com/Redecorating/mbp-16.1-linux-wifi
 PATCHES_COMMIT=eca40552100f66ad82f91ead3421b741a90dd0a7
 
-# Dependencies 
+# Dependencies
 dnf install -y fedora-packager git curl pesign ncurses-devel libkcapi libkcapi-devel libkcapi-static libkcapi-tools libbpf fedpkg rpmdevtools dwarves
 
 # Set home build directory
