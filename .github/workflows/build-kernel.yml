@@ -17,11 +17,8 @@ jobs:
       
       - name: "Build"
         run: |
-          echo $PWD
-          echo "${{ github.workspace }}"
-          ls
           mkdir -p ~/rpmbuild
-          docker run -t -v "$PWD":/repo fedora:35 /bin/bash -c "ls && ls /repo &&/repo/build.sh"
+          docker run -t -v "$PWD":/repo fedora:35 /bin/bash -c "/repo/build.sh"
 
       - name: Artifacts
         uses: actions/upload-artifact@v3
