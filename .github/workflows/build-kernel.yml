@@ -10,7 +10,7 @@ jobs:
 
       - name: "Get version"
         id: get_version
-        run: echo ::set-output name=VERSION::$(echo ${{ github.event.head_commit.message }} | sed 's/[rel]//')
+        run: echo ::set-output name=VERSION::$(echo ${{ github.event.head_commit.message }} | tr -d ' [rel]')
 
       - name: "Checkout"
         uses: actions/checkout@v3
