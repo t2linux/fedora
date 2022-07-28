@@ -55,7 +55,10 @@ done;
 
 # Build non-debug rpms
 cd "/root/rpmbuild"/SPECS
+cp /repo/*.spec .
 rpmbuild -bb --with baseonly --without debug --without debuginfo --target=x86_64 kernel.spec
+rpmbuild -bb --with baseonly --without debug --without debuginfo --target=x86_64 t2linux-config.spec
+
 
 # Copy artifacts to shared volume
 cd "/repo"
