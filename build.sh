@@ -1,8 +1,8 @@
 #!/bin/bash
 
-FEDORA_KERNEL_VERSION=5.18.11-200.fc36
+FEDORA_KERNEL_VERSION=5.18.13-200.fc36
 PATCHES_GIT=https://github.com/Redecorating/mbp-16.1-linux-wifi
-PATCHES_COMMIT=11a76a8c49246d1f2507bd1d1776af484430b5cf
+PATCHES_COMMIT=0f18a8ee0e2eb7893222e3d0f433f75ce689aa91
 
 # Dependencies
 dnf install -y fedora-packager git curl pesign ncurses-devel libkcapi libkcapi-devel libkcapi-static libkcapi-tools libbpf fedpkg rpmdevtools dwarves
