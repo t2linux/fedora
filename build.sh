@@ -30,16 +30,16 @@ cp *.patch.t2 /root/rpmbuild/SOURCES/
 
 # Get apple modules
 mkdir /tmp/src && cd /tmp/src
-KERNEL_SRC=/root/rpmbuild/SOURCES/linux-*.tar.xz
+KERNEL_SRC="/root/rpmbuild/SOURCES/linux-*.tar.xz"
 tar -xf $KERNEL_SRC
-KERNEL_TMP=*
+KERNEL_TMP="*"
 cd $KERNEL_TMP
 git clone --depth=1 https://github.com/t2linux/apple-bce-drv drivers/staging/apple-bce
 git clone --depth=1 https://github.com/t2linux/apple-ib-drv drivers/staging/apple-ibridge
 rm -rf drivers/staging/*/.git
 cd ..
-rm $KERNEL_SRC
-tar -cf $KERNEL_SRC $KERNEL_TMP
+rm "$KERNEL_SRC"
+tar -cf "$KERNEL_SRC" "$KERNEL_TMP"
 
 # Apply patches
 cd /root/rpmbuild/SPECS
