@@ -35,3 +35,12 @@ jobs:
           tag_name: ${{ steps.get_version.outputs.VERSION }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          
+      - name: Update repo
+        run: |
+          curl \
+            -X POST \
+            -H "Accept: application/vnd.github+json" \ 
+            -H "Authorization: token ${{ secrets.PAT }}" \
+            https://api.github.com/repos/sharpenedblade/t2linux-fedora-repo/actions/workflows/31063766/dispatches \
+            -d '{"ref":"main"}'
