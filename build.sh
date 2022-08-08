@@ -1,6 +1,6 @@
 #!/bin/bash
 
-FEDORA_KERNEL_VERSION=5.18.13-200.fc36
+FEDORA_KERNEL_VERSION=5.18.16-200.fc36
 PATCHES_GIT=https://github.com/Redecorating/mbp-16.1-linux-wifi
 PATCHES_COMMIT=0f18a8ee0e2eb7893222e3d0f433f75ce689aa91
 
@@ -28,19 +28,16 @@ cp *.patch.t2 /root/rpmbuild/SOURCES/
 
 # Get apple modules
 mkdir /tmp/src && cd /tmp/src
-tar -xf /root/rpmbuild/SOURCES/linux-*.tar.xz
-cd *
-git init
-git config user.name build
-git config user.email build@example.com
-git add --all
-git commit -m "init"
+KERNEL_SRC=/root/rpmbuild/SOURCES/linux-*.tar.xz
+tar -xf $KERNEL_SRC
+KERNEL_TMP=*
+cd $KERNEL_TMP
 git clone --depth=1 https://github.com/t2linux/apple-bce-drv drivers/staging/apple-bce
 git clone --depth=1 https://github.com/t2linux/apple-ib-drv drivers/staging/apple-ibridge
 rm -rf drivers/staging/*/.git
-git add drivers/staging
-git commit -m "Add apple-bce and apple-ib"
-git format-patch -n1 --output /root/rpmbuild/SOURCES/apple-bce-and-ib.patch.t2
+cd ..
+rm $KERNEL_SRC
+tar -cf $KERNEL_SRC $KERNEL_TMP
 
 # Apply patches
 cd /root/rpmbuild/SPECS
