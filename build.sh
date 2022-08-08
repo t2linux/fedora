@@ -14,6 +14,8 @@ rpmdev-setuptree
 cd /root/rpmbuild/SOURCES
 koji download-build --arch=src kernel-${FEDORA_KERNEL_VERSION}
 rpm -Uvh kernel-${FEDORA_KERNEL_VERSION}.src.rpm
+cd /root/rpmbuild/SOURCES
+curl "https://wiki.t2linux.org/tools/rmmod_tb.sh" > rmmod_tb.sh
 cd /root/rpmbuild/SPECS 
 dnf -y builddep kernel.spec
 
