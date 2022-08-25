@@ -1,8 +1,8 @@
 #!/bin/bash
 
-FEDORA_KERNEL_VERSION=5.18.16-200.fc36
-PATCHES_GIT=https://github.com/Redecorating/mbp-16.1-linux-wifi
-PATCHES_COMMIT=0f18a8ee0e2eb7893222e3d0f433f75ce689aa91
+FEDORA_KERNEL_VERSION=5.18.19-200.fc36
+PATCHES_GIT=https://github.com/Redecorating/linux-t2-arch
+PATCHES_COMMIT=d1ba02f45198888016606b903f055a962de7eb81
 
 # Dependencies
 dnf install -y fedora-packager git curl pesign ncurses-devel libkcapi libkcapi-devel libkcapi-static libkcapi-tools libbpf fedpkg rpmdevtools dwarves
@@ -36,10 +36,9 @@ KERNEL_TMP="*"
 cd $KERNEL_TMP
 git clone --depth=1 https://github.com/t2linux/apple-bce-drv drivers/staging/apple-bce
 git clone --depth=1 https://github.com/t2linux/apple-ib-drv drivers/staging/apple-ibridge
-rm -rf drivers/staging/*/.git
 cd ..
 rm "$KERNEL_SRC"
-tar -cf "$KERNEL_SRC" "$KERNEL_TMP"
+tar -cJf "$KERNEL_SRC" "$KERNEL_TMP"
 
 # Apply patches
 cd /root/rpmbuild/SPECS

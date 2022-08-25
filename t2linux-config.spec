@@ -1,5 +1,5 @@
 Name: linux-t2
-Version: 5.18.9
+Version: 5.18.19
 Release: 1%{?dist}
 Summary: System configuration for linux on t2 macs.
 
@@ -8,7 +8,7 @@ URL: https://t2linux.org
 Source0: https://wiki.t2linux.org/tools/rmmod_tb.sh
 
 %description
-Configuration files for linux on t2 macs. The linux-t2 kernel is necessary for this to work, and this must be installed to boot. Everything works except for TouchId, eGPU, and audio switching.
+Configuration files for linux on t2 macs. Everything works except for TouchId, eGPU, and audio switching.
 
 %prep
 cp %{_sourcedir}/* %{_builddir}
