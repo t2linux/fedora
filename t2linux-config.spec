@@ -30,7 +30,7 @@ mv %{_builddir}/rmmod_tb.sh %{buildroot}/lib/systemd/system-sleep/rmmod_tb.sh
 chmod +x %{buildroot}/lib/systemd/system-sleep/rmmod_tb.sh
 
 %post
-grubby --remove-args="efi=noruntime pcie_ports=compat" --update-kernel=ALL
+grubby --remove-args="efi=noruntime" --update-kernel=ALL
 grubby --args="intel_iommu=on iommu=pt pcie_ports=compat" --update-kernel=ALL
 
 %files

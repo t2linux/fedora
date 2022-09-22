@@ -17,8 +17,9 @@ rpm -Uvh kernel-${FEDORA_KERNEL_VERSION}.src.rpm
 cd /root/rpmbuild/SPECS 
 # Fedora devs are against merging kernel-local for all architectures, so we have to patch it in.
 sed -i "s@for i in %{all_arch_configs}@for i in *.config@g" kernel.spec 
-
 dnf -y builddep kernel.spec
+cd /root/rpmbuild/SOURCES
+curl "https://wiki.t2linux.org/tools/rmmod_tb.sh" > rmmod_tb.sh
 
 echo "======DOWNLOADING PATCHES====="
 rm -rf /tmp/download /tmp/src
@@ -73,7 +74,7 @@ sed -i "s@$KERNEL_TMP@@" /root/rpmbuild/SOURCES/linux-kernel-test.patch
 echo "=====BUILDING====="
 cd "/root/rpmbuild"/SPECS
 cp /repo/*.spec .
-rpmbuild -bp kernel.spec
+rpmbuild -bb t2linux-config.spec
 rpmbuild -bb --with baseonly --without debug --without debuginfo --target=x86_64 kernel.spec
 
 
