@@ -11,7 +11,7 @@ Source0: https://wiki.t2linux.org/tools/rmmod_tb.sh
 Configuration files for linux on t2 macs. Everything works except for TouchId, eGPU, and audio switching.
 
 %prep
-cp %{_sourcedir}/* %{_builddir}
+cp %{_sourcedir}/rmmod_tb.sh %{_builddir}
 
 %build
 echo -e 'hid-apple\nbcm5974\nsnd-seq\napple_bce' > apple_bce.conf
