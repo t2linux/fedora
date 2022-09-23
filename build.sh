@@ -20,6 +20,7 @@ sed -i "s@for i in %{all_arch_configs}@for i in *.config@g" kernel.spec
 dnf -y builddep kernel.spec
 cd /root/rpmbuild/SOURCES
 curl "https://wiki.t2linux.org/tools/rmmod_tb.sh" > rmmod_tb.sh
+curl "https://github.com/kekrby/t2-better-audio/archive/5a46dcb9f274c503802d77a0b11034312ef20f5d/t2-better-audio-5a46dcb.tar.gz" > t2-better-audio-5a46dcb.tar.gz
 
 echo "======DOWNLOADING PATCHES====="
 rm -rf /tmp/download /tmp/src
@@ -48,8 +49,8 @@ KERNEL_TMP="$KSV.new"
 cd $KERNEL_TMP
 
 echo "=====PATCHING SOURCE TREE====="
-git clone --depth=1 https://github.com/t2linux/apple-bce-drv drivers/staging/apple-bce
-git clone --depth=1 https://github.com/t2linux/apple-ib-drv drivers/staging/apple-ibridge
+git clone --depth=1 https://github.com/kekrby/apple-bce drivers/staging/apple-bce
+git clone --depth=1 https://github.com/Redecorating/apple-ib-drv drivers/staging/apple-ibridge
 cp /tmp/download/*/*.patch .
 for i in *.patch; do 
     echo $i

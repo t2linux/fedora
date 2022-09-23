@@ -1,6 +1,5 @@
 # t2linux-fedora-kernel
-Patched kernel for fedora linux on T2 macs. It mostly works, but dont expect a MacOS like experience. If you have problems with wifi, 
-look at the compatibility section. A dnf/yum repo is avaliable at [`https://t2linux-fedora-repo.netlify.app/repo/t2linux-fedora.repo`](https://t2linux-fedora-repo.netlify.app/repo/t2linux-fedora.repo).
+Patched kernel for fedora linux on T2 macs. It mostly works, but dont expect a MacOS like experience. If you have problems with wifi, follow the guide on the wiki. A dnf/yum repo is avaliable at [`https://t2linux-fedora-repo.netlify.app/repo/t2linux-fedora.repo`](https://t2linux-fedora-repo.netlify.app/repo/t2linux-fedora.repo).
 
 ## Compatability
 
@@ -14,10 +13,10 @@ look at the compatibility section. A dnf/yum repo is avaliable at [`https://t2li
     - Internal display
     - Touchbar (only function keys)
     - Camera/Microphone
+    - Bluetooth
+    - Audio
     - Everything else that works on normal x86_64 laptops
  
 - What doesnt work
-    - Bluetooth
-    - Using the T2 chip
-    - Audio switching (you have to manually select it)
+    - Using the T2 chip as TPM
     - Reading APFS
