@@ -20,3 +20,4 @@ Patched kernel for fedora linux on T2 macs. It mostly works, but dont expect a M
 - What doesnt work
     - Using the T2 chip as TPM
     - Reading APFS
+    - Audio channel layout
