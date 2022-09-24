@@ -1,6 +1,6 @@
 #!/bin/bash
 
-FEDORA_KERNEL_VERSION=5.19.9-200.fc36
+FEDORA_KERNEL_VERSION=5.19.10-200.fc36
 PATCHES_GIT=https://github.com/Redecorating/linux-t2-arch
 PATCHES_COMMIT=65a5575de77284c0a36c95510ebaaa8e8a867bc5
 
@@ -18,9 +18,6 @@ cd /root/rpmbuild/SPECS
 # Fedora devs are against merging kernel-local for all architectures, so we have to patch it in.
 sed -i "s@for i in %{all_arch_configs}@for i in *.config@g" kernel.spec 
 dnf -y builddep kernel.spec
-cd /root/rpmbuild/SOURCES
-curl "https://wiki.t2linux.org/tools/rmmod_tb.sh" > rmmod_tb.sh
-curl "https://github.com/kekrby/t2-better-audio/archive/5a46dcb9f274c503802d77a0b11034312ef20f5d/t2-better-audio-5a46dcb.tar.gz" > t2-better-audio-5a46dcb.tar.gz
 
 echo "======DOWNLOADING PATCHES====="
 rm -rf /tmp/download /tmp/src
