@@ -2,7 +2,7 @@
 
 FEDORA_KERNEL_VERSION=5.19.10-200.fc36
 PATCHES_GIT=https://github.com/Redecorating/linux-t2-arch
-PATCHES_COMMIT=3ff28bbe5e6d03ec5dee418fe781ca6903c0b619
+PATCHES_COMMIT=5355ddb032ff65577d3c9d1bc8f0ff80eeaaa359
 
 echo "=====INSTALLING DEPENDENCIES====="
 dnf install -y fedpkg koji fedora-packager git curl pesign ncurses-devel libbpf fedpkg rpmdevtools ccache openssl-devel libkcapi libkcapi-devel libkcapi-static libkcapi-tools
@@ -25,7 +25,7 @@ mkdir /tmp/download && cd /tmp/download
 git clone --single-branch --branch main ${PATCHES_GIT}
 cd *
 git checkout ${PATCHES_COMMIT}
-rm -rf 0001-arch-additions.patch
+rm -rf 0001-arch-additions.patch 2013-aaudio-set-the-card-driver-name-to-AppleT2x-channel-.patch
 
 echo "=====PREPARING SOURCES====="
 cd ~/rpmbuild/SPECS
