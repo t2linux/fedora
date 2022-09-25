@@ -1,6 +1,6 @@
 Name: linux-t2
 Version: 5.19.10
-Release: 1%{?dist}
+Release: 2%{?dist}
 Summary: System configuration for linux on t2 macs.
 License: MIT
 
@@ -10,7 +10,7 @@ URL: https://t2linux.org
 Source0: https://wiki.t2linux.org/tools/rmmod_tb.sh
 
 
-%global audio_config_commit_long 5a46dcb9f274c503802d77a0b11034312ef20f5d
+%global audio_config_commit_long adbd7640b4055dc79a334ea4d31572e9599b4365
 %global audio_config_commit %(c=%{audio_config_commit_long}; echo ${c:0:7})  
 
 Source1: https://github.com/kekrby/t2-better-audio/archive/%{audio_config_commit_long}/t2-better-audio-%{audio_config_commit}.tar.gz
@@ -37,8 +37,15 @@ mkdir -p %{buildroot}/lib/systemd/system-sleep
 mv %{_builddir}/rmmod_tb.sh %{buildroot}/lib/systemd/system-sleep/rmmod_tb.sh
 chmod +x %{buildroot}/lib/systemd/system-sleep/rmmod_tb.sh
 
-mkdir -p %{buildroot}/usr/share/alsa/ucm2
-cp -r %{_builddir}/t2-better-audio-%{audio_config_commit_long}/files/ucm2/* %{buildroot}/usr/share/alsa/ucm2
+mkdir -p %{buildroot}/usr/lib/udev/rules.d/
+cp -r %{_builddir}/t2-better-audio-%{audio_config_commit_long}/files/91-audio-custom.rules %{buildroot}/usr/lib/udev/rules.d/
+
+for dir in %{buildroot}/usr/share/alsa-card-profile/mixer %{buildroot}/usr/share/pulseaudio/alsa-mixer
+do
+    mkdir -p $dir
+    cp -r %{_builddir}/t2-better-audio-%{audio_config_commit_long}/files/profile-sets $dir
+    cp -r %{_builddir}/t2-better-audio-%{audio_config_commit_long}/files/paths $dir
+done
 
 %post
 grubby --remove-args="efi=noruntime" --update-kernel=ALL
@@ -48,4 +55,6 @@ grubby --args="intel_iommu=on iommu=pt pcie_ports=compat" --update-kernel=ALL
 /etc/modules-load.d/apple_bce.conf
 /lib/systemd/system-sleep/rmmod_tb.sh
 /etc/dracut.conf.d/apple_bce_install.conf
-/usr/share/alsa/ucm2
+/usr/share/alsa-card-profile/mixer
+/usr/share/pulseaudio/alsa-mixer
+/usr/lib/udev/rules.d/
