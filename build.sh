@@ -46,8 +46,12 @@ KERNEL_TMP="$KSV.new"
 cd $KERNEL_TMP
 
 echo "=====PATCHING SOURCE TREE====="
-git clone --depth=1 https://github.com/kekrby/apple-bce drivers/staging/apple-bce
-git clone --depth=1 https://github.com/Redecorating/apple-ib-drv drivers/staging/apple-ibridge
+git clone https://github.com/kekrby/apple-bce drivers/staging/apple-bce
+cd drivers/staging/apple-bce && git checkout 9b59e0a8cd0aff218dacc88e64e113b51ced2818
+cd $KERNEL_TMP
+git clone https://github.com/Redecorating/apple-ib-drv drivers/staging/apple-ibridge
+cd drivers/staging/apple-ibridge && git checkout 467df9b11cb55456f0365f40dd11c9e666623bf3
+cd $KERNEL_TMP
 cp /tmp/download/*/*.patch .
 for i in *.patch; do 
     echo $i
