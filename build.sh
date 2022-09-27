@@ -1,6 +1,6 @@
 #!/bin/bash
 
-FEDORA_KERNEL_VERSION=5.19.10-200.fc36
+FEDORA_KERNEL_VERSION=5.19.11-200.fc36
 PATCHES_GIT=https://github.com/Redecorating/linux-t2-arch
 PATCHES_COMMIT=5355ddb032ff65577d3c9d1bc8f0ff80eeaaa359
 
@@ -31,8 +31,8 @@ echo "=====PREPARING SOURCES====="
 cd ~/rpmbuild/SPECS
 sed -i 's/# define buildid .local/%define buildid .t2/g' kernel.spec
 echo "CONFIG_STAGING=y" >> "/root/rpmbuild/SOURCES/kernel-local"
-echo "CONFIG_APPLE_IBRIDGE=m" >> "/root/rpmbuild/SOURCES/kernel-local"
-echo "CONFIG_APPLE_BCE=m" >> "/root/rpmbuild/SOURCES/kernel-local"
+echo "CONFIG_APPLE_IBRIDGE=y" >> "/root/rpmbuild/SOURCES/kernel-local"
+echo "CONFIG_APPLE_BCE=y" >> "/root/rpmbuild/SOURCES/kernel-local"
 echo "CONFIG_BT_HCIBCM4377=m" >> "/root/rpmbuild/SOURCES/kernel-local"
 rpmbuild -bp kernel.spec
 
