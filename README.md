@@ -9,6 +9,14 @@ Secure boot is disabled when using this kernel. **This is not a bad thing**. Mac
 
 Follow the [wifi guide](https://wiki.t2linux.org/guides/wifi/). Installing the wifi firmware will also enable bluetooth.
 
+## Instalation
+
+    1. Partition disks using Bootcamp Assistant, but dont install windows
+    2. Write the [t2linux-fedora-iso](https://github.com/sharpenedblade/t2linux-fedora-iso) to a bootable drive.
+    3. Install Fedora like normal until you get to partitioning disks
+    4. On the partitioning screen, select the partition you created from MacOS, and use it for free space. Make sure to leave the MacOS partition.
+    5. Reboot while holding *option*
+
 ### TODO
     - Signing the package
     - Using upstream shim.
