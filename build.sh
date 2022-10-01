@@ -1,8 +1,8 @@
 #!/bin/bash
 
-FEDORA_KERNEL_VERSION=5.19.11-200.fc36
+FEDORA_KERNEL_VERSION=5.19.12-200.fc36
 PATCHES_GIT=https://github.com/Redecorating/linux-t2-arch
-PATCHES_COMMIT=5355ddb032ff65577d3c9d1bc8f0ff80eeaaa359
+PATCHES_COMMIT=ede033e1549091cda1471114f9d77f1053c40132
 
 echo "=====INSTALLING DEPENDENCIES====="
 dnf install -y fedpkg koji fedora-packager git curl pesign ncurses-devel libbpf fedpkg rpmdevtools ccache openssl-devel libkcapi libkcapi-devel libkcapi-static libkcapi-tools
@@ -25,7 +25,7 @@ mkdir /tmp/download && cd /tmp/download
 git clone --single-branch --branch main ${PATCHES_GIT}
 cd *
 git checkout ${PATCHES_COMMIT}
-rm -rf 0001-arch-additions.patch 2013-aaudio-set-the-card-driver-name-to-AppleT2x-channel-.patch
+rm -rf 0001-arch-additions.patch
 
 echo "=====PREPARING SOURCES====="
 cd ~/rpmbuild/SPECS
@@ -46,8 +46,8 @@ KERNEL_TMP="$KSV.new"
 cd $KERNEL_TMP
 
 echo "=====PATCHING SOURCE TREE====="
-git clone https://github.com/kekrby/apple-bce drivers/staging/apple-bce
-cd drivers/staging/apple-bce && git checkout 9b59e0a8cd0aff218dacc88e64e113b51ced2818
+git clone https://github.com/t2linux/apple-bce-drv drivers/staging/apple-bce
+cd drivers/staging/apple-bce && git checkout f93c6566f98b3c95677de8010f7445fa19f75091
 cd $KERNEL_TMP
 git clone https://github.com/Redecorating/apple-ib-drv drivers/staging/apple-ibridge
 cd drivers/staging/apple-ibridge && git checkout 467df9b11cb55456f0365f40dd11c9e666623bf3

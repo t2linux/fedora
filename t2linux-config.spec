@@ -1,5 +1,5 @@
 Name: linux-t2
-Version: 5.19.11
+Version: 5.19.12
 Release: 1%{?dist}
 Summary: System configuration for linux on t2 macs.
 License: MIT
