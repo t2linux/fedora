@@ -6,6 +6,8 @@ Follow the [wifi guide](https://wiki.t2linux.org/guides/wifi/). Installing the w
 
 Secure boot is disabled when using this kernel. **This is not a bad thing**. Mac firmware does not enforce secure boot; even when the shim loads a signed kernel, the shim itself can be modified. It is imposible to have secure boot on macs, a signed kernel does not help, it is a false scence of security. To protect yourself from evil maid atacks, you should never give other people access to your computer.
 
+This kernel will follow the latest stable kernel version in the updates repo of the latest fedora release.
+
 ### Wifi
 
 Follow the [wifi guide](https://wiki.t2linux.org/guides/wifi/). Installing the wifi firmware will also enable bluetooth.
