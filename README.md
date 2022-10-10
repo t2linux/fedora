@@ -26,3 +26,4 @@ Follow the [wifi guide](https://wiki.t2linux.org/guides/wifi/). Installing the w
 - Using upstream shim.
 - Signed kernel modules
 - Automaticaly seting up Wifi firmware
+- Better initramfs integration
