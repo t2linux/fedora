@@ -1,5 +1,5 @@
 Name: linux-t2
-Version: 5.19.12
+Version: 5.19.14
 Release: 1%{?dist}
 Summary: System configuration for linux on t2 macs.
 License: MIT
@@ -22,9 +22,9 @@ cp %{_sourcedir}/rmmod_tb.sh %{_builddir}
 tar -xf %{_sourcedir}/t2-better-audio-%{audio_config_commit}.tar.gz
 
 %build
-echo -e 'hid-apple\nbcm5974\nsnd-seq\napple_bce' > apple_bce.conf
+echo -e 'apple_bce' > apple_bce.conf
 
-echo -e 'add_drivers+=" hid_apple snd-seq apple_bce "\nforce_drivers+=" hid_apple snd-seq apple_bce "' > apple_bce_install.conf
+echo -e 'add_drivers+=" apple_bce "\nforce_drivers+=" apple_bce "' > apple_bce_install.conf
 
 %install
 mkdir -p %{buildroot}/etc/dracut.conf.d/

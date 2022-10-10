@@ -30,9 +30,8 @@ rm -rf 0001-arch-additions.patch
 echo "=====PREPARING SOURCES====="
 cd ~/rpmbuild/SPECS
 sed -i 's/# define buildid .local/%define buildid .t2/g' kernel.spec
-echo "CONFIG_STAGING=y" >> "/root/rpmbuild/SOURCES/kernel-local"
-echo "CONFIG_APPLE_IBRIDGE=y" >> "/root/rpmbuild/SOURCES/kernel-local"
-echo "CONFIG_APPLE_BCE=y" >> "/root/rpmbuild/SOURCES/kernel-local"
+echo "CONFIG_APPLE_IBRIDGE=m" >> "/root/rpmbuild/SOURCES/kernel-local"
+echo "CONFIG_APPLE_BCE=m" >> "/root/rpmbuild/SOURCES/kernel-local"
 echo "CONFIG_BT_HCIBCM4377=m" >> "/root/rpmbuild/SOURCES/kernel-local"
 rpmbuild -bp kernel.spec
 
@@ -47,7 +46,7 @@ cd $KERNEL_TMP
 
 echo "=====PATCHING SOURCE TREE====="
 git clone https://github.com/t2linux/apple-bce-drv drivers/staging/apple-bce
-cd drivers/staging/apple-bce && git checkout f93c6566f98b3c95677de8010f7445fa19f75091
+cd drivers/staging/apple-bce && git checkout 6988ec2f08ed7092211540ae977f4ddb56d4fd49
 cd $KERNEL_TMP
 git clone https://github.com/Redecorating/apple-ib-drv drivers/staging/apple-ibridge
 cd drivers/staging/apple-ibridge && git checkout 467df9b11cb55456f0365f40dd11c9e666623bf3
