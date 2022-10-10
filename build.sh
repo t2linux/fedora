@@ -40,7 +40,7 @@ echo "=====COPYING SOURCE TREE====="
 mkdir /tmp/src && cd /tmp/src
 cp -r /root/rpmbuild/BUILD/* .
 cd *
-KSV=$(ls)
+KSV=$(realpath *)
 cp -r $KSV $KSV.new
 KERNEL_TMP="$KSV.new"
 cd $KERNEL_TMP
