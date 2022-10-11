@@ -1,0 +1,7 @@
+[t2linux-fedora]
+name=T2 Linux Fedora
+baseurl=https://t2linux-fedora-repo.netlify.app/repo
+enabled=1
+gpgcheck=1
+cost=98
+gpgkey=file:///etc/pki/rpm-gpg/t2linux-fedora-ci.pub

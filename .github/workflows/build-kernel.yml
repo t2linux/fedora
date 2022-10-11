@@ -41,6 +41,7 @@ jobs:
           tag_name: ${{ steps.get_version.outputs.VERSION }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          RPM_SIGNING_KEY: ${{ secrets.RPM_SIGNING_KEY }}
           
       - name: Update repo
         run: |

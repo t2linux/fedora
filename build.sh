@@ -72,11 +72,17 @@ diff -uNrp $KSV $KERNEL_TMP > /root/rpmbuild/SOURCES/linux-kernel-test.patch
 sed -i "s@$KSV@@" /root/rpmbuild/SOURCES/linux-kernel-test.patch
 sed -i "s@$KERNEL_TMP@@" /root/rpmbuild/SOURCES/linux-kernel-test.patch
 
+echo "=====IMPORTING KEYS====="
+cat $RPM_SIGNING_KEY > ./rpm_signing_key
+sudo rpm --import ./rpm_signing_key
+
 echo "=====BUILDING====="
 cd "/root/rpmbuild"/SPECS
 cp /repo/*.spec .
-rpmbuild -bb t2linux-config.spec
-rpmbuild -bb --with baseonly --without debug --without debuginfo --target=x86_64 kernel.spec
+cp /repo/repo/* /root/rpmbuild/SOURCES
+rpmbuild -bb --sign t2linux-config.spec
+rpmbuild -bb --sign t2linux-repo.spec
+rpmbuild -bb --with baseonly --without debug --without debuginfo --target=x86_64 --sign kernel.spec
 
 
 # Copy artifacts to shared volume

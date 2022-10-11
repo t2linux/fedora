@@ -1,4 +1,4 @@
-Name: linux-t2
+Name: t2linux-config
 Version: 5.19.14
 Release: 1%{?dist}
 Summary: System configuration for linux on t2 macs.
