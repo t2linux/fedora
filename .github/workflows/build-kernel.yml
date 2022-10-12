@@ -24,7 +24,10 @@ jobs:
       - name: "Build"
         run: |
           mkdir -p ~/rpmbuild
+          cat $RPM_SIGNING_KEY > ./rpm_signing_key
           docker run -t -v "$PWD":/repo fedora:36 /bin/bash -c "/repo/build.sh"
+        env: 
+          RPM_SIGNING_KEY: ${{ secrets.RPM_SIGNING_KEY }}
 
       - name: Artifacts
         uses: actions/upload-artifact@v3
@@ -41,7 +44,6 @@ jobs:
           tag_name: ${{ steps.get_version.outputs.VERSION }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          RPM_SIGNING_KEY: ${{ secrets.RPM_SIGNING_KEY }}
           
       - name: Update repo
         run: |

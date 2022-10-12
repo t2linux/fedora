@@ -73,8 +73,7 @@ sed -i "s@$KSV@@" /root/rpmbuild/SOURCES/linux-kernel-test.patch
 sed -i "s@$KERNEL_TMP@@" /root/rpmbuild/SOURCES/linux-kernel-test.patch
 
 echo "=====IMPORTING KEYS====="
-cat $RPM_SIGNING_KEY > ./rpm_signing_key
-sudo rpm --import ./rpm_signing_key
+sudo rpm --import /repo/rpm_signing_key
 
 echo "=====BUILDING====="
 cd "/root/rpmbuild"/SPECS
