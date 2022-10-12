@@ -5,7 +5,7 @@ PATCHES_GIT=https://github.com/Redecorating/linux-t2-arch
 PATCHES_COMMIT=1273b9f53335f5c165ee9eaa68066d28572d2114
 
 echo "=====INSTALLING DEPENDENCIES====="
-dnf install -y fedpkg koji fedora-packager git curl pesign ncurses-devel libbpf fedpkg rpmdevtools ccache openssl-devel libkcapi libkcapi-devel libkcapi-static libkcapi-tools
+dnf install -y fedpkg koji fedora-packager git curl pesign ncurses-devel libbpf fedpkg rpmdevtools ccache openssl-devel libkcapi libkcapi-devel libkcapi-static libkcapi-tools rpm-sign
 
 rpmdev-setuptree
 cd "/root/rpmbuild"/SPECS
@@ -73,15 +73,18 @@ sed -i "s@$KSV@@" /root/rpmbuild/SOURCES/linux-kernel-test.patch
 sed -i "s@$KERNEL_TMP@@" /root/rpmbuild/SOURCES/linux-kernel-test.patch
 
 echo "=====IMPORTING KEYS====="
-sudo rpm --import /repo/rpm_signing_key
+gpg --import /repo/rpm_signing_key
+rpm --import /repo/repo/t2linux-fedora-ci.pub
+rm -rfv /repo/rpm_signing_key
 
 echo "=====BUILDING====="
 cd "/root/rpmbuild"/SPECS
 cp /repo/*.spec .
 cp /repo/repo/* /root/rpmbuild/SOURCES
-rpmbuild -bb --sign t2linux-config.spec
-rpmbuild -bb --sign t2linux-repo.spec
-rpmbuild -bb --with baseonly --without debug --without debuginfo --target=x86_64 --sign kernel.spec
+rpmbuild -bb t2linux-config.spec
+rpmbuild -bb t2linux-repo.spec
+rpmbuild -bb --with baseonly --without debug --without debuginfo --target=x86_64 kernel.spec
+rpm --addsign /root/rpmbuild/RPMS/x86_64/*.rpm
 
 
 # Copy artifacts to shared volume
