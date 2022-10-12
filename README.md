@@ -22,8 +22,8 @@ Follow the [wifi guide](https://wiki.t2linux.org/guides/wifi/). Installing the w
 
 ### TODO
 
-- Signing the package
-- Using upstream shim.
+- ~~Signing the package~~
+- Using upstream shim
 - Signed kernel modules
 - Automaticaly seting up Wifi firmware
 - Better initramfs integration
