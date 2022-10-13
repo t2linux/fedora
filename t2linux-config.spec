@@ -1,6 +1,6 @@
 Name: t2linux-config
 Version: 5.19.14
-Release: 1%{?dist}
+Release: 2%{?dist}
 Summary: System configuration for linux on t2 macs.
 License: MIT
 
@@ -10,7 +10,7 @@ URL: https://t2linux.org
 Source0: https://wiki.t2linux.org/tools/rmmod_tb.sh
 
 
-%global audio_config_commit_long adbd7640b4055dc79a334ea4d31572e9599b4365
+%global audio_config_commit_long e46839a28963e2f7d364020518b9dac98236bcae
 %global audio_config_commit %(c=%{audio_config_commit_long}; echo ${c:0:7})  
 
 Source1: https://github.com/kekrby/t2-better-audio/archive/%{audio_config_commit_long}/t2-better-audio-%{audio_config_commit}.tar.gz
