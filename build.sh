@@ -1,6 +1,6 @@
 #!/bin/bash
 
-FEDORA_KERNEL_VERSION=5.19.14-200.fc36
+FEDORA_KERNEL_VERSION=5.19.15-201.fc36
 PATCHES_GIT=https://github.com/Redecorating/linux-t2-arch
 PATCHES_COMMIT=1273b9f53335f5c165ee9eaa68066d28572d2114
 
@@ -76,6 +76,7 @@ echo "=====IMPORTING KEYS====="
 gpg --import /repo/rpm_signing_key
 rpm --import /repo/repo/t2linux-fedora-ci.pub
 rm -rfv /repo/rpm_signing_key
+echo -e "%_signature gpg\n%_gpg_name t2linux-fedora CI" > ~/.rpmmacros
 
 echo "=====BUILDING====="
 cd "/root/rpmbuild"/SPECS
