@@ -22,9 +22,9 @@ cp %{_sourcedir}/rmmod_tb.sh %{_builddir}
 tar -xf %{_sourcedir}/t2-better-audio-%{audio_config_commit}.tar.gz
 
 %build
-echo -e 'apple_bce\nsnd-seq\nhid_apple' > apple_bce.conf
+echo -e 'apple_bce\nsnd-seq' > apple_bce.conf
 
-echo -e 'add_drivers+=" apple_bce snd_seq hid_apple "\nforce_drivers+=" apple_bce snd-seq hid_apple "' > apple_bce_install.conf
+echo -e 'add_drivers+=" apple_bce snd_seq "' > apple_bce_install.conf
 
 echo -e 'SUBSYSTEM=="leds", ACTION=="add", KERNEL=="*::kbd_backlight", RUN+="/bin/chgrp video /sys/class/leds/%k/brightness", RUN+="/bin/chmod g+w /sys/class/leds/%k/brightness"'
 
