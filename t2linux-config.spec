@@ -1,6 +1,6 @@
 Name: t2linux-config
 Version: 5.19.15
-Release: 2%{?dist}
+Release: 3%{?dist}
 Summary: System configuration for linux on t2 macs.
 License: MIT
 
