@@ -25,7 +25,6 @@ mkdir /tmp/download && cd /tmp/download
 git clone --single-branch --branch main ${PATCHES_GIT}
 cd *
 git checkout ${PATCHES_COMMIT}
-curl "https://raw.githubusercontent.com/jamlam/mbp-16.1-linux-wifi/fb66c3ffa280bbc36a6aafb38d859a9b8c3495a1/8004-workaround-disable-D3-for-BCM4377b.patch" > 8004-workaround-disable-D3-for-BCM4377b.patch
 rm -rf 0001-arch-additions.patch
 
 echo "=====PREPARING SOURCES====="
