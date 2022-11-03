@@ -1,8 +1,8 @@
 #!/bin/bash
 
-FEDORA_KERNEL_VERSION=5.19.16-200.fc36
+FEDORA_KERNEL_VERSION=6.0.5-200.fc36
 PATCHES_GIT=https://github.com/Redecorating/linux-t2-arch
-PATCHES_COMMIT=1273b9f53335f5c165ee9eaa68066d28572d2114
+PATCHES_COMMIT=b30a1c33146e68947e3f1123ee58fee14ca76b4a
 
 echo "=====INSTALLING DEPENDENCIES====="
 dnf install -y fedpkg koji fedora-packager git curl pesign ncurses-devel libbpf fedpkg rpmdevtools ccache openssl-devel libkcapi libkcapi-devel libkcapi-static libkcapi-tools rpm-sign
