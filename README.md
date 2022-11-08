@@ -14,16 +14,18 @@ Follow the [wifi guide](https://wiki.t2linux.org/guides/wifi/). Installing the w
 
 ## Instalation
 
-1. Partition disks using Bootcamp Assistant, but dont install windows
-2. Write the [t2linux-fedora-iso](https://github.com/sharpenedblade/t2linux-fedora-iso) to a bootable drive.
+1. Partition disks using Bootcamp Assistant, but dont install Windows.
+2. Write [t2linux-fedora-iso](https://github.com/sharpenedblade/t2linux-fedora-iso) to a bootable drive.
 3. Install Fedora like normal until you get to partitioning disks
-4. On the partitioning screen, select the partition you created from MacOS, and use it for free space. Make sure to leave the MacOS partition.
-5. Reboot while holding *option*
+4. Chose manual partitioning, then click auto-create mount points.
+5. Click on the `/boot/efi` partition, then change the filesystem type to `EFI System Partition` from `Linux  HFS+ EFI`.
+6. Install Fedora, do not close the installer.
+5. Reboot while holding *option*.
 
 ### TODO
 
 - ~~Signing the package~~
-- Using upstream shim
+- ~~Using upstream shim~~
 - Signed kernel modules
 - Automaticaly seting up Wifi firmware
 - ~~Better initramfs integration~~
