@@ -6,11 +6,11 @@ Follow the [wifi guide](https://wiki.t2linux.org/guides/wifi/). Installing the w
 
 Secure boot is disabled when using this kernel. **This is not a bad thing**. Mac firmware does not enforce secure boot; even when the shim loads a signed kernel, the shim itself can be modified. It is imposible to have secure boot on macs, a signed kernel does not help, it is a false scence of security. To protect yourself from evil maid atacks, you should never give other people access to your computer.
 
-This kernel will follow the latest stable kernel version in the updates repo of the latest fedora release.
+This kernel will follow the latest stable kernel version in the updates repo of the latest fedora release. The latest release is currently for Fedora 36, but it should work with newer releases.
 
 ### Wifi
 
-Follow the [wifi guide](https://wiki.t2linux.org/guides/wifi/). Installing the wifi firmware will also enable bluetooth.
+Follow the [wifi guide](https://wiki.t2linux.org/guides/wifi/). Installing the wifi firmware will also enable bluetooth. First download the wifi script from the wiki. Then run the script from MacOS, after that reboot into Fedora. From Fedora run `sudo mount /dev/nvmen1p1 /mnt && sudo /mnt/wifi.sh`. Reboot, Wifi, Bluetooth, and suspend will work now.
 
 ## Instalation
 
@@ -22,10 +22,18 @@ Follow the [wifi guide](https://wiki.t2linux.org/guides/wifi/). Installing the w
 6. Install Fedora, do not close the installer.
 5. Reboot while holding *option*.
 
+## Troubleshooting
+
+- Q: Suspend is not working.
+    A: Install the mac firmware. Follow the [wifi section](#wifi).
+- Q: The keyboard backlight is not working.
+    A: It is not working properly yet. Run `echo 60 > /sys/class/leds/apple::kbd_backlight/brightness` to turn it on.
+- Q: Touchbar is blank.
+    A: Reboot into MacOS. Restart into MacOS again. Shut down from MacOS. Reboot into Fedora.
+
 ### TODO
 
-- ~~Signing the package~~
-- ~~Using upstream shim~~
 - Signed kernel modules
-- Automaticaly seting up Wifi firmware
-- ~~Better initramfs integration~~
+- Automaticaly setting up Wifi firmware
+- No extra modules in initramfs
+- Keyboard backlight

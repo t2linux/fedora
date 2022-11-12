@@ -22,18 +22,16 @@ cp %{_sourcedir}/rmmod_tb.sh %{_builddir}
 tar -xf %{_sourcedir}/t2-better-audio-%{audio_config_commit}.tar.gz
 
 %build
-echo -e 'apple_bce\nsnd-seq' > apple_bce.conf
+echo -e 'apple_bce\nsnd-seq' > t2linux.conf
 
-echo -e 'add_drivers+=" apple_bce snd_seq "' > apple_bce_install.conf
-
-echo -e 'SUBSYSTEM=="leds", ACTION=="add", KERNEL=="*::kbd_backlight", RUN+="/bin/chgrp video /sys/class/leds/%k/brightness", RUN+="/bin/chmod g+w /sys/class/leds/%k/brightness"'
+echo -e 'add_drivers+=" apple_bce snd_seq "' > t2linux-install.conf
 
 %install
 mkdir -p %{buildroot}/etc/dracut.conf.d/
-mv apple_bce_install.conf %{buildroot}/etc/dracut.conf.d/apple_bce_install.conf
+mv apple_bce_install.conf %{buildroot}/etc/dracut.conf.d/t2linux-install.conf
 
 mkdir -p %{buildroot}/etc/modules-load.d/
-mv apple_bce.conf %{buildroot}/etc/modules-load.d/apple_bce.conf
+mv apple_bce.conf %{buildroot}/etc/modules-load.d/t2linux.conf
 
 mkdir -p %{buildroot}/lib/systemd/system-sleep
 mv %{_builddir}/rmmod_tb.sh %{buildroot}/lib/systemd/system-sleep/rmmod_tb.sh
@@ -54,9 +52,9 @@ grubby --remove-args="efi=noruntime" --update-kernel=ALL
 grubby --args="intel_iommu=on iommu=pt pcie_ports=compat" --update-kernel=ALL
 
 %files
-/etc/modules-load.d/apple_bce.conf
+/etc/modules-load.d/t2linux.conf
 /lib/systemd/system-sleep/rmmod_tb.sh
-/etc/dracut.conf.d/apple_bce_install.conf
+/etc/dracut.conf.d/t2linux-install.conf
 /usr/share/alsa-card-profile/mixer
 /usr/share/pulseaudio/alsa-mixer
 /usr/lib/udev/rules.d/
