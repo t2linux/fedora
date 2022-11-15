@@ -4,9 +4,9 @@ Patched kernel for fedora linux on T2 macs. It mostly works, but dont expect a M
 
 Follow the [wifi guide](https://wiki.t2linux.org/guides/wifi/). Installing the wifi firmware will also enable bluetooth. The internal drive, camera, mic, and keyboard/trackpad **are** working. Wifi and bluetooth woork with some extra steps, see below. The fingerprint reader is not working. Make sure to leave some space for MacOS, it is the only way to get firmware updates. Look at [https://wiki.t2linux.org/state/](https://wiki.t2linux.org/state/) for the latest state of hardware enablement.
 
-Secure boot is disabled when using this kernel. **This is not a bad thing**. Mac firmware does not enforce secure boot; even when the shim loads a signed kernel, the shim itself can be modified. It is imposible to have secure boot on macs, a signed kernel does not help, it is a false scence of security. To protect yourself from evil maid atacks, you should never give other people access to your computer.
+Secure boot is disabled when using this kernel. **This is not a bad thing**. Mac firmware does not enforce secure boot; even when the shim loads a signed kernel, the shim itself can be modified. It is imposible to have secure boot on macs, a signed kernel does not help, it is a false sense of security. To protect yourself from evil maid attacks, you should never give other people access to your computer.
 
-This kernel will follow the latest stable kernel version in the updates repo of the latest fedora release. The latest release is currently for Fedora 36, but it should work with newer releases.
+This kernel will follow the latest stable kernel version in the updates repo of the latest fedora release. The latest release is currently for Fedora 37, but it should work with newer/older releases.
 
 ### Wifi
 

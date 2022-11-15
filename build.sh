@@ -1,8 +1,8 @@
 #!/bin/bash
 
-FEDORA_KERNEL_VERSION=6.0.7-200.fc36
+FEDORA_KERNEL_VERSION=6.0.8-300.fc37
 PATCHES_GIT=https://github.com/Redecorating/linux-t2-arch
-PATCHES_COMMIT=94a65c4bfaba5f47cff03071d61a978c778276bb
+PATCHES_COMMIT=120de249254b2049af1cbcb253da5654a9a82cf2
 
 echo "=====INSTALLING DEPENDENCIES====="
 dnf install -y fedpkg koji fedora-packager git curl pesign ncurses-devel libbpf fedpkg rpmdevtools ccache openssl-devel libkcapi libkcapi-devel libkcapi-static libkcapi-tools rpm-sign
@@ -15,7 +15,7 @@ cd /root/rpmbuild/SOURCES
 koji download-build --arch=src kernel-${FEDORA_KERNEL_VERSION}
 rpm -Uvh kernel-${FEDORA_KERNEL_VERSION}.src.rpm
 cd /root/rpmbuild/SPECS 
-# Fedora devs are against merging kernel-local for all architectures, so we have to patch it in.
+# Fedora devs are against merging kernel-local for all architectures when keys are not properly specified, so we have to patch it in.
 sed -i "s@for i in %{all_arch_configs}@for i in *.config@g" kernel.spec 
 dnf -y builddep kernel.spec
 
