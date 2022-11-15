@@ -5,7 +5,7 @@ PATCHES_GIT=https://github.com/Redecorating/linux-t2-arch
 PATCHES_COMMIT=94a65c4bfaba5f47cff03071d61a978c778276bb
 
 echo "=====INSTALLING DEPENDENCIES====="
-dnf install -y koji fedora-packager git curl pesign ncurses-devel libbpf fedpkg rpmdevtools ccache openssl-devel libkcapi libkcapi-devel libkcapi-static libkcapi-tools rpm-sign acl
+dnf install -y fedpkg koji fedora-packager git curl pesign ncurses-devel libbpf fedpkg rpmdevtools ccache openssl-devel libkcapi libkcapi-devel libkcapi-static libkcapi-tools rpm-sign
 
 rpmdev-setuptree
 cd "/root/rpmbuild"/SPECS
@@ -17,23 +17,7 @@ rpm -Uvh kernel-${FEDORA_KERNEL_VERSION}.src.rpm
 cd /root/rpmbuild/SPECS 
 # Fedora devs are against merging kernel-local for all architectures, so we have to patch it in.
 sed -i "s@for i in %{all_arch_configs}@for i in *.config@g" kernel.spec 
-echo -e "%define pe_signing_cert t2linux Fedora MOK\n$(cat kernel.spec)" > kernel.spec
 dnf -y builddep kernel.spec
-
-echo "=====SECURE BOOT====="
-cd /root
-echo -e "$USER" >> /etc/pesign/users
-/usr/libexec/pesign/pesign-authorize
-
-# openssl req -new -x509 -newkey rsa:4096 -keyout "key.pem" \
-#        -outform DER -out "cert.der" -nodes -days 3650 \
-#        -subj "/CN=t2linux Fedora/"
-
-cp /repo/{key.pem,cert.der} .
-openssl pkcs12  -keypbe NONE -certpbe NONE -passout pass: -export -out key.p12 -inkey key.pem -in cert.der
-
-certutil -A -i cert.der -n "t2linux Fedora MOK" -d /etc/pki/pesign/ -t "Pu,Pu,Pu"
-pk12util -i key.p12 -d /etc/pki/pesign
 
 echo "======DOWNLOADING PATCHES====="
 rm -rf /tmp/download /tmp/src
