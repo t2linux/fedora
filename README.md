@@ -16,10 +16,8 @@ Follow the [wifi guide](https://wiki.t2linux.org/guides/wifi/). Installing the w
 
 1. Partition disks using Bootcamp Assistant, but dont install Windows.
 2. Write [t2linux-fedora-iso](https://github.com/sharpenedblade/t2linux-fedora-iso) to a bootable drive.
-3. Install Fedora like normal until you get to partitioning disks
-4. Chose manual partitioning, then click auto-create mount points.
-5. Click on the `/boot/efi` partition, then change the filesystem type to `EFI System Partition` from `Linux  HFS+ EFI`.
-6. Install Fedora, do not close the installer.
+3. Use the installer normally, do not touch the ESP options when partitioning.
+4. Install Fedora, do not close the installer.
 5. Reboot while holding *option*.
 
 ## Troubleshooting
