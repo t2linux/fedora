@@ -28,10 +28,10 @@ echo -e 'add_drivers+=" apple_bce snd_seq "' > t2linux-install.conf
 
 %install
 mkdir -p %{buildroot}/etc/dracut.conf.d/
-mv apple_bce_install.conf %{buildroot}/etc/dracut.conf.d/t2linux-install.conf
+mv t2linux-install.conf %{buildroot}/etc/dracut.conf.d/t2linux-install.conf
 
 mkdir -p %{buildroot}/etc/modules-load.d/
-mv apple_bce.conf %{buildroot}/etc/modules-load.d/t2linux.conf
+mv t2linux.conf %{buildroot}/etc/modules-load.d/t2linux.conf
 
 mkdir -p %{buildroot}/lib/systemd/system-sleep
 mv %{_builddir}/rmmod_tb.sh %{buildroot}/lib/systemd/system-sleep/rmmod_tb.sh
