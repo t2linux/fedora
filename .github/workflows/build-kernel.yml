@@ -1,17 +1,14 @@
 ---
 name: Build Fedora Kernel
-
-on: [push]
+on:
+  push:
+    tags:
+    - '*'
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-
-      - name: "Get version"
-        id: get_version
-        run: echo ::set-output name=VERSION::$(echo ${{ github.event.head_commit.message }} | sed 's/ \[rel\]//')
-
       - name: "Increase Disk Space"
         run: |
           sudo rm -rf /usr/share/dotnet
@@ -29,23 +26,42 @@ jobs:
         env: 
           RPM_SIGNING_KEY: ${{ secrets.RPM_SIGNING_KEY }}
 
-      - name: Artifacts
-        uses: actions/upload-artifact@v3
-        with:
-          name: t2linux-fedora-kernel-${{ steps.get_version.outputs.VERSION }}
-          path: ${{ github.workspace }}/output/RPMS/*/*
-
-      - name: Release
-        if: ${{ github.ref == 'refs/heads/main' && contains(github.event.head_commit.message, '[rel]') }}
+      - name: "Release"
         uses: softprops/action-gh-release@v1
         with:
           files: |
-            ${{ github.workspace }}/output/RPMS/*/*.rpm
-          tag_name: ${{ steps.get_version.outputs.VERSION }}
+            ${{ github.workspace }}/output/RPMS/*/*
+          tag_name: ${{github.ref_name}}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          
+  update-repo:
+    runs-on: ubuntu-latest
+    steps:
+      - name: "Checkout"
+        uses: actions/checkout@v3
+      
+      - name: "Get Packages"
+        uses: robinraju/release-downloader@v1.4
+        with:
+          repository: "sharpenedblade/t2linux-fedora-kernel"
+          latest: true
+          fileName: "*.rpm"
+          tarBall: false
+          zipBall: false
+
       - name: Update repo
         run: |
-          curl \
-            -X POST -H "Accept: application/vnd.github+json" -H "Authorization: token ${{ secrets.PAT }}" "https://api.github.com/repos/sharpenedblade/t2linux-fedora-repo/actions/workflows/31063766/dispatches" -d '{"ref":"main"}'
+          mkdir /tmp/repo
+          cp *.rpm /tmp/repo
+          docker run -t -v "./repo":/repo -v "/tmp/repo":/tmp/repo  fedora:35 /bin/bash -c "/repo/build.sh"
+          mkdir -p ./d
+          cp -r /tmp/repo ./deploy
+
+      - name: Upload
+        uses: netlify/actions/cli@master
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+        with:
+          args: deploy --dir=deploy --prod
+
