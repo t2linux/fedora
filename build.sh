@@ -1,8 +1,8 @@
 #!/bin/bash
 
-FEDORA_KERNEL_VERSION=6.0.8-300.fc37
-PATCHES_GIT=https://github.com/Redecorating/linux-t2-arch
-PATCHES_COMMIT=120de249254b2049af1cbcb253da5654a9a82cf2
+FEDORA_KERNEL_VERSION=6.0.9-300.fc37
+PATCHES_GIT=https://github.com/t2linux/linux-t2-patches
+PATCHES_COMMIT=3a916b371ced596485ef0937b1de0a3fafb896b3
 
 echo "=====INSTALLING DEPENDENCIES====="
 dnf install -y fedpkg koji fedora-packager git curl pesign ncurses-devel libbpf fedpkg rpmdevtools ccache openssl-devel libkcapi libkcapi-devel libkcapi-static libkcapi-tools rpm-sign
@@ -25,14 +25,11 @@ mkdir /tmp/download && cd /tmp/download
 git clone --single-branch --branch main ${PATCHES_GIT}
 cd *
 git checkout ${PATCHES_COMMIT}
-rm -rf 0001-arch-additions.patch
 
 echo "=====PREPARING SOURCES====="
 cd ~/rpmbuild/SPECS
 sed -i 's/# define buildid .local/%define buildid .t2/g' kernel.spec
-echo "CONFIG_APPLE_IBRIDGE=m" >> "/root/rpmbuild/SOURCES/kernel-local"
-echo "CONFIG_APPLE_BCE=m" >> "/root/rpmbuild/SOURCES/kernel-local"
-echo "CONFIG_BT_HCIBCM4377=m" >> "/root/rpmbuild/SOURCES/kernel-local"
+cat /tmp/download/*/extra_config > /root/rpmbuild/SOURCES/kernel-local
 rpmbuild -bp kernel.spec
 
 echo "=====COPYING SOURCE TREE====="
@@ -45,12 +42,6 @@ KERNEL_TMP="$KSV.new"
 cd $KERNEL_TMP
 
 echo "=====PATCHING SOURCE TREE====="
-git clone https://github.com/t2linux/apple-bce-drv drivers/staging/apple-bce
-cd drivers/staging/apple-bce && git checkout 6988ec2f08ed7092211540ae977f4ddb56d4fd49
-cd $KERNEL_TMP
-git clone https://github.com/Redecorating/apple-ib-drv drivers/staging/apple-ibridge
-cd drivers/staging/apple-ibridge && git checkout 467df9b11cb55456f0365f40dd11c9e666623bf3
-cd $KERNEL_TMP
 cp /tmp/download/*/*.patch .
 for i in *.patch; do 
     echo $i

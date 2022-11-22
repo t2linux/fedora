@@ -1,5 +1,5 @@
 Name: t2linux-config
-Version: 6.0.8
+Version: 6.0.9
 Release: 1%{?dist}
 Summary: System configuration for linux on t2 macs.
 License: MIT
