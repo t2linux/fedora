@@ -13,11 +13,14 @@ cd "/root/rpmbuild"/SPECS
 echo "=====DOWNLOADING SOURCES====="
 cd /root/rpmbuild/SOURCES
 koji download-build --arch=src kernel-${FEDORA_KERNEL_VERSION}
+koji download-build --arch=src python-blivet-3.5.0-1.fc37
 rpm -Uvh kernel-${FEDORA_KERNEL_VERSION}.src.rpm
+rpm -Uvh python-blivet-3.5.0-1.fc37.src.rpm
 cd /root/rpmbuild/SPECS 
 # Fedora devs are against merging kernel-local for all architectures when keys are not properly specified, so we have to patch it in.
 sed -i "s@for i in %{all_arch_configs}@for i in *.config@g" kernel.spec 
 dnf -y builddep kernel.spec
+dnf -y builddep python-blivet.spec
 
 echo "======DOWNLOADING PATCHES====="
 rm -rf /tmp/download /tmp/src
@@ -29,6 +32,8 @@ git checkout ${PATCHES_COMMIT}
 echo "=====PREPARING SOURCES====="
 cd ~/rpmbuild/SPECS
 sed -i 's/# define buildid .local/%define buildid .t2/g' kernel.spec
+sed -i "s@Patch0: 0001-remove-btrfs-plugin.patch\n%endif@Patch0: 0001-remove-btrfs-plugin.patch\n%endif\n	Patch1: 0002-add-t2-support.patch@g" python-blivet.spec 
+mv /repo/0002-add-t2-support.patch /root/rpmbuild/SOURCES/0002-add-t2-support.patch
 cat /tmp/download/*/extra_config > /root/rpmbuild/SOURCES/kernel-local
 rpmbuild -bp kernel.spec
 
@@ -75,6 +80,7 @@ cp /repo/*.spec .
 cp /repo/repo/* /root/rpmbuild/SOURCES
 rpmbuild -bb t2linux-config.spec
 rpmbuild -bb t2linux-repo.spec
+rpmbuild -bb python-blivet.spec
 rpmbuild -bb --with baseonly --without debug --without debuginfo --target=x86_64 kernel.spec
 rpm --addsign /root/rpmbuild/RPMS/x86_64/*.rpm
 
