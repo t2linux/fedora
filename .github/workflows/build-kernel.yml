@@ -53,7 +53,7 @@ jobs:
         run: |
           mkdir /tmp/repo
           cp *.rpm /tmp/repo
-          docker run -t -v "./repo":/repo -v "/tmp/repo":/tmp/repo  fedora:35 /bin/bash -c "/repo/build.sh"
+          docker run -t -v "repo":/repo -v "/tmp/repo":/tmp/repo  fedora:37 /bin/bash -c "/repo/build.sh"
           mkdir -p ./d
           cp -r /tmp/repo ./deploy
 
