@@ -53,8 +53,8 @@ jobs:
         run: |
           mkdir /tmp/repo
           cp *.rpm /tmp/repo
-          docker run -t -v "./repo":/repo -v "/tmp/repo":/tmp/repo  fedora:35 /bin/bash -c "/repo/build.sh"
-          mkdir -p ./d
+          docker run -t -v "$PWD":/repo -v "/tmp/repo":/tmp/repo fedora:37 /bin/bash -c "/repo/repo/build.sh"
+          mkdir -p ./deploy
           cp -r /tmp/repo ./deploy
 
       - name: Upload
