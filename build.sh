@@ -1,6 +1,6 @@
 #!/bin/bash
 
-FEDORA_KERNEL_VERSION=6.0.10-300.fc37
+FEDORA_KERNEL_VERSION=6.0.11-300.fc37
 PATCHES_GIT=https://github.com/t2linux/linux-t2-patches
 PATCHES_COMMIT=3a916b371ced596485ef0937b1de0a3fafb896b3
 
@@ -33,6 +33,7 @@ echo "=====PREPARING SOURCES====="
 cd ~/rpmbuild/SPECS
 sed -i 's/# define buildid .local/%define buildid .t2/g' kernel.spec
 sed -i "s@Patch0: 0001-remove-btrfs-plugin.patch\n%endif@Patch0: 0001-remove-btrfs-plugin.patch\n%endif\n	Patch1: 0002-add-t2-support.patch@g" python-blivet.spec 
+sed '/License: LGPLv2+/a Patch1: 0002-add-t2-support.patch' python-blivet.spec
 mv /repo/0002-add-t2-support.patch /root/rpmbuild/SOURCES/0002-add-t2-support.patch
 cat /tmp/download/*/extra_config > /root/rpmbuild/SOURCES/kernel-local
 rpmbuild -bp kernel.spec
