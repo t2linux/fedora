@@ -34,26 +34,12 @@ jobs:
           tag_name: ${{github.ref_name}}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-  update-repo:
-    runs-on: ubuntu-latest
-    steps:
-      - name: "Checkout"
-        uses: actions/checkout@v3
-      
-      - name: "Get Packages"
-        uses: robinraju/release-downloader@v1.4
-        with:
-          repository: "sharpenedblade/t2linux-fedora-kernel"
-          latest: true
-          fileName: "*.rpm"
-          tarBall: false
-          zipBall: false
 
       - name: Update repo
         run: |
           mkdir /tmp/repo
           cp *.rpm /tmp/repo
-          docker run -t -v "$PWD":/repo -v "/tmp/repo":/tmp/repo  fedora:37 /bin/bash -c "/repo/build.sh"
+          docker run -t -v "$PWD":/repo -v "/tmp/repo":/tmp/repo  fedora:37 /bin/bash -c "/repo/repo/build.sh"
           mkdir -p ./d
           cp -r /tmp/repo ./deploy
 
@@ -64,4 +50,3 @@ jobs:
           NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
         with:
           args: deploy --dir=deploy --prod
-
