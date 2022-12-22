@@ -1,5 +1,5 @@
 Name: t2linux-repo
-Version: 2.0.0
+Version: 3.0.0
 Release: 1%{?dist}
 Summary: DNF Repo for linux on t2 macs.
 License: MIT

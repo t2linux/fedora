@@ -1,6 +1,6 @@
 [t2linux-fedora]
 name=T2Linux Fedora
-baseurl=https://t2linux-fedora-repo.netlify.app/repo
+baseurl=https://t2linux-fedora-repo.netlify.app/
 enabled=1
 gpgcheck=1
 cost=998
