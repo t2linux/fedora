@@ -37,7 +37,6 @@ jobs:
       - name: Update repo
         run: |
           mkdir /tmp/repo
-          cp *.rpm /tmp/repo
           docker run -t -v "$PWD":/repo -v "/tmp/repo":/tmp/repo  fedora:37 /bin/bash -c "/repo/repo/build.sh"
           cp -r /tmp/repo ./deploy
 
