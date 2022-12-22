@@ -1,12 +1,12 @@
 # t2linux-fedora-kernel
 
-Patched kernel for fedora linux on T2 macs. It mostly works, but dont expect a MacOS like experience. If you have problems with wifi, follow the guide on the wiki. A dnf/yum repo is avaliable at [`https://t2linux-fedora-repo.netlify.app/repo/t2linux-fedora.repo`](https://t2linux-fedora-repo.netlify.app/repo/t2linux-fedora.repo).
+Patched kernel for Fedora on T2 macs. A dnf/yum repo is avaliable by installing the `t2linux-repos` package from the latest [release](https://github.com/sharpenedblade/t2linux-fedora-kernel/releases/latest).
 
-Follow the [wifi guide](https://wiki.t2linux.org/guides/wifi/). Installing the wifi firmware will also enable bluetooth. The internal drive, camera, mic, and keyboard/trackpad **are** working. Wifi and bluetooth woork with some extra steps, see below. The fingerprint reader is not working. Make sure to leave some space for MacOS, it is the only way to get firmware updates. Look at [https://wiki.t2linux.org/state/](https://wiki.t2linux.org/state/) for the latest state of hardware enablement.
+Make sure to follow the [WiFi/Bluetooth guide](https://wiki.t2linux.org/guides/wifi-bluetooth/).The internal ssd, camera, mic, and keyboard/trackpad *are* working out of the box. Wifi and bluetooth work with some extra steps, follow the instructions bellow. The fingerprint reader is not working. Look at [https://wiki.t2linux.org/state/](https://wiki.t2linux.org/state/) for the latest state of hardware enablement.
 
-Secure boot is disabled when using this kernel. **This is not a bad thing**. Mac firmware does not enforce secure boot; even when the shim loads a signed kernel, the shim itself can be modified. It is imposible to have secure boot on macs, a signed kernel does not help, it is a false sense of security. To protect yourself from evil maid attacks, you should never give other people access to your computer.
+Secure boot is disabled when using this kernel. **This is not a bad thing**. Mac firmware does not enforce secure boot; even when the kernel is signed. It is imposible to have secure boot on macs. To protect yourself from evil maid attacks, you should never give other people access to your computer.
 
-This kernel will follow the latest stable kernel version in the updates repo of the latest fedora release. The latest release is currently for Fedora 37, but it should work with newer/older releases.
+This kernel will follow the latest stable kernel version in the updates repo of the latest Fedora release. The latest release is currently built for Fedora 37, but it should work with newer/older releases.
 
 ### Wifi
 
@@ -16,22 +16,22 @@ Follow the [wifi guide](https://wiki.t2linux.org/guides/wifi/). Installing the w
 
 1. Partition disks using Bootcamp Assistant, but dont install Windows.
 2. Write [t2linux-fedora-iso](https://github.com/sharpenedblade/t2linux-fedora-iso) to a bootable drive.
-3. Use the installer normally, do not touch the ESP options when partitioning.
-4. Install Fedora, do not close the installer.
+3. Boot the drive, then follow the WiFi section.
+4. Install Fedora normally, do not close the installer. Make sure to not delete the MacOS partition.
 5. Reboot while holding *option*.
 
 ## Troubleshooting
 
 - Q: Suspend is not working.
-    A: Install the mac firmware. Follow the [wifi section](#wifi).
+    A: Install the WiFi firmware. Follow the [wifi section](#wifi).
 - Q: The keyboard backlight is not working.
-    A: It is not working properly yet. Run `echo 60 > /sys/class/leds/apple::kbd_backlight/brightness` to turn it on.
-- Q: Touchbar is blank.
-    A: Reboot into MacOS. Restart into MacOS again. Shut down from MacOS. Reboot into Fedora.
+    A: It is not working on Fedora yet. If you *really* need it, contact `@sharpenedblade` on the t2linux discord.
+- Q: The touchbar is blank, and I already installed the firmware.
+    A: Reboot into MacOS twice. Log in to MacOS, then shut down from MacOS. Reboot into Fedora.
 
-### TODO
+## Roadmap
 
-- Signed kernel modules
-- Automaticaly setting up Wifi firmware
-- No extra modules in initramfs
-- Keyboard backlight
+- Modules in kernel.
+- Secure boot signed kernel.
+- Keyboard backlight.
+- General bug fixes.
