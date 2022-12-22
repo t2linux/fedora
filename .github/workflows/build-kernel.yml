@@ -31,7 +31,6 @@ jobs:
         with:
           files: |
             ${{ github.workspace }}/output/RPMS/*/*
-          tag_name: ${{github.ref_name}}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
