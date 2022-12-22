@@ -1,0 +1,31 @@
+---
+name: Build Fedora Repos
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: "Checkout"
+        uses: actions/checkout@v3
+
+      - uses: robinraju/release-downloader@v1.7
+        with: 
+          latest: true
+          fileName: "*.rpm"
+          out-file-path: "output"
+
+      - name: Update repo
+        run: |
+          mkdir /tmp/repo
+          docker run -t -v "$PWD":/repo -v "/tmp/repo":/tmp/repo  fedora:37 /bin/bash -c "/repo/repo/build.sh"
+          cp -r /tmp/repo ./deploy
+
+      - name: Upload
+        uses: netlify/actions/cli@master
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+        with:
+          args: deploy --dir=deploy --prod
