@@ -15,7 +15,7 @@ index 4a9805e57..bcedd767e 100644
  
  # DMI information paths
  DMI_CHASSIS_VENDOR = "/sys/class/dmi/id/chassis_vendor"
-+DMI_PRODUCT_ID = "/sys/class/dmi/id/product_id"
++DMI_PRODUCT_ID = "/sys/class/dmi/id/product_name"
  
  
  def get_ppc_machine():
@@ -41,7 +41,7 @@ index 4a9805e57..bcedd767e 100644
 +    elif not os.path.isfile(DMI_PRODUCT_ID):
 +        t2_mac = False
 +    else:
-+        buf = open(DMI_PRODUCT_ID).read()
++        buf = open(DMI_PRODUCT_ID).read().strip()
 +        t2_mac = (buf in APPLE_T2_PRODUCT_NAMES)
 +    return t2_mac
 +
