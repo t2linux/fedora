@@ -1,6 +1,6 @@
 Name: t2linux-config
 Version: 6.1.5
-Release: 1%{?dist}
+Release: 2%{?dist}
 Summary: System configuration for linux on t2 macs.
 License: MIT
 
@@ -49,6 +49,7 @@ done
 
 %post
 grubby --args="intel_iommu=on iommu=pt pcie_ports=compat" --update-kernel=ALL
+echo "IF YOUR WIFI ISNT WORKING REINSTALL THE KERNEL AFTER DELETEING THE OLD KERNEL FROM THE CACHE."
 
 %files
 /etc/modules-load.d/t2linux.conf
