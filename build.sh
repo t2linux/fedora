@@ -1,8 +1,8 @@
 #!/bin/bash
 
-FEDORA_KERNEL_VERSION=6.0.17-300.fc37
+FEDORA_KERNEL_VERSION=6.1.5-200.fc37
 PATCHES_GIT=https://github.com/t2linux/linux-t2-patches
-PATCHES_COMMIT=3a916b371ced596485ef0937b1de0a3fafb896b3
+PATCHES_COMMIT=b35900bdab14c1b60e1f3ecaefb3c18006434105
 
 echo "=====INSTALLING DEPENDENCIES====="
 dnf install -y fedpkg koji fedora-packager git curl pesign ncurses-devel libbpf fedpkg rpmdevtools ccache openssl-devel libkcapi libkcapi-devel libkcapi-static libkcapi-tools rpm-sign
