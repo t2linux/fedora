@@ -29,6 +29,10 @@ Follow the [wifi guide](https://wiki.t2linux.org/guides/wifi/). Installing the w
 - Q: The touchbar is blank, and I already installed the firmware.
     A: Reboot into MacOS twice. Log in to MacOS, then shut down from MacOS. Reboot into Fedora.
 
+## Credits
+
+This kernel was heavily inspired by [mikeeq/mbp-fedora-kernel])(https://github.com/mikeeq/mbp-fedora-kernel). The patches are from the [t2linux](t2linux.org) project and [everyone that contributed to to it](https://github.com/t2linux/linux-t2-patches/graphs/contributors).
+
 ## Roadmap
 
 - Modules in kernel.
