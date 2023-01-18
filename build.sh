@@ -82,7 +82,7 @@ cp /repo/repo/* /root/rpmbuild/SOURCES
 rpmbuild -bb t2linux-config.spec
 rpmbuild -bb t2linux-repo.spec
 rpmbuild -bb python-blivet.spec
-rpmbuild -bb --with baseonly --without debug --without debuginfo --target=x86_64 kernel.spec
+rpmbuild -bb --target=x86_64 kernel.spec
 rpm --addsign /root/rpmbuild/RPMS/x86_64/*.rpm
 
 
