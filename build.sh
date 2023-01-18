@@ -1,6 +1,6 @@
 #!/bin/bash
 
-FEDORA_KERNEL_VERSION=6.1.5-200.fc37
+FEDORA_KERNEL_VERSION=6.1.6-200.fc37
 PATCHES_GIT=https://github.com/t2linux/linux-t2-patches
 PATCHES_COMMIT=1195754e6fd0ee3dd6b1f6e05a034db1af53551d
 
@@ -32,7 +32,7 @@ git checkout ${PATCHES_COMMIT}
 echo "=====PREPARING SOURCES====="
 cd ~/rpmbuild/SPECS
 sed -i 's/# define buildid .local/%define buildid .t2/g' kernel.spec
-sed -i 's/%define pkgrelease 200/%define pkgrelease 201/' kernel.spec
+# sed -i 's/%define pkgrelease 200/%define pkgrelease 201/' kernel.spec
 mv -f /repo/python-blivet.spec /repo/rpmbuild/SPECS/python-blivet.spec
 mv /repo/0002-add-t2-support.patch /root/rpmbuild/SOURCES/0002-add-t2-support.patch
 cat /tmp/download/*/extra_config > /root/rpmbuild/SOURCES/kernel-local
