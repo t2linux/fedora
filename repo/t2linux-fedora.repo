@@ -5,4 +5,4 @@ enabled=1
 gpgcheck=1
 cost=998
 priority=98
-gpgkey=file:///etc/pki/rpm-gpg/t2linux-fedora-ci.pub
+gpgkey=file:///etc/pki/rpm-gpg/t2linux-fedora.pub

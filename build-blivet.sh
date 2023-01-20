@@ -24,9 +24,9 @@ mv -f /repo/python-blivet.spec /repo/rpmbuild/SPECS/python-blivet.spec
 
 echo "=====IMPORTING KEYS====="
 gpg --import /repo/rpm_signing_key
-rpm --import /repo/repo/t2linux-fedora-ci.pub
+rpm --import /repo/repo/t2linux-fedora.pub
 rm -rfv /repo/rpm_signing_key
-echo -e "%_signature gpg\n%_gpg_name t2linux-fedora CI" > ~/.rpmmacros
+echo -e "%_signature gpg\n%_gpg_name T2Linux Fedora" > ~/.rpmmacros
 
 echo "=====BUILDING====="
 cd "/root/rpmbuild"/SPECS

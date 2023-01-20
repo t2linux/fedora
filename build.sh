@@ -71,9 +71,9 @@ sed -i "s@$KERNEL_TMP@@" /root/rpmbuild/SOURCES/linux-kernel-test.patch
 
 echo "=====IMPORTING KEYS====="
 gpg --import /repo/rpm_signing_key
-rpm --import /repo/repo/t2linux-fedora-ci.pub
+rpm --import /repo/repo/t2linux-fedora.pub
 rm -rfv /repo/rpm_signing_key
-echo -e "%_signature gpg\n%_gpg_name t2linux-fedora CI" > ~/.rpmmacros
+echo -e "%_signature gpg\n%_gpg_name T2Linux Fedora" > ~/.rpmmacros
 
 echo "=====BUILDING====="
 cd "/root/rpmbuild"/SPECS
