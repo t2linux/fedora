@@ -39,3 +39,6 @@ This kernel was heavily inspired by [mikeeq/mbp-fedora-kernel])(https://github.c
 - Secure boot signed kernel.
 - Keyboard backlight.
 - General bug fixes.
+
+## Disclaimer
+This project is not officially provided or supported by the Fedora Project. The official Fedora software is available at [https://fedoraproject.org/](https://fedoraproject.org/). This project is not related to Fedora in any way.
