@@ -22,16 +22,16 @@ Follow the [wifi guide](https://wiki.t2linux.org/guides/wifi/). Installing the w
 
 ## Troubleshooting
 
-- Q: Suspend is not working.
+- Q: Suspend is not working.  
     A: Install the WiFi firmware. Follow the [wifi section](#wifi).
-- Q: The keyboard backlight is not working.
+- Q: The keyboard backlight is not working.  
     A: It is not working on Fedora yet. If you *really* need it, contact `@sharpenedblade` on the t2linux discord.
-- Q: The touchbar is blank, and I already installed the firmware.
+- Q: The touchbar is blank, and I already installed the firmware.  
     A: Reboot into MacOS twice. Log in to MacOS, then shut down from MacOS. Reboot into Fedora.
 
 ## Credits
 
-This kernel was heavily inspired by [mikeeq/mbp-fedora-kernel])(https://github.com/mikeeq/mbp-fedora-kernel). The patches are from the [t2linux](t2linux.org) project and [everyone that contributed to to it](https://github.com/t2linux/linux-t2-patches/graphs/contributors).
+This kernel was heavily inspired by [mikeeq/mbp-fedora-kernel](https://github.com/mikeeq/mbp-fedora-kernel). The patches are from the [t2linux](t2linux.org) project and [everyone that contributed to to it](https://github.com/t2linux/linux-t2-patches/graphs/contributors).
 
 ## Roadmap
 
