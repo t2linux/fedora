@@ -33,6 +33,7 @@ echo "=====PREPARING SOURCES====="
 cd ~/rpmbuild/SPECS
 sed -i 's/# define buildid .local/%define buildid .t2/g' kernel.spec
 sed -i 's/%define pkgrelease 200/%define pkgrelease 202/' kernel.spec
+sed -i 's/%define specrelease 200%{?buildid}%{?dist}/%define specrelease 202%{?buildid}%{?dist}/' kernel.spec
 mv -f /repo/python-blivet.spec /repo/rpmbuild/SPECS/python-blivet.spec
 mv /repo/0002-add-t2-support.patch /root/rpmbuild/SOURCES/0002-add-t2-support.patch
 cat /tmp/download/*/extra_config > /root/rpmbuild/SOURCES/kernel-local
