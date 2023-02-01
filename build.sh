@@ -1,6 +1,6 @@
 #!/bin/bash
 
-FEDORA_KERNEL_VERSION=6.1.7-200.fc37
+FEDORA_KERNEL_VERSION=6.1.8-200.fc37
 PATCHES_GIT=https://github.com/t2linux/linux-t2-patches
 PATCHES_COMMIT=ad1f804d54bc5c263695c6140d4602c5787004d1
 
@@ -32,8 +32,8 @@ git checkout ${PATCHES_COMMIT}
 echo "=====PREPARING SOURCES====="
 cd ~/rpmbuild/SPECS
 
-sed -i 's/%define pkgrelease 200/%define pkgrelease 202/' kernel.spec
-sed -i 's/%define specrelease 200%{?buildid}%{?dist}/%define specrelease 202%{?buildid}%{?dist}/' kernel.spec
+# sed -i 's/%define pkgrelease 200/%define pkgrelease 202/' kernel.spec
+# sed -i 's/%define specrelease 200%{?buildid}%{?dist}/%define specrelease 202%{?buildid}%{?dist}/' kernel.spec
 
 sed -i 's/# define buildid .local/%define buildid .t2/g' kernel.spec
 cat /tmp/download/*/extra_config > /root/rpmbuild/SOURCES/kernel-local
