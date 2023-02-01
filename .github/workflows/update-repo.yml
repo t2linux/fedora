@@ -1,5 +1,5 @@
 ---
-name: Build Fedora Repos
+name: Update T2Linux Fedora Repos
 on:
   workflow_dispatch:
 
@@ -19,7 +19,7 @@ jobs:
       - name: Update repo
         run: |
           mkdir /tmp/repo
-          docker run -t -v "$PWD":/repo -v "/tmp/repo":/tmp/repo  fedora:37 /bin/bash -c "/repo/repo/build.sh"
+          docker run -t -v "$PWD":/repo -v "/tmp/repo":/tmp/repo  fedora:37 /bin/bash -c "/repo/repo/build-repo.sh"
           cp -r /tmp/repo ./deploy
 
       - name: Upload

@@ -1,9 +1,10 @@
 ---
-name: Build Fedora Kernel
+name: Build T2Linux Fedora Packages
 on:
   push:
     tags:
     - '*'
+  workflow_dispatch:
 
 jobs:
   build:
@@ -28,6 +29,7 @@ jobs:
 
       - name: "Release"
         uses: softprops/action-gh-release@v1
+        if: startsWith(github.ref, 'refs/tags/')
         with:
           files: |
             ${{ github.workspace }}/output/RPMS/*/*
@@ -35,12 +37,14 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Update repo
+        if: startsWith(github.ref, 'refs/tags/')
         run: |
           mkdir /tmp/repo
-          docker run -t -v "$PWD":/repo -v "/tmp/repo":/tmp/repo  fedora:37 /bin/bash -c "/repo/repo/build.sh"
+          docker run -t -v "$PWD":/repo -v "/tmp/repo":/tmp/repo  fedora:37 /bin/bash -c "/repo/repo/build-repo.sh"
           cp -r /tmp/repo ./deploy
 
       - name: Upload
+        if: startsWith(github.ref, 'refs/tags/')
         uses: netlify/actions/cli@master
         env:
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
