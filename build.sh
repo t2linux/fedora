@@ -1,46 +1,7 @@
 #!/bin/bash
 
-FEDORA_KERNEL_VERSION=6.1.8-200.fc37
-PATCHES_GIT=https://github.com/t2linux/linux-t2-patches
-PATCHES_COMMIT=ad1f804d54bc5c263695c6140d4602c5787004d1
-
 echo "=====INSTALLING DEPENDENCIES====="
-dnf install -y fedpkg koji fedora-packager git curl pesign ncurses-devel libbpf fedpkg rpmdevtools ccache openssl-devel libkcapi libkcapi-devel libkcapi-static libkcapi-tools rpm-sign
-
-rpmdev-setuptree
-cd "/root/rpmbuild"/SPECS
-
-echo "=====DOWNLOADING SOURCES====="
-cd /root/rpmbuild/SOURCES
-koji download-build --arch=src kernel-${FEDORA_KERNEL_VERSION}
-koji download-build --arch=src python-blivet-3.5.0-1.fc37
-rpm -Uvh kernel-${FEDORA_KERNEL_VERSION}.src.rpm
-rpm -Uvh python-blivet-3.5.0-1.fc37.src.rpm
-cd /root/rpmbuild/SPECS 
-# Fedora devs are against merging kernel-local for all architectures when keys are not properly specified, so we have to patch it in.
-sed -i "s@for i in %{all_arch_configs}@for i in *.config@g" kernel.spec 
-dnf -y builddep kernel.spec
-dnf -y builddep python-blivet.spec
-
-echo "======DOWNLOADING PATCHES====="
-rm -rf /tmp/download /tmp/src
-mkdir /tmp/download && cd /tmp/download 
-git clone --single-branch --branch main ${PATCHES_GIT}
-cd *
-git checkout ${PATCHES_COMMIT}
-
-echo "=====PREPARING SOURCES====="
-cd ~/rpmbuild/SPECS
-
-# sed -i 's/%define pkgrelease 200/%define pkgrelease 202/' kernel.spec
-# sed -i 's/%define specrelease 200%{?buildid}%{?dist}/%define specrelease 202%{?buildid}%{?dist}/' kernel.spec
-
-sed -i 's/# define buildid .local/%define buildid .t2/g' kernel.spec
-cat /tmp/download/*/extra_config > /root/rpmbuild/SOURCES/kernel-local
-cat /tmp/download/*/*.patch > /root/rpmbuild/SOURCES/linux-kernel-test.patch
-
-mv -f /repo/python-blivet.spec /repo/rpmbuild/SPECS/python-blivet.spec
-mv /repo/0002-add-t2-support.patch /root/rpmbuild/SOURCES/0002-add-t2-support.patch
+dnf install -y koji fedora-packager git curl pesign rpmdevtools rpm-sign rpm-build
 
 echo "=====IMPORTING KEYS====="
 gpg --import /repo/rpm_signing_key
@@ -49,15 +10,11 @@ rm -rfv /repo/rpm_signing_key
 echo -e "%_signature gpg\n%_gpg_name T2Linux Fedora" > ~/.rpmmacros
 
 echo "=====BUILDING====="
-cd "/root/rpmbuild"/SPECS
-cp /repo/*.spec .
-cp /repo/repo/* /root/rpmbuild/SOURCES
-rpmbuild -bb t2linux-config.spec
-rpmbuild -bb t2linux-repo.spec
-rpmbuild -bb python-blivet.spec
-rpmbuild -bb --target=x86_64 kernel.spec
+rpmdev-setuptree
+/repo/build-kernel.sh
+/repo/build-blivet.sh
+/repo/build-dist.sh
 rpm --addsign /root/rpmbuild/RPMS/x86_64/*.rpm
-
 
 # Copy artifacts to shared volume
 cd "/repo"
