@@ -23,6 +23,7 @@ cd /root/rpmbuild/SPECS
 # Fedora devs are against merging kernel-local for all architectures when keys are not properly specified, so we have to patch it in.
 sed -i "s@for i in %{all_arch_configs}@for i in *.config@g" kernel.spec 
 sed -i 's/# define buildid .local/%define buildid .t2/g' kernel.spec
+sed -i "s/patch_command='git --work-tree=. apply'/patch_command='git --work-tree=. apply -C2'/g" kernel.spec
 # sed -i 's/%define specrelease 200%{?buildid}%{?dist}/%define specrelease 202%{?buildid}%{?dist}/' kernel.spec
 # sed -i 's/%define pkgrelease 200/%define pkgrelease 202/' kernel.spec
 dnf -y builddep kernel.spec
