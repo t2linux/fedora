@@ -11,9 +11,9 @@ echo -e "%_signature gpg\n%_gpg_name T2Linux Fedora" > ~/.rpmmacros
 
 echo "=====BUILDING====="
 rpmdev-setuptree
-/repo/build-kernel.sh
-/repo/build-blivet.sh
-/repo/build-dist.sh
+/repo/package-scripts/build-kernel.sh
+/repo/package-scripts/build-blivet.sh
+/repo/package-scripts/build-dist.sh
 rpm --addsign /root/rpmbuild/RPMS/x86_64/*.rpm
 
 # Copy artifacts to shared volume
