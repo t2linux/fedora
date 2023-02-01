@@ -31,44 +31,16 @@ git checkout ${PATCHES_COMMIT}
 
 echo "=====PREPARING SOURCES====="
 cd ~/rpmbuild/SPECS
-sed -i 's/# define buildid .local/%define buildid .t2/g' kernel.spec
+
 sed -i 's/%define pkgrelease 200/%define pkgrelease 202/' kernel.spec
 sed -i 's/%define specrelease 200%{?buildid}%{?dist}/%define specrelease 202%{?buildid}%{?dist}/' kernel.spec
+
+sed -i 's/# define buildid .local/%define buildid .t2/g' kernel.spec
+cat /tmp/download/*/extra_config > /root/rpmbuild/SOURCES/kernel-local
+cat /tmp/download/*/*.patch > /root/rpmbuild/SOURCES/linux-kernel-test.patch
+
 mv -f /repo/python-blivet.spec /repo/rpmbuild/SPECS/python-blivet.spec
 mv /repo/0002-add-t2-support.patch /root/rpmbuild/SOURCES/0002-add-t2-support.patch
-cat /tmp/download/*/extra_config > /root/rpmbuild/SOURCES/kernel-local
-rpmbuild -bp kernel.spec
-
-echo "=====COPYING SOURCE TREE====="
-mkdir /tmp/src && cd /tmp/src
-cp -r /root/rpmbuild/BUILD/* .
-cd *
-KSV=$(realpath *)
-cp -r $KSV $KSV.new
-KERNEL_TMP="$KSV.new"
-cd $KERNEL_TMP
-
-echo "=====PATCHING SOURCE TREE====="
-cp /tmp/download/*/*.patch .
-for i in *.patch; do 
-    echo $i
-    patch -f -l -p1 -N < $i;
-done;
-find . '(' \
-    -name \*-baseline -o \
-    -name \*-merge -o \
-    -name \*-original -o \
-    -name \*.orig -o \
-    -name \*.rej \
-')' -delete
-rm -rf drivers/staging/*/.git
-rm -rf *.patch
-cd ..
-
-echo "=====APPLYING PATCHES====="
-diff -uNrp $KSV $KERNEL_TMP > /root/rpmbuild/SOURCES/linux-kernel-test.patch
-sed -i "s@$KSV@@" /root/rpmbuild/SOURCES/linux-kernel-test.patch
-sed -i "s@$KERNEL_TMP@@" /root/rpmbuild/SOURCES/linux-kernel-test.patch
 
 echo "=====IMPORTING KEYS====="
 gpg --import /repo/rpm_signing_key
