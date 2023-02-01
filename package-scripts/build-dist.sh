@@ -3,7 +3,7 @@
 cd /root/rpmbuild/SPECS
 
 echo "=====EXTRACTING SOURCES====="
-mv /repo/t2linux-*.spec /root/rpmbuild/SPECS/
+mv /repo/specs/t2linux-*.spec /root/rpmbuild/SPECS/
 cp /repo/repo/* /root/rpmbuild/SOURCES
 
 echo "=====PREPARING SOURCES====="

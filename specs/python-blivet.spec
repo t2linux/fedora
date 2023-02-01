@@ -70,7 +70,7 @@ Patch0: 0001-remove-btrfs-plugin.patch
 	
 %endif
 	
-Patch1: 0002-add-t2-support.patch 
+Patch1: 0002-add-t2-support-blivet.patch 
 	
 # Versions of required components (done so we make sure the buildrequires
 	
