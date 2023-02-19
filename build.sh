@@ -5,7 +5,6 @@ dnf install -y koji fedora-packager git curl pesign rpmdevtools rpm-sign rpm-bui
 
 echo "=====IMPORTING KEYS====="
 gpg --import /repo/rpm_signing_key
-rpm --import /repo/repo/t2linux-fedora.pub
 rm -rfv /repo/rpm_signing_key
 echo -e "%_signature gpg\n%_gpg_name T2Linux Fedora" > ~/.rpmmacros
 
