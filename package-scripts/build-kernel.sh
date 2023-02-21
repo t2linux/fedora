@@ -1,8 +1,8 @@
 #!/bin/bash
 
-FEDORA_KERNEL_VERSION=6.1.11-200.fc37
+FEDORA_KERNEL_VERSION=6.1.12-200.fc37
 PATCHES_GIT=https://github.com/t2linux/linux-t2-patches
-PATCHES_COMMIT=3b2e05df2f41a323e67aca5bd3cccac5a5c41c2c
+PATCHES_COMMIT=5d7fec1df97018a29147917531b248992b5368e9
 
 echo "=====INSTALLING DEPENDENCIES====="
 dnf install -y ncurses-devel libbpf fedpkg rpmdevtools ccache openssl-devel libkcapi libkcapi-devel libkcapi-static libkcapi-tools
@@ -36,7 +36,7 @@ git checkout ${PATCHES_COMMIT}
 
 cd ~/rpmbuild/SPECS
 # cat /tmp/download/*/extra_config > /root/rpmbuild/SOURCES/kernel-local
-cat /repo/patches/extra_config > /root/rpmbuild/SOURCES/kernel-local
+cat /tmp/download/*/extra_config > /root/rpmbuild/SOURCES/kernel-local
 cat /tmp/download/*/*.patch > /root/rpmbuild/SOURCES/linux-kernel-test.patch
 
 echo "=====BUILDING====="
