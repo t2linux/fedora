@@ -11,7 +11,7 @@ echo "=====EXTRACTING SOURCES====="
 rpmdev-extract python-blivet-*.src.rpm
 mv /repo/specs/python-blivet.spec /root/rpmbuild/SPECS/
 cp -r python-blivet-*.src/* /root/rpmbuild/SOURCES/
-cp /repo/patches/0002-add-t2-support-blivet.patch /root/rpmbuild/SOURCES/
+cp /repo/sources/python-blivet/0002-add-t2-support-blivet.patch /root/rpmbuild/SOURCES/
 
 echo "=====PREPARING SOURCES====="
 cd /root/rpmbuild/SPECS 
