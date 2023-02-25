@@ -1,44 +1,31 @@
 # t2linux-fedora-kernel
 
-Patched kernel for Fedora on T2 macs. A dnf/yum repo is avaliable by installing the `t2linux-repos` package from the latest [release](https://github.com/sharpenedblade/t2linux-fedora-kernel/releases/latest).
+This is a patched kernel for Fedora on T2 macs. A `dnf` repo is avaliable by installing the `t2linux-repo` package from the latest [release](https://github.com/sharpenedblade/t2linux-fedora-kernel/releases/latest).
 
-Make sure to follow the [WiFi/Bluetooth guide](https://wiki.t2linux.org/guides/wifi-bluetooth/).The internal ssd, camera, mic, and keyboard/trackpad *are* working out of the box. Wifi and bluetooth work with some extra steps, follow the instructions bellow. The fingerprint reader is not working. Look at [https://wiki.t2linux.org/state/](https://wiki.t2linux.org/state/) for the latest state of hardware enablement.
+The internal ssd, camera, mic, and the keyboard/trackpad work out of the box. WiFi and Bluetooth work with some extra steps. Read [this](https://wiki.t2linux.org/state/) for information about the latest hardware support.
 
-Secure boot is disabled when using this kernel. **This is not a bad thing**. Mac firmware does not enforce secure boot; even when the kernel is signed. It is imposible to have secure boot on macs. To protect yourself from evil maid attacks, you should never give other people access to your computer.
-
-This kernel will follow the latest stable kernel version in the updates repo of the latest Fedora release. The latest release is currently built for Fedora 37, but it should work with newer/older releases.
-
-### Wifi
-
-Follow the [wifi guide](https://wiki.t2linux.org/guides/wifi/). Installing the wifi firmware will also enable bluetooth. First download the wifi script from the wiki. Then run the script from MacOS, after that reboot into Fedora. From Fedora run `sudo mount /dev/nvmen1p1 /mnt && sudo /mnt/wifi.sh`. Reboot, Wifi, Bluetooth, and suspend will work now.
+This kernel is usually at the same version as the stable Fedora kernel. It is currently built for Fedora 37.
 
 ## Instalation
 
-1. Partition disks using Bootcamp Assistant, but dont install Windows.
-2. Write [t2linux-fedora-iso](https://github.com/sharpenedblade/t2linux-fedora-iso) to a bootable drive.
-3. Boot the drive, then follow the WiFi section.
-4. Install Fedora normally, do not close the installer. Make sure to not delete the MacOS partition.
-5. Reboot while holding *option*.
+Download the live ISO from [here](https://github.com/sharpenedblade/t2linux-fedora-iso). Follow the [installation guide](https://wiki.t2linux.org/distributions/fedora/installation/).
+
+## WiFi/Bluetooth
+
+Follow the [firmware guide](https://wiki.t2linux.org/guides/wifi/). When you get to the [On Linux](https://wiki.t2linux.org/guides/wifi-bluetooth/#on-linux) section, you can just run `firmware.sh`. 
 
 ## Troubleshooting
 
 - Q: Suspend is not working.  
     A: Install the WiFi firmware. Follow the [wifi section](#wifi).
 - Q: The keyboard backlight is not working.  
-    A: It is not working on Fedora yet. If you *really* need it, contact `@sharpenedblade` on the t2linux discord.
+    A: It doesnt work for *some* users on Fedora. If you *really* need it, contact `@sharpenedblade` on the t2linux discord.
 - Q: The touchbar is blank, and I already installed the firmware.  
-    A: Reboot into MacOS twice. Log in to MacOS, then shut down from MacOS. Reboot into Fedora.
+    A: Reboot into MacOS Recovery by holding CMD+R while booting up, then reboot into Fedora again.
 
 ## Credits
 
 This kernel was heavily inspired by [mikeeq/mbp-fedora-kernel](https://github.com/mikeeq/mbp-fedora-kernel). The patches are from the [t2linux](t2linux.org) project and [everyone that contributed to to it](https://github.com/t2linux/linux-t2-patches/graphs/contributors).
-
-## Roadmap
-
-- Modules in kernel.
-- Secure boot signed kernel.
-- Keyboard backlight.
-- General bug fixes.
 
 ## Disclaimer
 This project is not officially provided or supported by the Fedora Project. The official Fedora software is available at [https://fedoraproject.org/](https://fedoraproject.org/). This project is not related to Fedora in any way.
