@@ -2,7 +2,7 @@
 
 FEDORA_KERNEL_VERSION=6.1.13-200.fc37
 PATCHES_GIT=https://github.com/t2linux/linux-t2-patches
-PATCHES_COMMIT=9da5298a4aed304d114d4ec90d7b200458e7d0dc
+PATCHES_COMMIT=e27261e64d9169c21046d0b1e59ce436c28de10b
 
 echo "=====INSTALLING DEPENDENCIES====="
 dnf install -y ncurses-devel libbpf fedpkg rpmdevtools ccache openssl-devel libkcapi libkcapi-devel libkcapi-static libkcapi-tools
@@ -11,6 +11,7 @@ cd "/root/rpmbuild"/SPECS
 
 echo "=====DOWNLOADING SOURCES====="
 mkdir -p /tmp/extract-kernel
+cd /tmp/extract-kernel
 koji download-build --arch=src kernel-${FEDORA_KERNEL_VERSION}
 
 echo "=====EXTRACTING SOURCES====="
