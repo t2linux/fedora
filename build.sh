@@ -1,7 +1,7 @@
 #!/bin/bash
 
 echo "=====INSTALLING DEPENDENCIES====="
-dnf install -y koji fedora-packager git curl pesign rpmdevtools rpm-sign rpm-build
+dnf install -y --quiet koji fedora-packager git curl pesign rpmdevtools rpm-sign rpm-build
 
 echo "=====IMPORTING KEYS====="
 gpg --import /repo/rpm_signing_key

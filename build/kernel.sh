@@ -5,7 +5,7 @@ PATCHES_GIT=https://github.com/t2linux/linux-t2-patches
 PATCHES_COMMIT=e27261e64d9169c21046d0b1e59ce436c28de10b
 
 echo "=====INSTALLING DEPENDENCIES====="
-dnf install -y ncurses-devel libbpf fedpkg rpmdevtools ccache openssl-devel libkcapi libkcapi-devel libkcapi-static libkcapi-tools
+dnf install -y --quiet ncurses-devel libbpf fedpkg rpmdevtools ccache openssl-devel libkcapi libkcapi-devel libkcapi-static libkcapi-tools
 
 cd "/root/rpmbuild"/SPECS
 
@@ -26,7 +26,7 @@ sed -i "s@for i in %{all_arch_configs}@for i in *.config@g" kernel.spec
 sed -i 's/# define buildid .local/%define buildid .t2/g' kernel.spec
 # sed -i 's/%define specrelease 200%{?buildid}%{?dist}/%define specrelease 202%{?buildid}%{?dist}/' kernel.spec
 # sed -i 's/%define pkgrelease 200/%define pkgrelease 202/' kernel.spec
-dnf -y builddep kernel.spec
+dnf -y --quiet builddep kernel.spec
 
 echo "======DOWNLOADING PATCHES====="
 rm -rf /tmp/download /tmp/src
