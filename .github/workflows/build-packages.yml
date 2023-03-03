@@ -23,7 +23,7 @@ jobs:
         run: |
           mkdir -p ~/rpmbuild
           echo "$RPM_SIGNING_KEY" > ./rpm_signing_key
-          docker run -t -v "$PWD":/repo fedora:37 /bin/bash -c "/repo/build.sh"
+          docker run -t -v "$PWD":/repo fedora:37 /bin/bash -c "/repo/build-packages.sh"
         env: 
           RPM_SIGNING_KEY: ${{ secrets.RPM_SIGNING_KEY }}
 
