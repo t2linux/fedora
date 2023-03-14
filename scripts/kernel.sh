@@ -1,8 +1,8 @@
 #!/bin/bash
 
-FEDORA_KERNEL_VERSION=6.1.15-200.fc37
+FEDORA_KERNEL_VERSION=6.2.6-200.fc37
 PATCHES_GIT=https://github.com/t2linux/linux-t2-patches
-PATCHES_COMMIT=e27261e64d9169c21046d0b1e59ce436c28de10b
+PATCHES_COMMIT=3a43f2fa1c4afec28f1bffe2aa13e3f4366ecce1
 
 echo "=====INSTALLING DEPENDENCIES====="
 dnf install -y --quiet ncurses-devel libbpf fedpkg rpmdevtools ccache openssl-devel libkcapi libkcapi-devel libkcapi-static libkcapi-tools
@@ -31,7 +31,7 @@ dnf -y --quiet builddep kernel.spec
 echo "======DOWNLOADING PATCHES====="
 rm -rf /tmp/download /tmp/src
 mkdir /tmp/download && cd /tmp/download 
-git clone --single-branch --branch 6.1 ${PATCHES_GIT}
+git clone --single-branch --branch main ${PATCHES_GIT}
 cd *
 git checkout ${PATCHES_COMMIT}
 
