@@ -14,6 +14,10 @@ Download the live ISO from [here](https://github.com/sharpenedblade/t2linux-fedo
 
 Follow the [firmware guide](https://wiki.t2linux.org/guides/wifi/). When you get to the [On Linux](https://wiki.t2linux.org/guides/wifi-bluetooth/#on-linux) section, you can just run `firmware.sh`. 
 
+## Upgrading to a new Fedora Version
+
+This should work normally, either with `dnf system-upgrade` or Gnome Software (PackageKit). If you get an error about `t2linux-config`, run `sudo dnf remove t2linux-config && sudo dnf install t2linux-config`.
+
 ## Troubleshooting
 
 - Q: Suspend is not working.  
