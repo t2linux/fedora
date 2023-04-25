@@ -10,7 +10,6 @@ echo -e "%_signature gpg\n%_gpg_name T2Linux Fedora" > ~/.rpmmacros
 
 echo "=====BUILDING====="
 rpmdev-setuptree
-/repo/scripts/python-blivet.sh
 /repo/scripts/t2linux-fedora.sh
 /repo/scripts/kernel.sh
 rpm --addsign /root/rpmbuild/RPMS/x86_64/*.rpm
