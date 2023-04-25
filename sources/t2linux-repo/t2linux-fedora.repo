@@ -1,5 +1,5 @@
 [t2linux-fedora]
-name=T2Linux Fedora
+name=t2linux Fedora
 baseurl=https://t2linux-fedora-repo.netlify.app/
 enabled=1
 gpgcheck=1
