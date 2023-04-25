@@ -23,7 +23,7 @@ jobs:
         run: |
           mkdir -p ~/rpmbuild
           echo "$RPM_SIGNING_KEY" > ./rpm_signing_key
-          docker run -t -v "$PWD":/repo fedora:37 /bin/bash -c "/repo/build-packages.sh"
+          docker run -t -v "$PWD":/repo fedora:38 /bin/bash -c "/repo/build-packages.sh"
         env: 
           RPM_SIGNING_KEY: ${{ secrets.RPM_SIGNING_KEY }}
 
@@ -40,7 +40,7 @@ jobs:
         if: startsWith(github.ref, 'refs/tags/')
         run: |
           mkdir /tmp/repo
-          docker run -t -v "$PWD":/repo -v "/tmp/repo":/tmp/repo  fedora:37 /bin/bash -c "/repo/build-repo.sh"
+          docker run -t -v "$PWD":/repo -v "/tmp/repo":/tmp/repo fedora:38 /bin/bash -c "/repo/build-repo.sh"
           cp -r /tmp/repo ./deploy
 
       - name: Upload

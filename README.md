@@ -4,7 +4,7 @@ This is a patched kernel for Fedora on T2 macs. A `dnf` repo is avaliable by ins
 
 The internal ssd, camera, mic, and the keyboard/trackpad work out of the box. WiFi and Bluetooth work with some extra steps. Read [this](https://wiki.t2linux.org/state/) for information about the latest hardware support.
 
-This kernel is usually at the same version as the stable Fedora kernel. It is currently built for Fedora 37.
+This kernel is usually at the same version as the stable Fedora kernel. It is currently built for Fedora 38.
 
 ## Instalation
 

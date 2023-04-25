@@ -19,7 +19,7 @@ jobs:
       - name: Update repo
         run: |
           mkdir /tmp/repo
-          docker run -t -v "$PWD":/repo -v "/tmp/repo":/tmp/repo  fedora:37 /bin/bash -c "/repo/build-repo.sh"
+          docker run -t -v "$PWD":/repo -v "/tmp/repo":/tmp/repo fedora:38 /bin/bash -c "/repo/build-repo.sh"
           cp -r /tmp/repo ./deploy
 
       - name: Upload
