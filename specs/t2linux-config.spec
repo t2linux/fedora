@@ -1,5 +1,5 @@
 Name: t2linux-config
-Version: 7.0.0
+Version: 8.0.0
 Release: 1%{?dist}
 Summary: System configuration for linux on t2 macs.
 License: MIT
@@ -34,8 +34,8 @@ mv %{_sourcedir}/rmmod_tb.sh %{buildroot}/usr/lib/systemd/system-sleep/rmmod_tb.
 chmod +x %{buildroot}/usr/lib/systemd/system-sleep/rmmod_tb.sh
 
 mkdir -p %{buildroot}/usr/bin/
-mv %{_sourcedir}/firmware.sh %{buildroot}/usr/bin/firmware
-mv %{_sourcedir}/touchbar.sh %{buildroot}/usr/bin/touchbar
+mv %{_sourcedir}/firmware.sh %{buildroot}/usr/bin/firmware.sh
+mv %{_sourcedir}/touchbar.sh %{buildroot}/usr/bin/touchbar.sh
 chmod +x %{buildroot}/usr/bin/*
 
 mkdir -p %{buildroot}/etc/dracut.conf.d/
@@ -64,5 +64,5 @@ grubby --args="intel_iommu=on iommu=pt pcie_ports=compat" --update-kernel=ALL
 /usr/share/alsa-card-profile/mixer
 /usr/share/pulseaudio/alsa-mixer
 /usr/lib/udev/rules.d/
-/usr/bin/firmware
-/usr/bin/touchbar
+/usr/bin/firmware.sh
+/usr/bin/touchbar.sh

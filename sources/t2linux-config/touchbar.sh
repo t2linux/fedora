@@ -1,4 +1,20 @@
 #!/usr/bin/env bash
+#
+# https://github.com/t2linux/wiki/blob/master/docs/tools/touchbar.sh
+# Copyright (c) 2022 Aditya Garg
+
+set -euo pipefail
+
+if [[ `uname -s` != "Linux" ]] ; then
+    echo "This script is intended to be run from Linux. Aborting!"
+    exit 1
+fi
+
+echo "Setting up the Touch Bar"
+echo -e "# display f* key in touchbar\noptions apple-touchbar fnmode=1" | sudo tee /etc/modprobe.d/apple-tb.conf >/dev/null
+
+cat << EOF | sudo tee /usr/local/bin/touchbar >/dev/null
+#!/usr/bin/env bash
 set -euo pipefail
 echo "Select Touch Bar mode"
 echo
@@ -18,3 +34,9 @@ echo "# display f* key in touchbar" > /etc/modprobe.d/apple-tb.conf
 echo "options apple-touchbar fnmode=\$tb" >> /etc/modprobe.d/apple-tb.conf
 bash -c "echo \$tb > /sys/class/input/*/device/fnmode"
 echo "Done!"
+EOF
+
+sudo chmod a+x /usr/local/bin/touchbar
+sudo chown root:root /usr/local/bin/touchbar
+
+echo "Run \"sudo touchbar\" to change the default Touch Bar mode"
