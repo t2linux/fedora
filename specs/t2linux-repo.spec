@@ -1,5 +1,5 @@
 Name: t2linux-repo
-Version: 4.0.0
+Version: 5.0.0
 Release: 1%{?dist}
 Summary: DNF Repo for linux on t2 macs.
 License: MIT
@@ -29,3 +29,8 @@ install -m 644 %{_sourcedir}/t2linux-fedora.repo $RPM_BUILD_ROOT/etc/yum.repos.d
 %config /etc/yum.repos.d/t2linux-fedora.repo
 %dir /etc/pki/rpm-gpg	
 /etc/pki/rpm-gpg/t2linux-fedora.pub
+
+%changelog
+
+* Mon Apr 24 2023 Sharpened Blade <sharpenedblade@proton.me>
+- Made public GPG key ascii-armored
