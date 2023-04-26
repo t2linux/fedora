@@ -27,6 +27,12 @@ jobs:
         env: 
           RPM_SIGNING_KEY: ${{ secrets.RPM_SIGNING_KEY }}
 
+      - name: "Check Packages"
+        run: |
+          stat --printf='' ${{ github.workspace }}/output/RPMS/*/kernel*
+          stat --printf='' ${{ github.workspace }}/output/RPMS/*/t2linux-config*
+          stat --printf='' ${{ github.workspace }}/output/RPMS/*/t2linux-repo*
+
       - name: "Release"
         uses: softprops/action-gh-release@v1
         if: startsWith(github.ref, 'refs/tags/')
