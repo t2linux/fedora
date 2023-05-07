@@ -1,6 +1,6 @@
 #!/bin/bash
 
-FEDORA_KERNEL_VERSION=6.2.13-300.fc38
+FEDORA_KERNEL_VERSION=6.2.14-300.fc38
 PATCHES_GIT=https://github.com/t2linux/linux-t2-patches
 PATCHES_COMMIT=3a43f2fa1c4afec28f1bffe2aa13e3f4366ecce1
 
