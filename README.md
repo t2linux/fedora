@@ -29,7 +29,7 @@ This should work normally, either with `dnf system-upgrade` or Gnome Software (P
 
 ## Credits
 
-This kernel was heavily inspired by [mikeeq/mbp-fedora-kernel](https://github.com/mikeeq/mbp-fedora-kernel). The patches are from the [t2linux](t2linux.org) project and [everyone that contributed to to it](https://github.com/t2linux/linux-t2-patches/graphs/contributors).
+This kernel was heavily inspired by [mikeeq/mbp-fedora-kernel](https://github.com/mikeeq/mbp-fedora-kernel). The patches are from the [t2linux](https://t2linux.org) project and [everyone that contributed to to it](https://github.com/t2linux/linux-t2-patches/graphs/contributors).
 
 ## Disclaimer
 This project is not officially provided or supported by the Fedora Project. The official Fedora software is available at [https://fedoraproject.org/](https://fedoraproject.org/). This project is not related to Fedora in any way.
