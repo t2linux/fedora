@@ -1,6 +1,6 @@
 # t2linux-fedora-kernel
 
-This is a patched kernel for Fedora on T2 macs. A `dnf` repo is avaliable by installing the `t2linux-repo` package from the latest [release](https://github.com/sharpenedblade/t2linux-fedora-kernel/releases/latest).
+This is a patched kernel for Fedora on T2 macs. A `dnf` repo is avaliable by installing the `t2linux-repo` package from the latest [release](https://github.com/t2linux-fedora/t2linux-fedora-kernel/releases/latest).
 
 The internal ssd, camera, mic, and the keyboard/trackpad work out of the box. WiFi and Bluetooth work with some extra steps. Read [this](https://wiki.t2linux.org/state/) for information about the latest hardware support.
 
@@ -8,7 +8,7 @@ This kernel is usually at the same version as the stable Fedora kernel. It is cu
 
 ## Instalation
 
-Download the live ISO from [here](https://github.com/sharpenedblade/t2linux-fedora-iso). Follow the [installation guide](https://wiki.t2linux.org/distributions/fedora/installation/).
+Download the live ISO from [here](https://github.com/t2linux/t2linux-fedora-iso). Follow the [installation guide](https://wiki.t2linux.org/distributions/fedora/installation/).
 
 ## WiFi/Bluetooth
 

@@ -1,10 +1,10 @@
 Name: t2linux-repo
-Version: 5.0.0
+Version: 5.0.1
 Release: 1%{?dist}
 Summary: DNF Repo for linux on t2 macs.
 License: MIT
 
-URL: https://github.com/sharpenedblade/t2linux-fedora-kernel
+URL: https://github.com/t2linux/t2linux-fedora-kernel
 Source0: t2linux-fedora.pub
 Source1: t2linux-fedora-new.pub
 Source2: t2linux-fedora.repo
