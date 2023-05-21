@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 
-# Location of sources/ and specs/
-# Sources are in $BASE_DIR/sources/$PACKAGE_NAME
+# Sources are in $BASE_DIR/$PACKAGE_NAME
 BASE_DIR=$1
 
 # Name of spec file without the extension
@@ -26,8 +25,8 @@ if [ -n "$KOJI_VERSION" ]; then
 fi
 
 echo "=====PREPARING SOURCES====="
-cp -f "$BASE_DIR"/specs/"$PACKAGE_NAME".spec /root/rpmbuild/SPECS/
-cp -fr "$BASE_DIR"/sources/"$PACKAGE_NAME"/* /root/rpmbuild/SOURCES
+cp -f "$BASE_DIR"/"$PACKAGE_NAME"/*.spec /root/rpmbuild/SPECS/
+cp -fr "$BASE_DIR"/"$PACKAGE_NAME"/* /root/rpmbuild/SOURCES/
 
 echo "=====INSTALLING DEPENDENCIES====="
 cd  /root/rpmbuild/SPECS/
