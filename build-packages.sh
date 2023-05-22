@@ -13,9 +13,3 @@ mkdir -p /output
 /repo/scripts/t2linux-fedora.sh
 /repo/scripts/kernel.sh
 rpm --addsign /output/*.rpm
-
-# Copy artifacts to shared volume
-cd "/repo"
-mkdir -p ./output
-mkdir -p ./output/RPMS
-cp -rfv /output/* ./output/RPMS/

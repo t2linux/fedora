@@ -14,13 +14,13 @@ jobs:
         with: 
           latest: true
           fileName: "*.rpm"
-          out-file-path: "/output/"
+          out-file-path: "/tmp/output/"
 
       - name: Update repo
         run: |
           mkdir /tmp/repo
-          docker run -t -v /output:/output -v /rpm-repo:/rpm-repo fedora:38 /bin/bash -c "/repo/build-repo.sh"
-          cp -r /rpm-repo ./deploy
+          docker run -t -v /tmp/output:/output -v /tmp/rpm-repo:/rpm-repo fedora:38 /bin/bash -c "/repo/build-repo.sh"
+          cp -r /tmp/rpm-repo ./deploy
 
       - name: Upload
         uses: netlify/actions/cli@master

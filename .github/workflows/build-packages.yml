@@ -22,32 +22,32 @@ jobs:
       - name: "Build"
         run: |
           echo "$RPM_SIGNING_KEY" > ./rpm_signing_key
-          mkdir -p /output
-          docker run -t --privileged -v "$PWD":/repo -v /output:/output fedora:38 /bin/bash -c "/repo/build-packages.sh"
+          mkdir -p /tmp/output
+          docker run -t --privileged -v "$PWD":/repo -v /tmp/output:/output fedora:38 /bin/bash -c "/repo/build-packages.sh"
         env: 
           RPM_SIGNING_KEY: ${{ secrets.RPM_SIGNING_KEY }}
 
       - name: "Check Packages"
         run: |
-          stat --printf='' /output/kernel*.rpm
-          stat --printf='' /output/t2linux-config*.rpm
-          stat --printf='' /output/t2linux-repo*.rpm
+          stat --printf='' /tmp/output/kernel*.rpm
+          stat --printf='' /tmp/output/t2linux-config*.rpm
+          stat --printf='' /tmp/output/t2linux-repo*.rpm
 
       - name: "Release"
         uses: softprops/action-gh-release@v1
         if: startsWith(github.ref, 'refs/tags/')
         with:
           files: |
-            /output/*.rpm
+            /tmp/output/*.rpm
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Update repo
         if: startsWith(github.ref, 'refs/tags/')
         run: |
-          mkdir /rpm-repo
-          docker run -t -v /output:/output -v /rpm-repo:/rpm-repo fedora:38 /bin/bash -c "/repo/build-repo.sh"
-          cp -r /tmp/repo ./deploy
+          mkdir -p /tmp/rpm-repo
+          docker run -t -v /tmp/output:/output -v "$PWD":/repo -v /tmp/rpm-repo:/rpm-repo fedora:38 /bin/bash -c "/repo/build-repo.sh"
+          cp -r /tmp/rpm-repo ./deploy
 
       - name: Upload
         if: startsWith(github.ref, 'refs/tags/')
