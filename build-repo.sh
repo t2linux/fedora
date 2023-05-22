@@ -1,5 +1,5 @@
 dnf install -y --quiet createrepo
-mkdir -p /tmp/repo
-cd /tmp/repo
-cp /repo/output/RPMS/*/*.rpm .
+mkdir -p /rpm-repo
+cd /rpm-repo
+cp /output/*.rpm .
 createrepo .

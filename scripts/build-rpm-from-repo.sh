@@ -20,18 +20,13 @@ if [ -n "$KOJI_VERSION" ]; then
     mkdir -p /tmp/koji-download && cd /tmp/koji-download
     koji download-build --arch=src "$KOJI_VERSION"
     rpmdev-extract "$KOJI_VERSION".src.rpm
-    mv -f "$KOJI_VERSION".src/"$PACKAGE_NAME".spec /root/rpmbuild/SPECS/ 
-    mv "$KOJI_VERSION".src/* /root/rpmbuild/SOURCES/ 
+
+    mkdir -p "$BASE_DIR"/"$PACKAGE_NAME"
+    mv -n "$KOJI_VERSION".src/* "$BASE_DIR"/"$PACKAGE_NAME"
 fi
 
-echo "=====PREPARING SOURCES====="
-cp -f "$BASE_DIR"/"$PACKAGE_NAME"/*.spec /root/rpmbuild/SPECS/
-cp -fr "$BASE_DIR"/"$PACKAGE_NAME"/* /root/rpmbuild/SOURCES/
-
-echo "=====INSTALLING DEPENDENCIES====="
-cd  /root/rpmbuild/SPECS/
-dnf -y --quiet builddep "$PACKAGE_NAME".spec
-
-echo "=====BUILDING PACKAGE====="
-cd /root/rpmbuild/SPECS/
-rpmbuild -bb "$PACKAGE_NAME".spec
+cd $BASE_DIR/$PACKAGE_NAME
+spectool -g ./$PACKAGE_NAME.spec
+mock --buildsrpm --spec ./$PACKAGE_NAME.spec --sources . --resultdir ./_mock
+mock --rebuild ./_mock/*.src.rpm --resultdir ./_mock
+cp ./_mock/*.rpm /output
