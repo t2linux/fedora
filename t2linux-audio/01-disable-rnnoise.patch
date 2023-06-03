@@ -1,0 +1,24 @@
+diff --git a/config/10-t2_mic.conf b/config/10-t2_mic.conf
+index a69d687..949afcb 100644
+--- config/10-t2_mic.conf
++++ config/10-t2_mic.conf
+@@ -30,18 +30,6 @@ context.modules = [
+                          label  = amp
+                          control = {"Amps gain (dB)" = 35}
+                     }
+-                    {
+-                        type   = ladspa
+-                        name   = rnnoise
+-                        plugin = /usr/local/lib/ladspa/librnnoise_ladspa.so
+-                        #plugin = ~/Downloads/linux-rnnoise/ladspa/librnnoise_ladspa.so
+-                        label  = noise_suppressor_stereo
+-                        control = {
+-                            "VAD Threshold (%)" 85.0
+-                            #"VAD Grace Period (ms)" 100.0
+-                            #"Retroactive VAD Grace (ms)" 0.0
+-                        }
+-                    }
+                     {
+                          type   = ladspa
+                          name   = compressor
+
