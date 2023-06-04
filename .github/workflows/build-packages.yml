@@ -32,6 +32,7 @@ jobs:
           stat --printf='' /tmp/output/kernel*.rpm
           stat --printf='' /tmp/output/t2linux-config*.rpm
           stat --printf='' /tmp/output/t2linux-repo*.rpm
+          stat --printf='' /tmp/output/t2linux-audio*.rpm
 
       - name: "Release"
         uses: softprops/action-gh-release@v1

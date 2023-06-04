@@ -1,8 +1,8 @@
 #!/bin/bash
 
-FEDORA_KERNEL_VERSION=6.3.3-200.fc38
+FEDORA_KERNEL_VERSION=6.3.5-200.fc38
 PATCHES_GIT=https://github.com/t2linux/linux-t2-patches
-PATCHES_COMMIT=d0e70c9396db0c97b47155a649838bb7ba82a690
+PATCHES_COMMIT=13dee3659d1ef17c5ea588c8be629fe693045496
 
 echo "=====INSTALLING DEPENDENCIES====="
 dnf install -y --quiet ncurses-devel libbpf fedpkg ccache openssl-devel libkcapi libkcapi-devel libkcapi-static libkcapi-tools
