@@ -13,8 +13,6 @@ if [ -n "$3" ]; then
     KOJI_VERSION="$3"
 fi
 
-cd /root/rpmbuild/SPECS
-
 if [ -n "$KOJI_VERSION" ]; then
     echo "=====DOWNLOADING SOURCES====="
     mkdir -p /tmp/koji-download && cd /tmp/koji-download
