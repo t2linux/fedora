@@ -22,8 +22,8 @@ echo -e 'add_drivers+=" apple_bce snd_seq "' > t2linux-modules-install.conf
 
 %install
 
-install -D -m 755 %{_sourcedir}/firmware.sh %{buildroot}/%{_bindir}/firmware.sh
-install -Dm 755 %{_sourcedir}/touchbar.sh %{buildroot}/%{_bindir}/touchbar.sh
+install -D -m 755 %{SOURCE0} %{buildroot}/%{_bindir}/touchbar.sh
+install -D -m 755 %{SOURCE1} %{buildroot}/%{_bindir}/firmware.sh
 
 install -D -m 644 t2linux-modules-install.conf %{buildroot}/etc/dracut.conf.d/t2linux-modules-install.conf
 

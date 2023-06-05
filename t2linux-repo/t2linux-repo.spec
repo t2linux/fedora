@@ -17,19 +17,12 @@ DNF repo files for linux on t2 macs.
 %build
 
 %install
-install -d -m 755 %{_builddir}/etc/pki/rpm-gpg
-install -m 644 t2linux-fedora.pub $RPM_BUILD_ROOT/etc/pki/rpm-gpg/
-install -m 644 t2linux-fedora-new.pub $RPM_BUILD_ROOT/etc/pki/rpm-gpg/
+install -D -m 644 %{SOURCE0} %{buildroot}/etc/pki/rpm-gpg/t2linux-fedora.pub
+install -D -m 644 %{SOURCE1} %{buildroot}/etc/pki/rpm-gpg/t2linux-fedora-new.pub
 
-install -d -m 755 %{_builddir}/etc/yum.repos.d
-install -m 644 t2linux-fedora.repo $RPM_BUILD_ROOT/etc/yum.repos.d
+install -D -m 644 %{SOURCE2} %{buildroot}/etc/yum.repos.d/t2linux-fedora.repo
 	
 %files
 /etc/yum.repos.d/t2linux-fedora.repo
 /etc/pki/rpm-gpg/t2linux-fedora.pub
 /etc/pki/rpm-gpg/t2linux-fedora-new.pub
-
-%changelog
-
-* Mon Apr 24 2023 Sharpened Blade <sharpenedblade@proton.me>
-- Made public GPG key ascii-armored
