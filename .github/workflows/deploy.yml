@@ -1,0 +1,39 @@
+name: Deploy
+on:
+  workflow_run:
+    workflows: ["Build"]
+    types:
+      - completed
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    steps:
+      - name: "Download Artifacts"
+        uses: actions/download-artifact@v3
+        with:
+          name: build-artifacts
+          path: /tmp/output
+
+      - name: "Check For Packages"
+        run: |
+          stat --printf='' /tmp/output/kernel*.rpm
+          stat --printf='' /tmp/output/t2linux-config*.rpm
+          stat --printf='' /tmp/output/t2linux-repo*.rpm
+          stat --printf='' /tmp/output/t2linux-audio*.rpm
+
+      - name: "Build DNF Repo"
+        run: |
+          mkdir /tmp/repo
+          docker run -t -v /tmp/output:/output -v /tmp/rpm-repo:/rpm-repo fedora:38 /bin/bash -c "/repo/build-repo.sh"
+          cp -r /tmp/rpm-repo ./deploy
+
+      - name: "Deploy To Repo"
+        uses: netlify/actions/cli@master
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+        with:
+          args: deploy --dir=deploy --prod

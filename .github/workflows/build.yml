@@ -1,0 +1,33 @@
+name: Build
+on:
+  push:
+    tags:
+    - '*'
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: "Increase Disk Space"
+        run: |
+          sudo rm -rf /usr/share/dotnet
+          sudo rm -rf /usr/local/lib/android
+          sudo rm -rf /opt/ghc
+
+      - name: "Checkout"
+        uses: actions/checkout@v3
+      
+      - name: "Build"
+        run: |
+          echo "$RPM_SIGNING_KEY" > ./rpm_signing_key
+          mkdir -p /tmp/output
+          docker run -t --privileged -v "$PWD":/repo -v /tmp/output:/output fedora:38 /bin/bash -c "/repo/build-packages.sh"
+        env: 
+          RPM_SIGNING_KEY: ${{ secrets.RPM_SIGNING_KEY }}
+
+      - name: "Upload Build Artifacts"
+        uses: actions/upload-artifact@v3
+        with:
+          name: build-artifacts
+          path: /tmp/output/*.rpm
