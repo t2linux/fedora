@@ -3,6 +3,8 @@ on:
   push:
 
 jobs:
+  checks:
+    uses ./.github/workflows/checks.yml
   build:
     uses: ./.github/workflows/build.yml
     secrets: inherit
