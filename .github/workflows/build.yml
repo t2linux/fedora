@@ -23,13 +23,6 @@ jobs:
         env: 
           RPM_SIGNING_KEY: ${{ secrets.RPM_SIGNING_KEY }}
 
-      - name: "Check Packages"
-        run: |
-          stat --printf='' /tmp/output/kernel*.rpm
-          stat --printf='' /tmp/output/t2linux-config*.rpm
-          stat --printf='' /tmp/output/t2linux-repo*.rpm
-          stat --printf='' /tmp/output/t2linux-audio*.rpm
-
       - name: "Upload Build Artifacts"
         uses: actions/upload-artifact@v3
         with:
