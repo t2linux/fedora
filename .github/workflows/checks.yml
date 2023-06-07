@@ -1,0 +1,14 @@
+name: Checks
+on:
+  push:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: "Checkout"
+        uses: actions/checkout@v3
+
+      - name: "Lint SPEC files"
+        run: |
+          docker run -v "$PWD":/repo fedora:38 /bin/bash -c "/repo/lint.sh"
