@@ -4,7 +4,6 @@ on:
     workflows: ["Build"]
     types:
       - completed
-  workflow_dispatch:
 
 jobs:
   deploy:
