@@ -26,6 +26,7 @@ jobs:
 
   deploy:
     needs: ["build-repo"]
+    if: startsWith(github.ref, 'refs/tags/v')
     runs-on: ubuntu-latest
     steps:
       - name: "Download Artifacts"

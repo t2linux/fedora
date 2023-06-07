@@ -28,3 +28,21 @@ jobs:
         with:
           name: build-artifacts
           path: /tmp/output/*.rpm
+
+  check-packages:
+    needs: ["build"]
+    runs-on: ubuntu-latest
+    steps:
+      - name: "Download Artifacts"
+        uses: actions/download-artifact@v3
+        with:
+          name: build-artifacts
+          path: /tmp/output
+
+      - name: "Check Packages"
+        run: |
+          stat --printf='' /tmp/output/kernel*.rpm
+          stat --printf='' /tmp/output/t2linux-config*.rpm
+          stat --printf='' /tmp/output/t2linux-repo*.rpm
+          stat --printf='' /tmp/output/t2linux-audio*.rpm
+          ls -R /tmp/output
