@@ -3,7 +3,7 @@ on:
   workflow_call:
 
 jobs:
-   deploy:
+  build-repo:
     runs-on: ubuntu-latest
     steps:
       - name: "Download Artifacts"
@@ -18,6 +18,21 @@ jobs:
           docker run -t -v /tmp/output:/output -v /tmp/rpm-repo:/rpm-repo fedora:38 /bin/bash -c "/repo/build-repo.sh"
           cp -r /tmp/rpm-repo ./deploy
 
+      - name: "Upload DNF repo"
+        uses: actions/upload-artifact@v3
+        with:
+          name: dnf-repo
+          path: deploy
+
+  deploy:
+    needs: ["build-repo"]
+    runs-on: ubuntu-latest
+    steps:
+      - name: "Download Artifacts"
+        uses: actions/download-artifact@v3
+        with:
+          name: dnf repo
+          path: deploy
       - name: "Deploy To Repo"
         uses: netlify/actions/cli@master
         env:
