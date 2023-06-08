@@ -41,5 +41,5 @@ cat /tmp/download/*/*.patch > linux-kernel-test.patch
 echo "=====BUILDING====="
 cd /kernel-build
 mock --buildsrpm --spec ./kernel.spec --sources . --resultdir ./_mock
-mock --rebuild ./_mock/*.src.rpm --resultdir ./_mock
+mock --rebuild ./_mock/*.src.rpm --resultdir ./_mock --without debug
 cp ./_mock/*.rpm /output
