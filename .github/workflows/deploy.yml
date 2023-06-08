@@ -12,6 +12,9 @@ jobs:
           name: build-artifacts
           path: /tmp/output
 
+      - name: "Checkout"
+        uses: actions/checkout@3
+
       - name: "Build DNF Repo"
         run: |
           mkdir /tmp/repo
