@@ -35,7 +35,7 @@ jobs:
       - name: "Download Artifacts"
         uses: actions/download-artifact@v3
         with:
-          name: dnf repo
+          name: dnf-repo
           path: deploy
       - name: "Deploy To Repo"
         uses: netlify/actions/cli@master
