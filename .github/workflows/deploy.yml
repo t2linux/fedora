@@ -18,7 +18,7 @@ jobs:
       - name: "Build DNF Repo"
         run: |
           mkdir /tmp/repo
-          docker run -t -v /tmp/output:/output -v /tmp/rpm-repo:/rpm-repo fedora:38 /bin/bash -c "/repo/build-repo.sh"
+          docker run -t -v /tmp/output:/output -v /tmp/rpm-repo:/rpm-repo -v $PWD:/repo fedora:38 /bin/bash -c "/repo/build-repo.sh"
           cp -r /tmp/rpm-repo ./deploy
 
       - name: "Upload DNF repo"
