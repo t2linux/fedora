@@ -13,7 +13,7 @@ jobs:
           path: /tmp/output
 
       - name: "Checkout"
-        uses: actions/checkout@3
+        uses: actions/checkout@v3
 
       - name: "Build DNF Repo"
         run: |
