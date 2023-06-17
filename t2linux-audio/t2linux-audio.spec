@@ -1,5 +1,5 @@
 Name: t2linux-audio
-Version: 0.3.0
+Version: 0.3.1
 Release: 1%{?dist}
 Summary: Speaker and mic config for T2 macs
 License: MIT
@@ -31,7 +31,15 @@ install -m 644 files/paths/* %{buildroot}/%{_datadir}/alsa-card-profile/mixer/pa
 install -d -m 755 %{buildroot}/%{_datadir}/alsa-card-profile/mixer/profile-sets
 install -m 644 files/profile-sets/* %{buildroot}/%{_datadir}/alsa-card-profile/mixer/profile-sets/
 
+install -d -m 755 %{buildroot}/%{_datadir}/pulseaudio/alsa-mixer/paths
+install -m 644 files/paths/* %{buildroot}/%{_datadir}/pulseaudio/alsa-mixer/paths/
+
+install -d -m 755 %{buildroot}/%{_datadir}/pulseaudio/alsa-mixer/profile-sets
+install -m 644 files/profile-sets/* %{buildroot}/%{_datadir}/pulseaudio/alsa-mixer/profile-sets/
+
 %files
 %{_datadir}/alsa-card-profile/mixer/paths/*
 %{_datadir}/alsa-card-profile/mixer/profile-sets/*
+%{_datadir}/pulseaudio/alsa-mixer/paths/*
+%{_datadir}/pulseaudio/alsa-mixer/profile-sets/*
 /usr/lib/udev/rules.d/91-audio-t2.rules
