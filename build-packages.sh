@@ -10,6 +10,11 @@ echo -e "%_signature gpg\n%_gpg_name T2Linux Fedora" > ~/.rpmmacros
 
 echo "=====BUILDING====="
 mkdir -p /output
-/repo/scripts/t2linux-fedora.sh
+cd /repo
+/repo/build-rpm.sh t2linux-config
+/repo/build-rpm.sh t2linux-repo
+/repo/build-rpm.sh t2linux-audio
+
 /repo/scripts/kernel.sh
+
 rpm --addsign /output/*.rpm

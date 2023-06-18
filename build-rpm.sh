@@ -1,15 +1,12 @@
 #!/usr/bin/env bash
 
-# Sources are in $BASE_DIR/$PACKAGE_NAME
-BASE_DIR=$1
-
-# Name of spec file without the extension
+# Name of dir and spec file
 # EXAMPLE: foo.spec -> foo
-PACKAGE_NAME=$2
+PACKAGE_NAME=$1
 
 # Name of package to download from koji.fedoraproject.org
 # EXAMPLE: python-blivet-3.5.0-1.fc37
-if [ -n "$3" ]; then
+if [ -n "$2" ]; then
     KOJI_VERSION="$3"
 fi
 
@@ -23,8 +20,8 @@ if [ -n "$KOJI_VERSION" ]; then
     mv -n "$KOJI_VERSION".src/* "$BASE_DIR"/"$PACKAGE_NAME"
 fi
 
-cd $BASE_DIR/$PACKAGE_NAME
-spectool -g ./$PACKAGE_NAME.spec
-mock --buildsrpm --spec ./$PACKAGE_NAME.spec --sources . --resultdir ./_mock
+cd $PACKAGE_NAME
+spectool -g $PACKAGE_NAME.spec
+mock --buildsrpm --spec $PACKAGE_NAME.spec --sources . --resultdir ./_mock
 mock --rebuild ./_mock/*.src.rpm --resultdir ./_mock
 cp ./_mock/*.rpm /output
