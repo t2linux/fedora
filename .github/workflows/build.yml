@@ -17,11 +17,10 @@ jobs:
       
       - name: "Build"
         run: |
-          echo "$RPM_SIGNING_KEY" > ./rpm_signing_key
           mkdir -p /tmp/output
-          docker run -t --privileged -v "$PWD":/repo -v /tmp/output:/output fedora:38 /bin/bash -c "/repo/build-packages.sh"
+          docker run -t --privileged -v "$PWD":/repo -v /tmp/output:/output -e RPM_SIGNING_PRIVATE_KEY_B64 fedora:38 /bin/bash -c "/repo/build-packages.sh"
         env: 
-          RPM_SIGNING_KEY: ${{ secrets.RPM_SIGNING_KEY }}
+          RPM_SIGNING_PRIVATE_KEY_B64: ${{ secrets.RPM_SIGNING_PRIVATE_KEY_B64 }}
 
       - name: "Upload Build Artifacts"
         uses: actions/upload-artifact@v3
