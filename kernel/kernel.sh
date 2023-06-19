@@ -4,23 +4,15 @@ FEDORA_KERNEL_VERSION=6.3.8-200.fc38
 PATCHES_GIT=https://github.com/t2linux/linux-t2-patches
 PATCHES_COMMIT=13dee3659d1ef17c5ea588c8be629fe693045496
 
+source /repo/util.sh
+
 echo "=====INSTALLING DEPENDENCIES====="
 dnf install -y --quiet ncurses-devel libbpf fedpkg ccache openssl-devel libkcapi libkcapi-devel libkcapi-static libkcapi-tools
 
-cd "/root/rpmbuild"/SPECS
-
-echo "=====DOWNLOADING SOURCES====="
-mkdir -p /tmp/extract-kernel
-cd /tmp/extract-kernel
-koji download-build --arch=src kernel-${FEDORA_KERNEL_VERSION}
-
-echo "=====EXTRACTING SOURCES====="
-rpmdev-extract kernel-${FEDORA_KERNEL_VERSION}.src.rpm
-mkdir -p /kernel-build
-mv -n kernel-*.src/* /kernel-build
+mkdir -p /kernel-build && cd /kernel-build
+download_koji_sources kernel-${FEDORA_KERNEL_VERSION}
 
 echo "=====PREPARING SOURCES===="
-cd /kernel-build
 # Fedora devs are against merging kernel-local for all architectures when keys are not properly specified, so we have to patch it in.
 sed -i "s@for i in %{all_arch_configs}@for i in *.config@g" kernel.spec 
 sed -i 's/# define buildid .local/%define buildid .t2/g' kernel.spec

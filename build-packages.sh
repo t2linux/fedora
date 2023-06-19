@@ -1,20 +1,27 @@
-#!/bin/bash
+#!/usr/bin/bash
+
+source /repo/util.sh
+
+sign_packages() {
+    # Takes private key called T2Linux Fedora
+    echo $1 | gpg --import
+    echo -e "%_signature gpg\n%_gpg_name T2Linux Fedora" > ~/.rpmmacros
+    rpm --addsign /output/*.rpm
+}
 
 echo "=====INSTALLING DEPENDENCIES====="
 dnf install -y --quiet koji git curl pesign rpmdevtools rpm-sign rpm-build mock
-
-echo "=====IMPORTING KEYS====="
-gpg --import /repo/rpm_signing_key
-rm -rfv /repo/rpm_signing_key
-echo -e "%_signature gpg\n%_gpg_name T2Linux Fedora" > ~/.rpmmacros
 
 echo "=====BUILDING====="
 mkdir -p /output
 cd /repo
 
-/repo/rpm-build-in-mock.sh t2linux-config
-/repo/rpm-build-in-mock.sh t2linux-repo
-/repo/rpm-build-in-mock.sh t2linux-audio
+for i in t2linux-config t2linux-repo t2linux-audio; do
+    build_spec $i
+done
+
 /repo/kernel/kernel.sh
 
-rpm --addsign /output/*.rpm
+RPM_SIGNING_PRIVATE_KEY=$(cat /repo/rpm_signing_key)
+rm -rfv /repo/rpm_signing_key
+sign_packages $RPM_SIGNING_PRIVATE_KEY
