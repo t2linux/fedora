@@ -22,7 +22,7 @@ sed -i 's/# define buildid .local/%define buildid .t2/g' kernel.spec
 echo "======DOWNLOADING PATCHES====="
 rm -rf /tmp/download /tmp/src
 mkdir /tmp/download && cd /tmp/download 
-git clone --single-branch --branch main ${PATCHES_GIT}
+git clone --quiet --single-branch --branch main ${PATCHES_GIT}
 cd *
 git checkout ${PATCHES_COMMIT}
 
