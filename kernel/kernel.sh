@@ -21,8 +21,7 @@ sed -i 's/# define buildid .local/%define buildid .t2/g' kernel.spec
 sed -i "/%define with_debug /c %define with_debug 0" kernel.spec
 
 echo "======DOWNLOADING PATCHES====="
-rm -rf /tmp/download /tmp/src
-mkdir /tmp/download && cd /tmp/download 
+rm -rf /tmp/download && mkdir /tmp/download && cd /tmp/download 
 git clone --quiet --single-branch --branch main ${PATCHES_GIT}
 cd *
 git checkout ${PATCHES_COMMIT}

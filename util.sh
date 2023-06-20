@@ -1,11 +1,11 @@
 #!/usr/bin/bash
 
-build_spec() {
+build_srpm() {
     cd $1
     spectool -g $1.spec
     mock --buildsrpm --spec $1.spec --sources . --resultdir ./_mock
-    mock --rebuild ./_mock/*.src.rpm --resultdir ./_mock
-    cp ./_mock/*.rpm /output
+    cp ./_mock/*.src.rpm /output
+    cd ..
 }
 
 download_koji_sources() {
