@@ -16,10 +16,12 @@ echo "=====BUILDING====="
 mkdir -p /output
 cd /repo
 
-for i in t2linux-config t2linux-repo t2linux-audio; do
-    build_spec $i
-done
-
 /repo/kernel/kernel.sh
+
+for i in t2linux-config t2linux-repo t2linux-audio kernel; do
+    build_srpm $i
+done
+mock --rebuild /output/*.src.rpm --resultdir ./_mock_bin
+cp ./_mock_bin/*.rpm /output
 
 sign_packages $RPM_SIGNING_PRIVATE_KEY_B64
