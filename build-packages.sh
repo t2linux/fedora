@@ -9,19 +9,25 @@ sign_packages() {
     rpm --addsign /output/*.rpm
 }
 
-echo "=====INSTALLING DEPENDENCIES====="
-dnf install -y --quiet koji git curl pesign rpmdevtools rpm-sign rpm-build mock
+dnf install -y --quiet koji git curl pesign rpmdevtools rpm-sign rpm-build mock zstd
 
-echo "=====BUILDING====="
+# Optimize mock
+echo 'config_opts["plugin_conf"]["package_state_enable"] = False
+config_opts["macros"]["%_smp_mflags"] = "-j8"
+config_opts["plugin_conf"]["ccache_opts"]["compress"] = True
+config_opts["plugin_conf"]["root_cache_opts"]["compress_program"] = "zstd"
+config_opts["plugin_conf"]["root_cache_opts"]["extension"] = ".zst"
+config_opts["plugin_conf"]["hw_info_enable"] = False' > /etc/mock/site-defaults.cfg
+
 mkdir -p /output
 cd /repo
 
 /repo/kernel/kernel.sh
-
 for i in t2linux-config t2linux-repo t2linux-audio kernel; do
     build_srpm $i
 done
-mock --rebuild /output/*.src.rpm --resultdir ./_mock_bin
+
+mock --quiet --rebuild /output/*.src.rpm --resultdir ./_mock_bin
 cp ./_mock_bin/*.rpm /output
 
 sign_packages $RPM_SIGNING_PRIVATE_KEY_B64
