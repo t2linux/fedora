@@ -22,10 +22,11 @@ config_opts["plugin_conf"]["hw_info_enable"] = False' > /etc/mock/site-defaults.
 mkdir -p /output
 cd /repo
 
-/repo/kernel/kernel.sh
-for i in t2linux-config t2linux-repo t2linux-audio kernel; do
-    build_srpm $i
-done
+if [ "$PACKAGE" == "kernel" ]; then
+    /repo/kernel/kernel.sh
+fi
+
+build_srpm $PACKAGE
 
 mock --quiet --rebuild /output/*.src.rpm --resultdir ./_mock_bin
 cp ./_mock_bin/*.rpm /output
