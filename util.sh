@@ -1,10 +1,10 @@
 #!/usr/bin/bash
 
-build_srpm() {
+build_package() {
     cd $1
     spectool -g $1.spec
-    mock --quiet --buildsrpm --spec $1.spec --sources . --resultdir /tmp/_mock
-    cp /tmp/_mock/*.src.rpm /repo/_output
+    mock --quiet --buildsrpm --spec $1.spec --sources . --resultdir /repo/_output
+    mock --quiet --rebuild /repo/_output/*.src.rpm --resultdir /repo/_output
     cd ..
 }
 
@@ -16,4 +16,10 @@ download_koji_sources() {
     rpmdev-extract $1.src.rpm
     mv -n $1.src/* $START_DIR
     cd $START_DIR
+}
+
+sign_packages() {
+    echo $1 | base64 -d | gpg --import
+    echo -e "%_signature gpg\n%_gpg_name $2" > ~/.rpmmacros
+    rpm --addsign *.rpm
 }
