@@ -3,7 +3,7 @@
 build_srpm() {
     cd $1
     spectool -g $1.spec
-    mock --quiet --buildsrpm --spec $1.spec --sources . --resultdir /tmp`/_mock
+    mock --quiet --buildsrpm --spec $1.spec --sources . --resultdir /tmp/_mock
     cp /tmp/_mock/*.src.rpm /repo/_output
     cd ..
 }

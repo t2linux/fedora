@@ -7,7 +7,7 @@ sign_packages() {
     # Takes private key called T2Linux Fedora
     echo $1 | base64 -d | gpg --import
     echo -e "%_signature gpg\n%_gpg_name T2Linux Fedora" > ~/.rpmmacros
-    rpm --addsign /output/*.rpm
+    rpm --addsign /repo/_output/*.rpm
 }
 
 dnf install -y --quiet koji git curl pesign rpmdevtools rpm-sign rpm-build mock zstd
@@ -28,7 +28,7 @@ fi
 
 build_srpm $PACKAGE
 
-mock --quiet --rebuild /repo/output/*.src.rpm --resultdir /tmp/_mock_bin
+mock --quiet --rebuild /repo/_output/*.src.rpm --resultdir /tmp/_mock_bin
 cp /tmp/_mock_bin/*.rpm /repo/_output
 
 sign_packages $RPM_SIGNING_PRIVATE_KEY_B64
