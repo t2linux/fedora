@@ -21,10 +21,8 @@ jobs:
       
       - name: "Build"
         run: |
-          mkdir -p /tmp/output
           docker run -t --privileged \
           -v "$PWD":/repo \
-          -v /tmp/output:/output \
           -e RPM_SIGNING_PRIVATE_KEY_B64 \
           -e PACKAGE \
           fedora:38 /bin/bash -c "/repo/build-packages.sh"
@@ -40,7 +38,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: ${{ matrix.package }}
-          path: /tmp/output/*.rpm
+          path: _output/*.rpm
 
   upload-artifact:
     needs: ["build"]
@@ -49,15 +47,15 @@ jobs:
       - name: "Download Build Artifacts"
         uses: actions/download-artifact@v3
         with:
-          path: /tmp/output
+          path: artifacts
 
       - name: "Create Unified Artifact"
         run: |
-          mkdir artifact
-          cp /tmp/output/*/*.rpm artifact
+          mkdir new-artifact
+          cp artifacts/*/*.rpm new-artifact
 
       - name: "Upload Unified Artifact"
         uses: actions/upload-artifact@v3
         with:
           name: packages
-          path: artifact/*.rpm
+          path: new-artifact/*.rpm
