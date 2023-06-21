@@ -10,7 +10,7 @@ jobs:
         package: ["t2linux-repo", "t2linux-config", "t2linux-audio", "kernel"]
     steps:
       - name: "Increase Disk Space"
-        if: matrix.package == kernel
+        if: matrix.package == "kernel"
         run: |
           sudo rm -rf /usr/share/dotnet
           sudo rm -rf /usr/local/lib/android
