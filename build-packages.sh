@@ -19,7 +19,8 @@ if [ "$PACKAGE" == "kernel" ]; then
 fi
 
 mkdir  /repo/_output
-build_srpm $PACKAGE
+cd $i
+build_package $PACKAGE.spec
 rm /repo/_output/*.log
 
 cd /repo/_output
