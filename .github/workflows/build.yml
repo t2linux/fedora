@@ -45,12 +45,20 @@ jobs:
       - name: "Download Artifacts"
         uses: actions/download-artifact@v3
         with:
-          name: rpm-*
           path: /tmp/output
 
       - name: "Check Packages"
         run: |
-          stat --printf='' /tmp/output/t2linux-config*.rpm
-          stat --printf='' /tmp/output/t2linux-repo*.rpm
-          stat --printf='' /tmp/output/t2linux-audio*.rpm
+          stat --printf='' /tmp/output/*/t2linux-config*.rpm
+          stat --printf='' /tmp/output/*/t2linux-repo*.rpm
+          stat --printf='' /tmp/output/*/t2linux-audio*.rpm
           ls -R /tmp/output
+      - name: "Create combined artifact"
+        run: |
+          mkdir /artifact
+          cp /tmp/output/*/*.rpm /artifact
+      - name: "Upload combined artifact"
+        uses: actions/upload-artifact@v3
+        with:
+          name: packages
+          path: /artifact/*.rpm
