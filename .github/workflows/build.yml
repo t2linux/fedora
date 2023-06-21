@@ -7,7 +7,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        package: ["t2linux-repo", "t2linux-config", "t2linux-audio", "kernel"]
+        package: ["t2linux-repo", "t2linux-config", "t2linux-audio"]
     steps:
       - name: "Increase Disk Space"
         if: contains(matrix.package, 'kernel')
@@ -50,7 +50,6 @@ jobs:
 
       - name: "Check Packages"
         run: |
-          stat --printf='' /tmp/output/kernel*.rpm
           stat --printf='' /tmp/output/t2linux-config*.rpm
           stat --printf='' /tmp/output/t2linux-repo*.rpm
           stat --printf='' /tmp/output/t2linux-audio*.rpm
