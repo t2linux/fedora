@@ -1,5 +1,6 @@
 #!/usr/bin/bash
 
+mkdir  /repo/_output
 source /repo/util.sh
 
 sign_packages() {
@@ -19,7 +20,6 @@ config_opts["plugin_conf"]["root_cache_opts"]["compress_program"] = "zstd"
 config_opts["plugin_conf"]["root_cache_opts"]["extension"] = ".zst"
 config_opts["plugin_conf"]["hw_info_enable"] = False' > /etc/mock/site-defaults.cfg
 
-mkdir -p /output
 cd /repo
 
 if [ "$PACKAGE" == "kernel" ]; then
@@ -28,7 +28,7 @@ fi
 
 build_srpm $PACKAGE
 
-mock --quiet --rebuild /output/*.src.rpm --resultdir ./_mock_bin
-cp ./_mock_bin/*.rpm /output
+mock --quiet --rebuild /output/*.src.rpm --resultdir /tmp/_mock_bin
+cp /tmp/_mock_bin/*.rpm /repo/_output
 
 sign_packages $RPM_SIGNING_PRIVATE_KEY_B64
