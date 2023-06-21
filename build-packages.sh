@@ -28,7 +28,7 @@ fi
 
 build_srpm $PACKAGE
 
-mock --quiet --rebuild /output/*.src.rpm --resultdir /tmp/_mock_bin
+mock --quiet --rebuild /repo/output/*.src.rpm --resultdir /tmp/_mock_bin
 cp /tmp/_mock_bin/*.rpm /repo/_output
 
 sign_packages $RPM_SIGNING_PRIVATE_KEY_B64
