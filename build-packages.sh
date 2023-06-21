@@ -18,8 +18,8 @@ if [ "$PACKAGE" == "kernel" ]; then
     /repo/kernel/kernel.sh
 fi
 
-mkdir  /repo/_output
-cd $i
+mkdir /repo/_output
+cd /repo/$i
 build_package $PACKAGE.spec
 rm /repo/_output/*.log
 
