@@ -32,33 +32,32 @@ jobs:
           RPM_SIGNING_PRIVATE_KEY_B64: ${{ secrets.RPM_SIGNING_PRIVATE_KEY_B64 }}
           PACKAGE: ${{ matrix.package }}
 
+      - name: "Check Build Artifacts"
+        run: |
+          test -f /tmp/output/$PACKAGE*.rpm
+
       - name: "Upload Build Artifacts"
         uses: actions/upload-artifact@v3
         with:
-          name: rpm-${{ matrix.package }}
+          name: ${{ matrix.package }}
           path: /tmp/output/*.rpm
 
-  check-packages:
+  upload-artifact:
     needs: ["build"]
     runs-on: ubuntu-latest
     steps:
-      - name: "Download Artifacts"
+      - name: "Download Build Artifacts"
         uses: actions/download-artifact@v3
         with:
           path: /tmp/output
 
-      - name: "Check Packages"
+      - name: "Create Unified Artifact"
         run: |
-          stat --printf='' /tmp/output/*/t2linux-config*.rpm
-          stat --printf='' /tmp/output/*/t2linux-repo*.rpm
-          stat --printf='' /tmp/output/*/t2linux-audio*.rpm
-          ls -R /tmp/output
-      - name: "Create combined artifact"
-        run: |
-          mkdir /artifact
-          cp /tmp/output/*/*.rpm /artifact
-      - name: "Upload combined artifact"
+          mkdir artifact
+          cp /tmp/output/*/*.rpm artifact
+
+      - name: "Upload Unified Artifact"
         uses: actions/upload-artifact@v3
         with:
           name: packages
-          path: /artifact/*.rpm
+          path: artifact/*.rpm
