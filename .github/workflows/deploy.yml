@@ -16,7 +16,7 @@ jobs:
         run: |
           docker run -t \
             -v rpm-repo:/rpm-repo \
-            -v _output:/output \
+            -v $PWD:/repo \
             fedora:38 /bin/bash -c "/repo/generate-dnf-repo.sh"
           cp -r rpm-repo
 
