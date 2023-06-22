@@ -21,6 +21,7 @@ jobs:
       
       - name: "Build"
         run: |
+          mkdir -p _output
           docker run -t --privileged \
           -v "$PWD":/repo \
           -e RPM_SIGNING_PRIVATE_KEY_B64 \
