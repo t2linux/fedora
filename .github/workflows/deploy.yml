@@ -12,6 +12,9 @@ jobs:
           name: packages
           path: _output
 
+      - name: "Checkout"
+        uses: actions/checkout@v3
+
       - name: "Build DNF Repo"
         run: |
           docker run -t \
