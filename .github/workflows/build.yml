@@ -7,7 +7,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        package: ["t2linux-repo", "t2linux-config", "t2linux-audio"]
+        package: ["t2linux-repo", "t2linux-config", "t2linux-audio", "kernel"]
     steps:
       - name: "Increase Disk Space"
         if: contains(matrix.package, 'kernel')
