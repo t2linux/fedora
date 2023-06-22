@@ -21,7 +21,6 @@ jobs:
             -v rpm-repo:/rpm-repo \
             -v $PWD:/repo \
             fedora:38 /bin/bash -c "/repo/generate-dnf-repo.sh"
-          cp -r rpm-repo
 
       - name: "Upload DNF repo"
         uses: actions/upload-artifact@v3
