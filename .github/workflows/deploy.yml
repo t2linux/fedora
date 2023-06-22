@@ -9,23 +9,24 @@ jobs:
       - name: "Download Artifacts"
         uses: actions/download-artifact@v3
         with:
-          name: build-artifacts
-          path: /tmp/output
+          name: packages
+          path: _output
 
       - name: "Checkout"
         uses: actions/checkout@v3
 
       - name: "Build DNF Repo"
         run: |
-          mkdir /tmp/repo
-          docker run -t -v /tmp/output:/output -v /tmp/rpm-repo:/rpm-repo -v $PWD:/repo fedora:38 /bin/bash -c "/repo/generate-dnf-repo.sh"
-          cp -r /tmp/rpm-repo ./deploy
+          docker run -t \
+            -v rpm-repo:/rpm-repo \
+            -v $PWD:/repo \
+            fedora:38 /bin/bash -c "/repo/generate-dnf-repo.sh"
 
       - name: "Upload DNF repo"
         uses: actions/upload-artifact@v3
         with:
           name: dnf-repo
-          path: deploy
+          path: rpm-repo
 
   deploy:
     needs: ["build-repo"]
@@ -36,11 +37,11 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: dnf-repo
-          path: deploy
+          path: rpm-repo
       - name: "Deploy To Repo"
         uses: netlify/actions/cli@master
         env:
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
           NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
         with:
-          args: deploy --dir=deploy --prod
+          args: deploy --dir=rpm-repo --prod
