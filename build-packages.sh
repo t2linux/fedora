@@ -21,6 +21,3 @@ fi
 cd /repo/$PACKAGE
 build_package $PACKAGE.spec
 rm /repo/_output/*.log
-
-cd /repo/_output
-sign_packages $RPM_SIGNING_PRIVATE_KEY_B64 "T2Linux Fedora"

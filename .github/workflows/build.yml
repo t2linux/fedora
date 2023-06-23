@@ -45,18 +45,28 @@ jobs:
     needs: ["build"]
     runs-on: ubuntu-latest
     steps:
+      - name: "Checkout"
+        uses: actions/checkout@v3      
+
       - name: "Download Build Artifacts"
         uses: actions/download-artifact@v3
         with:
           path: artifacts
-
+  
       - name: "Create Unified Artifact"
         run: |
-          mkdir new-artifact
-          cp artifacts/*/*.rpm new-artifact
+          mkdir _output
+          cp artifacts/*/*.rpm _output
+
+      - name: "Sign Packages"
+        if: startsWith(github.ref, 'refs/tags/')
+        run: |
+          docker run -t \
+            -v $PWD:/repo \
+            fedora:38 /bin/bash -c "/repo/sign-packages.sh"
 
       - name: "Upload Unified Artifact"
         uses: actions/upload-artifact@v3
         with:
           name: packages
-          path: new-artifact/*.rpm
+          path: _output/*.rpm
