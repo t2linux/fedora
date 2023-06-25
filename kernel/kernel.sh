@@ -13,9 +13,6 @@ sed -i "s@for i in %{all_arch_configs}@for i in *.config@g" kernel.spec
 # Set buildid to .t2
 sed -i 's/# define buildid .local/%define buildid .t2/g' kernel.spec
 
-# Disable debug kernels
-sed -i "/%define with_debug /c %define with_debug 0" kernel.spec
-
 git clone --quiet --single-branch --branch main https://github.com/t2linux/linux-t2-patches patches && cd patches
 git checkout ${PATCHES_COMMIT}
 cd ..
