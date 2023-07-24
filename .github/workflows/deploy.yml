@@ -19,7 +19,8 @@ jobs:
         run: |
           docker run -t \
             -v $PWD:/repo \
-            fedora:38 /bin/bash -c "/repo/generate-dnf-repo.sh"
+            ghcr.io/t2linux/fedora-kernel-build:latest \
+            /repo/generate-dnf-repo.sh
 
       - name: "Upload DNF repo"
         uses: actions/upload-artifact@v3

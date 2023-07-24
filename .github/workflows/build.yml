@@ -33,7 +33,8 @@ jobs:
           docker run -t --privileged \
           -v "$PWD":/repo \
           -e PACKAGE \
-          fedora:38 /bin/bash -c "/repo/build-packages.sh"
+          ghcr.io/t2linux/fedora-kernel-build:latest \
+          /repo/build-packages.sh
         env:
           PACKAGE: ${{ matrix.package }}
 
@@ -70,7 +71,8 @@ jobs:
           docker run -t \
             -v $PWD:/repo \
             -e RPM_SIGNING_PRIVATE_KEY_B64 \
-            fedora:38 /bin/bash -c "/repo/sign-packages.sh"
+            ghcr.io/t2linux/fedora-kernel-build:latest \
+            /repo/sign-packages.sh
         env:
           RPM_SIGNING_PRIVATE_KEY_B64: ${{ secrets.RPM_SIGNING_PRIVATE_KEY_B64 }}
 
