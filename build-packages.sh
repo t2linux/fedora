@@ -2,7 +2,7 @@
 source /repo/util.sh
 
 # Install dependencies
-dnf install -y --quiet koji git curl pesign rpmdevtools rpm-sign rpm-build mock zstd
+dnf install -y --quiet koji git rpmdevtools rpm-sign mock
 
 # Optimize mock
 echo 'config_opts["plugin_conf"]["package_state_enable"] = False
