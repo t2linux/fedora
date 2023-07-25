@@ -40,13 +40,14 @@ jobs:
 
       - name: "Check Build Artifacts"
         run: |
-          stat --printf='' _output/$PACKAGE*.rpm
+          ls -lAh _output/
+          find _output/ -name '*.rpm' > /dev/null
 
       - name: "Upload Build Artifacts"
         uses: actions/upload-artifact@v3
         with:
           name: ${{ matrix.package }}
-          path: _output/*.rpm
+          path: _output/*
 
   upload-artifact:
     needs: ["build"]

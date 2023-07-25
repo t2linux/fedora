@@ -2,8 +2,8 @@
 
 build_package() {
     spectool -g $1
-    mock --quiet --buildsrpm --spec $1 --sources . --resultdir /repo/_output
-    mock --quiet --rebuild /repo/_output/*.src.rpm --resultdir /repo/_output
+    mock --buildsrpm --spec $1 --sources . --resultdir /repo/_output
+    mock --rebuild /repo/_output/*.src.rpm --resultdir /repo/_output
 }
 
 download_koji_sources() {
