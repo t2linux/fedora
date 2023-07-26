@@ -12,24 +12,50 @@ Download the live ISO from [here](https://github.com/t2linux/t2linux-fedora-iso)
 
 ## WiFi/Bluetooth
 
-Follow the [firmware guide](https://wiki.t2linux.org/guides/wifi/). When you get to the [On Linux](https://wiki.t2linux.org/guides/wifi-bluetooth/#on-linux) section, you can just run `firmware.sh`. 
-
-## Upgrading to a new Fedora Version
-
-This should work normally, either with `dnf system-upgrade` or Gnome Software (PackageKit). If you get an error about `t2linux-config`, run `sudo dnf remove t2linux-config && sudo dnf install t2linux-config`.
+Follow the [firmware guide](https://wiki.t2linux.org/guides/wifi/). When you get to the [On Linux](https://wiki.t2linux.org/guides/wifi-bluetooth/#on-linux) section, you can just run `firmware.sh`.
 
 ## Troubleshooting
 
-- Q: Suspend is not working.  
-    A: Install the WiFi firmware. Follow the [wifi section](#wifi).
-- Q: The keyboard backlight is not working.  
-    A: It doesnt work for *some* users on Fedora. If you *really* need it, contact `@sharpenedblade` on the t2linux discord.
-- Q: The touchbar is blank, and I already installed the firmware.  
-    A: Reboot into MacOS Recovery by holding CMD+R while booting up, then reboot into Fedora again.
+- Problem: The touchbar is not working and is blank  
+   Solution: Reboot into MacOS Recovery by holding `command`+`r` while booting up, then reboot into Fedora again.
+
+- Problem: Suspend is not working  
+   Solution: Put this in `/usr/lib/systemd/system-sleep/rmmod_wifi.sh`:
+  ```bash
+  #!/usr/bin/env bash
+  if [ "${1}" = "pre" ]; then
+          modprobe -r brcmfmac_wcc
+          modprobe -r brcmfmac
+  elif [ "${1}" = "post" ]; then
+          modprobe brcmfmac
+  fi
+  ```
+
+## Building from source
+
+Clone this repo locally:
+
+```
+git clone --depth 1 https://github.com/t2linux/t2linux-fedora-kernel
+cd t2linux-fedora-kernel
+```
+
+Pick the package you want to build (`t2linux-config`, `t2linux-repo`, `t2linux-config`, or `kernel`):
+
+```
+export PACKAGE="packagenamehere"
+```
+
+Then run the build container, which has dependencies already installed. The packages will be in the `_output` directory:
+
+```
+podman run -it -v "$PWD":/repo -e PACKAGE ghcr.io/t2linux/fedora-kernel-build:latest /repo/build-packages.sh
+```
 
 ## Credits
 
-This kernel was heavily inspired by [mikeeq/mbp-fedora-kernel](https://github.com/mikeeq/mbp-fedora-kernel). The patches are from the [t2linux](https://t2linux.org) project and [everyone that contributed to to it](https://github.com/t2linux/linux-t2-patches/graphs/contributors).
+This kernel was heavily inspired by [mikeeq/mbp-fedora-kernel](https://github.com/mikeeq/mbp-fedora-kernel). The patches are from the [t2linux](https://t2linux.org) project and created by [everyone that contributed to to it](https://github.com/t2linux/linux-t2-patches/graphs/contributors).
 
 ## Disclaimer
+
 This project is not officially provided or supported by the Fedora Project. The official Fedora software is available at [https://fedoraproject.org/](https://fedoraproject.org/). This project is not related to Fedora in any way.
