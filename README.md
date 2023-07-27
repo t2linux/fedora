@@ -49,7 +49,7 @@ export PACKAGE="packagenamehere"
 Then run the build container, which has dependencies already installed. The packages will be in the `_output` directory:
 
 ```
-podman run -it -v "$PWD":/repo -e PACKAGE ghcr.io/t2linux/fedora-kernel-build:latest /repo/build-packages.sh
+podman run -it -v "$PWD":/repo -e PACKAGE ghcr.io/t2linux/fedora-dev:latest /repo/build-packages.sh
 ```
 
 ## Credits
