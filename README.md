@@ -40,16 +40,10 @@ git clone --depth 1 https://github.com/t2linux/t2linux-fedora-kernel
 cd t2linux-fedora-kernel
 ```
 
-Pick the package you want to build (`t2linux-config`, `t2linux-repo`, `t2linux-config`, or `kernel`):
-
-```
-export PACKAGE="packagenamehere"
-```
-
 Then run the build container, which has dependencies already installed. The packages will be in the `_output` directory:
 
 ```
-podman run -it -v "$PWD":/repo -e PACKAGE ghcr.io/t2linux/fedora-dev:latest /repo/build-packages.sh
+podman run -it -v "$PWD":/repo ghcr.io/t2linux/fedora-dev:latest /repo/build-packages.sh
 ```
 
 ## Credits
