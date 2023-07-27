@@ -1,8 +1,8 @@
 #!/usr/bin/bash
 source /repo/util.sh
 
-FEDORA_KERNEL_VERSION=6.3.12-200.fc38
-PATCHES_COMMIT=13dee3659d1ef17c5ea588c8be629fe693045496
+FEDORA_KERNEL_VERSION=6.4.4-200.fc38
+PATCHES_COMMIT=c908e506346681139a844d41c40b295cfad17ea8
 
 cd /repo/kernel
 download_koji_sources kernel-${FEDORA_KERNEL_VERSION}
