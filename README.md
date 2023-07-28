@@ -1,6 +1,6 @@
 # t2linux-fedora-kernel
 
-This is a patched kernel for Fedora on T2 macs. A `dnf` repo is avaliable by installing the `t2linux-repo` package from the latest [release](https://github.com/t2linux-fedora/t2linux-fedora-kernel/releases/latest).
+This is a patched kernel for Fedora on T2 macs. A `dnf` repo is avaliable by installing the `t2linux-repo` package from the latest [release](https://github.com/t2linux/fedora-kernel/releases/latest).
 
 The internal ssd, camera, mic, and the keyboard/trackpad work out of the box. WiFi and Bluetooth work with some extra steps. Read [this](https://wiki.t2linux.org/state/) for information about the latest hardware support.
 
@@ -8,7 +8,7 @@ This kernel is usually at the same version as the stable Fedora kernel. It is cu
 
 ## Instalation
 
-Download the live ISO from [here](https://github.com/t2linux/t2linux-fedora-iso). Follow the [installation guide](https://wiki.t2linux.org/distributions/fedora/installation/).
+Download the live ISO from [here](https://github.com/t2linux/fedora-iso). Follow the [installation guide](https://wiki.t2linux.org/distributions/fedora/installation/).
 
 ## WiFi/Bluetooth
 
@@ -35,14 +35,14 @@ Follow the [firmware guide](https://wiki.t2linux.org/guides/wifi/). When you get
 
 Clone this repo locally:
 
-```
-git clone --depth 1 https://github.com/t2linux/t2linux-fedora-kernel
+```bash
+git clone --depth 1 https://github.com/t2linux/fedora-kernel
 cd t2linux-fedora-kernel
 ```
 
 Then run the build container, which has dependencies already installed. The packages will be in the `_output` directory:
 
-```
+```bash
 podman run -it -v "$PWD":/repo ghcr.io/t2linux/fedora-dev:latest /repo/build-packages.sh
 ```
 
