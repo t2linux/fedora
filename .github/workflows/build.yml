@@ -32,11 +32,9 @@ jobs:
           mkdir -p _output
           docker run -t --privileged \
           -v "$PWD":/repo \
-          -e PACKAGE \
           ghcr.io/t2linux/fedora-dev:latest \
-          /repo/build-packages.sh
-        env:
-          PACKAGE: ${{ matrix.package }}
+          /repo/build-packages.sh \
+          ${{ matrix.package }}
 
       - name: "Check Build Artifacts"
         run: |
