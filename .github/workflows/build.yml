@@ -19,7 +19,7 @@ jobs:
           sudo docker image prune --all --force
           sudo rm -rf /home/linuxbrew
           sudo apt-get remove -y --purge fonts-noto-color-emoji subversion \
-              sshpass g++ gcc gnupg2 imagemagick jq libmagic-dev ssh \
+              sshpass g++ gcc gnupg2 imagemagick jq libmagic-dev \
               libmagickcore-dev	libmagickwand-dev	libssl-dev \
               mercurial openssh-client p7zip-full	ftp bison
           sudo apt-get autoremove -y

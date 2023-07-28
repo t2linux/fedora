@@ -9,6 +9,9 @@ jobs:
       - name: "Checkout"
         uses: actions/checkout@v3
 
-      - name: "Lint SPEC files"
+      - name: "Lint"
         run: |
-          docker run -v "$PWD":/repo fedora:38 /bin/bash -c "/repo/lint.sh"
+          docker run \
+            -v "$PWD":/repo \
+            ghcr.io/t2linux/fedora-dev:latest \
+            /repo/lint.sh

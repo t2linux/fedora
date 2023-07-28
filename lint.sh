@@ -2,9 +2,8 @@
 
 set -e
 
-dnf install -y rpmlint
-
-for i in /repo/*/*.spec
-do
-  rpmlint $i
+for i in /repo/*/*.spec; do
+  rpmlint "$i"
 done
+
+shellcheck /repo/**.sh
