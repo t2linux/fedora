@@ -2,18 +2,17 @@
 source /repo/util.sh
 
 if [[ -z "$1" ]]; then
-    package=""
+    packages=""
     echo "Available packages: t2linux-config, t2linux-repo, t2linux-config, or kernel"
-    read -p "Name of package to build: " package
+    read -p "What package(s) do you want to build: " -a packages 
 else
-    package="$1"
+    packages=( "$@" )
 fi
 
-cd /repo
-
-if [ "$package" == "kernel" ]; then
-    /repo/kernel/kernel.sh
-fi
-
-cd /repo/$package
-build_package $package.spec
+for current_package in ${packages[@]}; do
+    if [ "$current_package" == "kernel" ]; then
+        /repo/kernel/kernel.sh
+    fi
+    cd /repo/$current_package
+    build_package $current_package.spec
+done
