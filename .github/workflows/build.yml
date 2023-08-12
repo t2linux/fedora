@@ -18,8 +18,8 @@ jobs:
           sudo rm -rf /opt/hostedtoolcache/CodeQL
           sudo docker image prune --all --force
           sudo rm -rf /home/linuxbrew
-          sudo apt-get remove -y --purge fonts-noto-color-emoji subversion ssh \
-              sshpass g++ gcc gnupg2 imagemagick jq libmagic-dev \
+          sudo apt-get remove -y --purge fonts-noto-color-emoji subversion \
+              sshpass g++ gcc gnupg2 imagemagick jq libmagic-dev ssh \
               libmagickcore-dev	libmagickwand-dev	libssl-dev \
               mercurial openssh-client p7zip-full	ftp bison
           sudo apt-get autoremove -y
@@ -30,11 +30,13 @@ jobs:
       - name: "Build"
         run: |
           mkdir -p _output
-          docker run -t --privileged \
-          -v "$PWD":/repo \
-          ghcr.io/t2linux/fedora-dev:latest \
-          /repo/build-packages.sh \
-          ${{ matrix.package }}
+          docker run \
+            -t \ 
+            --privileged \
+            -v "$PWD":/repo \
+            ghcr.io/t2linux/fedora-dev:latest \
+            /repo/build-packages.sh \
+            ${{ matrix.package }}
 
       - name: "Check Build Artifacts"
         run: |
@@ -67,7 +69,8 @@ jobs:
       - name: "Sign Packages"
         if: startsWith(github.ref, 'refs/tags/')
         run: |
-          docker run -t \
+          docker run \
+            -t \
             -v $PWD:/repo \
             -e RPM_SIGNING_PRIVATE_KEY_B64 \
             ghcr.io/t2linux/fedora-dev:latest \
