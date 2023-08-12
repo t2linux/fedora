@@ -31,7 +31,7 @@ jobs:
         run: |
           mkdir -p _output
           docker run \
-            -t \ 
+            -t \
             --privileged \
             -v "$PWD":/repo \
             ghcr.io/t2linux/fedora-dev:latest \
