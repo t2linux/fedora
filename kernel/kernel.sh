@@ -1,7 +1,7 @@
 #!/usr/bin/bash
 source /repo/util.sh
 
-FEDORA_KERNEL_VERSION=6.4.11-200.fc38
+FEDORA_KERNEL_VERSION=6.4.14-200.fc38
 PATCHES_COMMIT=46dd873d1d9d12b26916790045008a91a95d0c11
 
 cd /repo/kernel
