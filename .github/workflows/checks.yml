@@ -1,6 +1,6 @@
 name: Checks
 on:
-  workflow_call:
+  push:
 
 jobs:
   check:

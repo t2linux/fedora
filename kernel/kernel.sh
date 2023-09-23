@@ -1,11 +1,12 @@
 #!/usr/bin/bash
-source /repo/util.sh
-
 FEDORA_KERNEL_VERSION=6.4.15-200.fc38
 PATCHES_COMMIT=b8ce142809f370aae655968b10634d069244a7f2
 
 cd /repo/kernel
-download_koji_sources kernel-${FEDORA_KERNEL_VERSION}
+koji download-build --arch=src "kernel-${FEDORA_KERNEL_VERSION}"
+rpmdev-extract "kernel-${FEDORA_KERNEL_VERSION}".src.rpm
+mv -n "kernel-${FEDORA_KERNEL_VERSION}".src/* .
+rm -r "kernel-${FEDORA_KERNEL_VERSION}".src "kernel-${FEDORA_KERNEL_VERSION}".src.rpm
 
 # Fedora devs are against merging kernel-local for all architectures when keys are not properly specified, so we have to patch it in.
 sed -i "s@for i in %{all_arch_configs}@for i in *.config@g" kernel.spec 

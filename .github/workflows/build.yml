@@ -1,16 +1,12 @@
 name: Build
 on:
-  workflow_call:
+  push:
 
 jobs:
   build:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        package: ["t2linux-repo", "t2linux-config", "t2linux-audio", "kernel"]
     steps:
       - name: "Increase Disk Space"
-        if: contains(matrix.package, 'kernel')
         run: |
           sudo rm -rf /usr/share/dotnet
           sudo rm -rf /usr/local/lib/android
@@ -35,39 +31,10 @@ jobs:
             --privileged \
             -v "$PWD":/repo \
             ghcr.io/t2linux/fedora-dev:latest \
-            /repo/build-packages.sh \
-            ${{ matrix.package }}
-
-      - name: "Check Build Artifacts"
-        run: |
-          ls -lAh _output/
-          find _output/ -name '*.rpm' > /dev/null
-
-      - name: "Upload Build Artifacts"
-        uses: actions/upload-artifact@v3
-        with:
-          name: ${{ matrix.package }}
-          path: _output/*
-
-  upload-artifact:
-    needs: ["build"]
-    runs-on: ubuntu-latest
-    steps:
-      - name: "Checkout"
-        uses: actions/checkout@v3
-
-      - name: "Download Build Artifacts"
-        uses: actions/download-artifact@v3
-        with:
-          path: artifacts
-
-      - name: "Create Unified Artifact"
-        run: |
-          mkdir _output
-          cp artifacts/*/*.rpm _output
+            /repo/build-packages.sh
 
       - name: "Sign Packages"
-        if: startsWith(github.ref, 'refs/tags/')
+        if: startsWith(github.ref, 'refs/tags/v')
         run: |
           docker run \
             -t \
@@ -78,8 +45,32 @@ jobs:
         env:
           RPM_SIGNING_PRIVATE_KEY_B64: ${{ secrets.RPM_SIGNING_PRIVATE_KEY_B64 }}
 
-      - name: "Upload Unified Artifact"
+      - name: "Upload Artifact"
         uses: actions/upload-artifact@v3
         with:
           name: packages
           path: _output/*.rpm
+
+      - name: "Release"
+        if: startsWith(github.ref, 'refs/tags/v')
+        uses: softprops/action-gh-release@v1
+        with:
+          files: |
+            _output/*.rpm
+
+      - name: "Build DNF Repo"
+        if: startsWith(github.ref, 'refs/tags/v')
+        run: |
+          docker run -t \
+            -v $PWD:/repo \
+            ghcr.io/t2linux/fedora-kernel-build:latest \
+            /repo/generate-dnf-repo.sh
+
+      - name: "Deploy To Repo"
+        if: startsWith(github.ref, 'refs/tags/v')
+        uses: netlify/actions/cli@master
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+        with:
+          args: deploy --dir=dnf-repo --prod
