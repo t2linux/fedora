@@ -57,27 +57,3 @@ jobs:
         with:
           files: |
             _output/*.rpm
-
-      - name: "Build DNF Repo"
-        if: startsWith(github.ref, 'refs/tags/v')
-        run: |
-          docker run -t \
-            -v $PWD:/repo \
-            ghcr.io/t2linux/fedora-kernel-build:latest \
-            /repo/generate-dnf-repo.sh
-
-      - name: "Upload DNF Artifacts"
-        uses: actions/upload-artifact@v3
-        with:
-          name: packages
-          path: dnf-repo/*
-
-      - name: "Deploy To Repo"
-        if: startsWith(github.ref, 'refs/tags/v')
-        uses: nwtgck/actions-netlify@v2.0
-        env:
-          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
-          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
-        with:
-          publish-dir: dnf-repo
-          production-deploy: true

@@ -1,0 +1,50 @@
+name: Deploy DNF repo
+
+on:
+  release:
+    types: [released]
+
+jobs:
+  build-repo:
+    runs-on: ubuntu-latest
+    steps:
+      - name: "Checkout"
+        uses: actions/checkout@v3
+
+      - name: "Download release"
+        uses: robinraju/release-downloader@v1.8
+        with:
+          tag: ${{ github.ref_name }}
+          fileName: "*"
+          out-file-path: "_output"
+
+      - name: "Build DNF Repo"
+        run: |
+          docker run -t \
+            -v $PWD:/repo \
+            ghcr.io/t2linux/fedora-kernel-build:latest \
+            /repo/generate-dnf-repo.sh
+
+      - name: "Upload DNF Repo"
+        uses: actions/upload-artifact@v3
+        with:
+          name: dnf-repo
+          path: dnf-repo/*
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: ["build-repo"]
+    steps:
+      - name: "Download DNF repo"
+        uses: actions/download-artifact@v3
+        with:
+          name: dnf-repo
+          path: dnf-repo
+
+      - name: "Deploy DNF repo"
+        uses: nwtgck/actions-netlify@v2.0
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+        with:
+          publish-dir: dnf-repo
