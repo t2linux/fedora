@@ -1,5 +1,9 @@
 name: Deploy DNF repo
 
+concurrency:
+  group: deploy
+  cancel-in-progress: true
+
 on:
   release:
     types: [released]
