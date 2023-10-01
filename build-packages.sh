@@ -8,7 +8,7 @@ for current_package in "${packages[@]}"; do
     fi
     cd /repo/"$current_package" || echo "ERROR: Package $current_package not found"
     spectool -g "$current_package".spec
-    mock --quiet --buildsrpm --spec "$current_package".spec --sources . --resultdir /repo/_output
+    mock --buildsrpm --spec "$current_package".spec --sources . --resultdir /repo/_output
 done
 
-mock --quiet --rebuild /repo/_output/*.src.rpm --resultdir /repo/_output
+mock --rebuild /repo/_output/*.src.rpm --resultdir /repo/_output
