@@ -7,6 +7,7 @@ concurrency:
 on:
   release:
     types: [released]
+  workflow_call:
 
 jobs:
   build-repo:
@@ -18,7 +19,7 @@ jobs:
       - name: "Download release"
         uses: robinraju/release-downloader@v1.8
         with:
-          tag: ${{ github.ref_name }}
+          latest: true
           fileName: "*"
           out-file-path: "_output"
 
@@ -26,7 +27,7 @@ jobs:
         run: |
           docker run -t \
             -v $PWD:/repo \
-            ghcr.io/t2linux/fedora-kernel-build:latest \
+            ghcr.io/t2linux/fedora-dev:latest \
             /repo/generate-dnf-repo.sh
 
       - name: "Upload DNF Repo"
@@ -52,3 +53,4 @@ jobs:
           NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
         with:
           publish-dir: dnf-repo
+          production-deploy: ${{ startsWith(github.ref, 'refs/tags/v') }}
