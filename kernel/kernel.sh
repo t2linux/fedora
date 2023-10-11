@@ -1,5 +1,5 @@
 #!/usr/bin/bash
-FEDORA_KERNEL_VERSION=6.5.5-200.fc38
+FEDORA_KERNEL_VERSION=6.5.6-200.fc38
 cd /repo/kernel
 koji download-build --quiet --arch=src "kernel-${FEDORA_KERNEL_VERSION}"
 rpmdev-extract -q "kernel-${FEDORA_KERNEL_VERSION}".src.rpm
