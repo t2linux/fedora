@@ -1,0 +1,5 @@
+--- a/Cargo.toml
++++ b/Cargo.toml
+@@ -13,1 +13,1 @@
+-cairo-rs = { version = "0.18", default-features = false }
++cairo-rs = { version = "0.17", default-features = false }
