@@ -20,7 +20,7 @@ jobs:
         with:
           latest: true
           fileName: "*"
-          out-file-path: "_output"
+          out-file-path: "builddir/packages"
 
       - name: "Build DNF Repo"
         run: |
@@ -38,5 +38,5 @@ jobs:
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
           NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
         with:
-          publish-dir: _output/dnf-repo
+          publish-dir: builddir/dnf-repo
           production-deploy: ${{ startsWith(github.ref, 'refs/tags/v') }}

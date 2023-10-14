@@ -55,14 +55,14 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: packages
-          path: _output/*.rpm
+          path: builddir/packages/*.rpm
 
       - name: "Release"
         if: startsWith(github.ref, 'refs/tags/v')
         uses: softprops/action-gh-release@v1
         with:
           files: |
-            _output/*.rpm
+            builddir/packages/*.rpm
 
   deploy:
     needs: ["build"]
