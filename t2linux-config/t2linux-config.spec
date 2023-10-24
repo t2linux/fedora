@@ -9,7 +9,6 @@ Requires: rust-tiny-dfr
 
 URL: https://t2linux.org
 
-Source0: touchbar.sh
 Source1: firmware.sh
 
 %description
@@ -23,7 +22,6 @@ echo -e 'add_drivers+=" apple_bce snd_seq "' > t2linux-modules-install.conf
 
 %install
 
-install -D -m 755 %{SOURCE0} %{buildroot}/%{_bindir}/touchbar.sh
 install -D -m 755 %{SOURCE1} %{buildroot}/%{_bindir}/firmware.sh
 
 install -D -m 644 t2linux-modules-install.conf %{buildroot}/etc/dracut.conf.d/t2linux-modules-install.conf
@@ -37,4 +35,3 @@ grubby --args="intel_iommu=on iommu=pt pcie_ports=compat" --update-kernel=ALL
 /etc/modules-load.d/t2linux-modules.conf
 /etc/dracut.conf.d/t2linux-modules-install.conf
 %{_bindir}/firmware.sh
-%{_bindir}/touchbar.sh
