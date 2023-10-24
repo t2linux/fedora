@@ -1,10 +1,11 @@
 Name: t2linux-config
-Version: 9.0.0
+Version: 10.0.0
 Release: 1%{?dist}
 Summary: System configuration for linux on t2 macs.
 License: MIT
 
 Requires: t2linux-audio
+Requires: rust-tiny-dfr
 
 URL: https://t2linux.org
 
