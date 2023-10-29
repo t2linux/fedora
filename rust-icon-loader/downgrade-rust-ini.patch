@@ -1,6 +1,0 @@
---- a/Cargo.toml
-+++ b/Cargo.toml
-@@ -35,3 +35,3 @@
- [dependencies.rust-ini]
--version = "0.19.0"
-+version = "0.18.0"

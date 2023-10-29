@@ -1,7 +1,7 @@
 #!/usr/bin/bash
 set -e
 
-packages=( "t2linux-config" "t2linux-repo" "t2linux-audio" "rust-icon-loader" "rust-tiny-dfr" "kernel" )
+packages=( "t2linux-config" "t2linux-repo" "t2linux-audio" "rust-tiny-dfr" "kernel" )
 
 mkdir -p /repo/builddir
 builddir=$(mktemp -d -p "/repo/builddir"); export builddir
