@@ -30,7 +30,7 @@ jobs:
             ghcr.io/t2linux/fedora-dev:latest \
             /repo/create-repo.sh
         env:
-          SIGNING_KEY: ${{ secrets.SIGNING_KEY_F38 }}
+          SIGNING_KEY: ${{ secrets.SIGNING_KEY_F39 }}
 
       - name: "Deploy DNF repo"
         uses: nwtgck/actions-netlify@v2.0
