@@ -1,8 +1,0 @@
-[t2linux-fedora]
-name=t2linux Fedora
-baseurl=https://t2linux-fedora-repo.netlify.app/
-enabled=True
-gpgcheck=True
-cost=800
-priority=80
-gpgkey=file:///etc/pki/rpm-gpg/t2linux-fedora-39.pub
