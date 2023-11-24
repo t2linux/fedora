@@ -1,10 +1,10 @@
 # t2linux-fedora-kernel
 
-This is a patched kernel for Fedora on T2 macs. A `dnf` repo is avaliable by installing the `t2linux-repo` package from the latest [release](https://github.com/t2linux/fedora-kernel/releases/latest).
+Patched kernel and supporting packages for hardware enablement on t2 macs. Binary packages are available from [copr](https://copr.fedorainfracloud.org/coprs/sharpenedblade/t2linux). You can also download and install the `copr-sharpenedblade-t2linux-release` package.
 
-The internal ssd, camera, mic, and the keyboard/trackpad work out of the box. WiFi and Bluetooth work with some extra steps. Read [this](https://wiki.t2linux.org/state/) for information about the latest hardware support.
+The internal ssd, camera, mic, and the keyboard/trackpad work out of the box. WiFi and Bluetooth might work with some extra steps. Read [the wiki](https://wiki.t2linux.org/state/) for information about the latest hardware support.
 
-This kernel is usually at the same version as the stable Fedora kernel. It is currently built for Fedora 38.
+This kernel is usually at the same version as the stable Fedora kernel. It is currently built for Fedora 39.
 
 ## Instalation
 
@@ -12,35 +12,18 @@ Download the live ISO from [here](https://github.com/t2linux/fedora-iso). Follow
 
 ## WiFi/Bluetooth
 
-Follow the [firmware guide](https://wiki.t2linux.org/guides/wifi/). When you get to the [On Linux](https://wiki.t2linux.org/guides/wifi-bluetooth/#on-linux) section, you can just run `firmware.sh`.
-
-## Troubleshooting
-
-- Problem: The touchbar is not working and is blank  
-   Solution: Reboot into MacOS Recovery by holding `command`+`r` while booting up, then reboot into Fedora again.
-
-- Problem: Suspend is not working  
-   Solution: Put this in `/usr/lib/systemd/system-sleep/rmmod_wifi.sh`:
-  ```bash
-  #!/usr/bin/env bash
-  if [ "${1}" = "pre" ]; then
-          modprobe -r brcmfmac_wcc
-          modprobe -r brcmfmac
-  elif [ "${1}" = "post" ]; then
-          modprobe brcmfmac
-  fi
-  ```
+Follow the [firmware guide](https://wiki.t2linux.org/guides/wifi/).
 
 ## Building from source
 
 Clone this repo locally:
 
 ```bash
-git clone --depth 1 https://github.com/t2linux/fedora-kernel
-cd t2linux-fedora-kernel
+git clone --depth 1 https://github.com/t2linux/fedora t2-fedora
+cd t2-fedora
 ```
 
-Then run the build container, which has dependencies already installed. The packages will be in the `_output` directory:
+Then run the build container, which has dependencies already installed. The packages will be in `builddir`:
 
 ```bash
 podman run -it -v "$PWD":/repo ghcr.io/t2linux/fedora-dev:latest /repo/build-packages.sh
