@@ -12,6 +12,8 @@ License: MIT AND Apache-2.0
 URL: %{forgeurl}
 Source: %{forgesource} 
 
+Patch: fix-rust-drm-metadata.patch
+
 BuildRequires: rust-packaging >= 23
 BuildRequires: systemd-rpm-macros
  
