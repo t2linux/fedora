@@ -1,7 +1,11 @@
 #!/usr/bin/bash
 set -e
 
-packages=( "t2linux-config" "t2linux-audio" "rust-tiny-dfr" "kernel" "copr-sharpenedblade-t2linux-release" )
+if [ $# -eq 0 ]; then
+    packages=( "t2linux-config" "t2linux-audio" "rust-tiny-dfr" "kernel" "copr-sharpenedblade-t2linux-release" )
+else
+    packages=$@
+fi
 
 mkdir -p /repo/builddir
 builddir=$(mktemp -d -p "/repo/builddir"); export builddir
