@@ -4,7 +4,7 @@ set -e
 if [ $# -eq 0 ]; then
     packages=( "t2linux-config" "t2linux-audio" "rust-tiny-dfr" "kernel" "copr-sharpenedblade-t2linux-release" )
 else
-    packages=$@
+    packages=( "$@" )
 fi
 
 mkdir -p /repo/builddir
