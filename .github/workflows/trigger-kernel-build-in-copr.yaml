@@ -1,0 +1,17 @@
+name: COPR Webhook
+on:
+  push:
+    branches:
+      - "main"
+    paths:
+      - "kernel/*"
+
+jobs:
+ trigger-kernel-build-in-copr:
+    runs-on: ubuntu-latest
+    steps:
+      - name: "Trigger kernel build in COPR"
+        run: |
+          curl -X POST $COPR_WEBHOOK/kernel
+        env:
+          COPR_WEBHOOK: ${{ secrets.COPR_WEBHOOK }}
