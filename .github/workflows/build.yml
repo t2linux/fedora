@@ -2,10 +2,6 @@ name: Build
 on:
   push:
 
-concurrency:
-  group: ${{ github.ref }}
-  cancel-in-progress: true
-
 jobs:
   checks:
     runs-on: ubuntu-latest
@@ -56,16 +52,3 @@ jobs:
         with:
           name: packages
           path: builddir/packages/*.rpm
-
-      - name: "Release"
-        if: startsWith(github.ref, 'refs/tags/v')
-        uses: softprops/action-gh-release@v1
-        with:
-          files: |
-            builddir/packages/*.rpm
-
-  deploy:
-    needs: ["build"]
-    if: startsWith(github.ref, 'refs/tags/v')
-    uses: ./.github/workflows/deploy.yaml
-    secrets: inherit
