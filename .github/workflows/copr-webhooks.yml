@@ -1,0 +1,39 @@
+name: COPR Webhook
+on:
+  push:
+    branches:
+      - "main"
+    paths:
+      - "kernel/*"
+      - "t2linux-config/*"
+      - "t2linux-audio/*"
+      - "rust-tiny-dfr/*"
+      - "copr-sharpenedblade-t2linux-release/*"
+
+jobs:
+  copr-webhook:
+    runs-on: ubuntu-latest
+    steps:
+
+      - name: "Checkout"
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Get changed files
+        id: changed-files
+        uses: tj-actions/changed-files@v41
+        with:
+          since_last_remote_commit: true
+          dir_names: "true"
+      
+      - name: "Trigger COPR webhook"
+        run: |
+          CHANGED_PACKAGES=( $(for c in ${CHANGES[@]}; do cut -d/ -f1<<<$c; done | sort -u) )
+          for package in "$CHANGED_PACKAGES"; do
+            echo $package
+            curl -X POST $COPR_WEBHOOK/$(echo $package )
+          done
+        env:
+          COPR_WEBHOOK: ${{ secrets.COPR_WEBHOOK }}
+          CHANGES: ${{ steps.changed-files.outputs.all_changed_files }}
