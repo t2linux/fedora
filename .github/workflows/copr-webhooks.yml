@@ -1,0 +1,21 @@
+name: COPR Webhook
+on:
+  push:
+    branches:
+      - "main"
+    paths:
+      - "kernel/*"
+      - "t2linux-config/*"
+      - "t2linux-audio/*"
+      - "rust-tiny-dfr/*"
+      - "copr-sharpenedblade-t2linux-release/*"
+
+jobs:
+  copr-webhook:
+    runs-on: ubuntu-latest
+    steps:
+      - name: "Trigger COPR webhook"
+        run: |
+          curl -X POST $COPR_WEBHOOK
+        env:
+          COPR_WEBHOOK: ${{ secrets.COPR_WEBHOOK }}
