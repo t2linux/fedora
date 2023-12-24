@@ -1,13 +1,13 @@
 name: Build
 on:
-  push:
+  pull_request:
 
 jobs:
   checks:
     runs-on: ubuntu-latest
     steps:
       - name: "Checkout"
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: "Lint"
         run: |
@@ -20,7 +20,28 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
+
+      - name: "Checkout"
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+          fetch-depth: 0
+
+      - name: Get changed files
+        id: changed-files
+        uses: tj-actions/changed-files@v41
+        with:
+          base_sha: ${{ steps.branch-name.outputs.base_ref_branch }} 
+          files: |
+            kernel/*
+            copr-sharpenedblade-t2linux-release/*
+            rust-tiny-dfr/*
+            t2linux-audio/*
+            t2linux-config/*
+          dir_names: "true"
+
       - name: "Increase Disk Space"
+        if: contains(steps.changed-files.outputs.modified_files, 'kernel')
         run: |
           sudo rm -rf /usr/share/dotnet
           sudo rm -rf /usr/local/lib/android
@@ -34,18 +55,17 @@ jobs:
               mercurial openssh-client p7zip-full	ftp bison
           sudo apt-get autoremove -y
 
-      - name: "Checkout"
-        uses: actions/checkout@v3
-        with:
-          submodules: recursive
-
       - name: "Build"
+        if: steps.changed-files.outputs.any_changed == 'true'
         run: |
+          CHANGED_PACKAGES=( $(for c in ${CHANGES[@]}; do cut -d/ -f1<<<$c; done | sort -u) )
           docker run \
             --privileged \
             -v "$PWD":/repo \
             ghcr.io/t2linux/fedora-dev:latest \
-            /repo/build-packages.sh
+            /repo/build-packages.sh "$CHANGED_PACKAGES"
+        env:
+          CHANGES: ${{ steps.changed-files.outputs.all_changed_files }}
 
       - name: "Upload Artifact"
         uses: actions/upload-artifact@v3
