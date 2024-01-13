@@ -1,5 +1,5 @@
 Name: t2linux-config
-Version: 11.0.0
+Version: 11.1.0
 Release: 1%{?dist}
 Summary: System configuration for linux on t2 macs.
 License: MIT
@@ -19,6 +19,7 @@ Configuration and tools for linux on T2 macs.
 %build
 echo -e 'apple_bce\nsnd-seq' > t2linux-modules.conf
 echo -e 'add_drivers+=" apple_bce snd_seq "' > t2linux-modules-install.conf
+echo -e 'blacklist cdc_ncm\nblacklist cdc_mbim' > t2linux-modprobe.conf
 
 %install
 
@@ -28,6 +29,8 @@ install -D -m 644 t2linux-modules-install.conf %{buildroot}/etc/dracut.conf.d/t2
 
 install -D -m 644 t2linux-modules.conf %{buildroot}/etc/modules-load.d/t2linux-modules.conf
 
+install -D -m 644 t2linux-modprobe.conf %{buildroot}/etc/modprobe.d/t2linux-modprobe.conf
+
 %post
 grubby --args="intel_iommu=on iommu=pt" --update-kernel=ALL
 grubby --remove-args="pcie_ports=compat" --update-kernel=ALL
@@ -35,4 +38,5 @@ grubby --remove-args="pcie_ports=compat" --update-kernel=ALL
 %files
 /etc/modules-load.d/t2linux-modules.conf
 /etc/dracut.conf.d/t2linux-modules-install.conf
+/etc/modprobe.d/t2linux-modprobe.conf
 %{_bindir}/firmware.sh
