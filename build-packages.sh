@@ -8,6 +8,7 @@ else
 fi
 
 mkdir -p /repo/builddir
+echo "Signature: 8a477f597d28d172789f06886806bc55" > /repo/builddir/CACHEDIR.TAG
 builddir=$(mktemp -d -p "/repo/builddir"); export builddir
 function cleanup {
   rm -rf "$builddir"
