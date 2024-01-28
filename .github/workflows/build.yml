@@ -63,7 +63,7 @@ jobs:
             --privileged \
             -v "$PWD":/repo \
             ghcr.io/t2linux/fedora-dev:latest \
-            /repo/build-packages.sh "$CHANGED_PACKAGES"
+            /repo/build-packages.sh "${CHANGED_PACKAGES[@]}"
         env:
           CHANGES: ${{ steps.changed-files.outputs.all_changed_files }}
 
