@@ -9,6 +9,9 @@ on:
       - "t2linux-audio/*"
       - "rust-tiny-dfr/*"
       - "copr-sharpenedblade-t2linux-release/*"
+      - "rust-arraydeque/*"
+      - "rust-nonempty/*"
+      - "rust-rust-ini0.20/*"
 
 jobs:
   copr-webhook:
