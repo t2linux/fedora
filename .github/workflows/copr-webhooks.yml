@@ -30,9 +30,9 @@ jobs:
       - name: "Trigger COPR webhook"
         run: |
           CHANGED_PACKAGES=( $(for c in ${CHANGES[@]}; do cut -d/ -f1<<<$c; done | sort -u) )
-          for package in "$CHANGED_PACKAGES"; do
-            echo $package
-            curl -X POST $COPR_WEBHOOK/$(echo $package )
+          for package in "${CHANGED_PACKAGES[@]}"; do
+            echo "Running COPR webhook for: $package"
+            curl -sS -X POST $COPR_WEBHOOK/$package
           done
         env:
           COPR_WEBHOOK: ${{ secrets.COPR_WEBHOOK }}
