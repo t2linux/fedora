@@ -2,7 +2,7 @@
 set -e
 
 if [ $# -eq 0 ]; then
-    packages=( "t2linux-config" "t2linux-audio" "rust-tiny-dfr" "kernel" "copr-sharpenedblade-t2linux-release" "rust-arraydeque" "rust-nonempty" "rust-rust-ini0.20" )
+    packages=( "t2linux-config" "t2linux-audio" "rust-tiny-dfr" "kernel" "copr-sharpenedblade-t2linux-release" "rust-arraydeque" "rust-nonempty" "rust-rust-ini0.20" "t2fanrd" )
 else
     packages=( "$@" )
 fi

@@ -12,6 +12,7 @@ on:
       - "rust-arraydeque/*"
       - "rust-nonempty/*"
       - "rust-rust-ini0.20/*"
+      - "t2fanrd/*"
 
 jobs:
   copr-webhook:
