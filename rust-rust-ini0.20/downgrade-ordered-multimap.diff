@@ -1,0 +1,7 @@
+--- rust-ini-0.20.0/Cargo.toml.orig	2024-01-27 18:42:54
++++ rust-ini-0.20.0/Cargo.toml	2024-01-27 18:41:55
+@@ -36,3 +36,3 @@
+ [dependencies.ordered-multimap]
+-version = "0.7"
++version = "0.4"
+ 
