@@ -1,5 +1,5 @@
 Name: t2linux-config
-Version: 11.3.0
+Version: 11.4.0
 Release: 1%{?dist}
 Summary: System configuration for linux on t2 macs.
 License: MIT
@@ -30,7 +30,7 @@ install -D -m 644 t2linux-modules-install.conf %{buildroot}/etc/dracut.conf.d/t2
 install -D -m 644 t2linux-modules.conf %{buildroot}/etc/modules-load.d/t2linux-modules.conf
 
 %post
-grubby --args="intel_iommu=on iommu=pt" --update-kernel=ALL
+grubby --args="intel_iommu=on iommu=pt mem_sleep_default=s2idle" --update-kernel=ALL
 grubby --remove-args="pcie_ports=compat" --update-kernel=ALL
 
 %files
