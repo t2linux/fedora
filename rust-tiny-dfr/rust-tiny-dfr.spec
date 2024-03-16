@@ -1,15 +1,17 @@
 %global forgeurl https://github.com/kekrby/tiny-dfr/
-%global commit 5b45724fd5e98b716d0b26a037daaaad4c7a5eee
+%global commit 8a5d413cb1dbe2a25b77a9e7f3cb5b9c88ef3ffb
 %global crate tiny-dfr
 %forgemeta
 
 Name: rust-%{crate}
-Version: 0.1.2
-Release: 2%{?dist}
+Version: 0.2.0
+Release: 1%{?dist}
 Summary: The most basic dynamic function row daemon possible
 License: MIT AND Apache-2.0
 URL: %{forgeurl}
 Source: %{forgesource} 
+
+Patch0: bump-rust-drm-to-11.patch
 
 BuildRequires: rust-packaging >= 23
 BuildRequires: systemd-rpm-macros
@@ -27,8 +29,7 @@ License: Apache-2.0 AND BSD-3-Clause AND CC0-1.0 AND ISC AND LGPL-2.1-or-later A
 %{_bindir}/%{crate}
 %{_datadir}/%{crate}/
 %{_udevrulesdir}/*.rules
-%{_unitdir}/%{crate}.service
-%{_sysconfdir}/%{crate}.conf
+%{_unitdir}/*.service
 
 %prep
 %forgeautosetup -p1
@@ -43,10 +44,9 @@ License: Apache-2.0 AND BSD-3-Clause AND CC0-1.0 AND ISC AND LGPL-2.1-or-later A
 
 %install
 %cargo_install
-install -Dpm0644 -t %{buildroot}%{_datadir}/%{crate} share/%{crate}/*.svg
+install -Dpm0644 -t %{buildroot}%{_datadir}/%{crate} share/%{crate}/*
 install -Dpm0644 -t %{buildroot}%{_udevrulesdir} etc/udev/rules.d/*.rules
-install -Dpm0644 -t %{buildroot}%{_unitdir} etc/systemd/system/%{crate}.service
-install -Dpm0644 -t %{buildroot}%{_sysconfdir} etc/%{crate}.conf
+install -Dpm0644 -t %{buildroot}%{_unitdir} etc/systemd/system/*.service
 
 %post
 %systemd_post %{crate}.service
