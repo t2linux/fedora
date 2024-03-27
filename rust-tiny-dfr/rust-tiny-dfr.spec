@@ -1,17 +1,15 @@
-%global forgeurl https://github.com/kekrby/tiny-dfr/
-%global commit 8a5d413cb1dbe2a25b77a9e7f3cb5b9c88ef3ffb
+%global forgeurl https://github.com/sharpenedblade/tiny-dfr
+%global commit e8542b0091aa038adeb97dd95236a4fd4d7a2bbd
 %global crate tiny-dfr
 %forgemeta
 
 Name: rust-%{crate}
 Version: 0.2.0
-Release: 1%{?dist}
+Release: 2%{?dist}
 Summary: The most basic dynamic function row daemon possible
 License: MIT AND Apache-2.0
 URL: %{forgeurl}
 Source: %{forgesource} 
-
-Patch0: bump-rust-drm-to-11.patch
 
 BuildRequires: rust-packaging >= 23
 BuildRequires: systemd-rpm-macros
