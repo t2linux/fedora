@@ -72,7 +72,10 @@ jobs:
           CHANGES: ${{ steps.changed-files.outputs.all_changed_files }}
 
       - name: "Upload Artifact"
+        if: '!cancelled()'
         uses: actions/upload-artifact@v3
         with:
-          name: packages
-          path: builddir/packages/*.rpm
+          name: results
+          path: |
+            builddir/results/default/*
+            !builddir/results/default/repodata

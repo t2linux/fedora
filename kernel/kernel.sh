@@ -3,7 +3,7 @@ set -e
 
 KERNEL_VERSION=6.7.7-200.fc39
 
-cd "$package_builddir"
+cd "$sourcedir"
 koji download-build --quiet --arch=src "kernel-$KERNEL_VERSION"
 rpmdev-extract -q "kernel-$KERNEL_VERSION.src.rpm"
 mv -n "kernel-$KERNEL_VERSION.src"/* .
