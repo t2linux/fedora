@@ -1,11 +1,11 @@
 %global forgeurl https://github.com/sharpenedblade/tiny-dfr
-%global commit 31f72f81eea8bec8dc5f3026b373602fc2a2a72d
+%global commit f8b9de64a98819f0798fa569b440172bd232dbba
 %global crate tiny-dfr
 %forgemeta
 
 Name: rust-%{crate}
 Version: 0.2.0
-Release: 4%{?dist}
+Release: 5%{?dist}
 Summary: The most basic dynamic function row daemon possible
 License: MIT AND Apache-2.0
 URL: %{forgeurl}
