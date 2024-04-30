@@ -1,15 +1,17 @@
 %global forgeurl https://github.com/sharpenedblade/tiny-dfr
-%global commit f8b9de64a98819f0798fa569b440172bd232dbba
+%global commit 82d80aef1a6e7ce2c5bd3dd766e6c658ed4a51da
 %global crate tiny-dfr
 %forgemeta
 
 Name: rust-%{crate}
 Version: 0.2.0
-Release: 5%{?dist}
+Release: 6%{?dist}
 Summary: The most basic dynamic function row daemon possible
 License: MIT AND Apache-2.0
 URL: %{forgeurl}
 Source: %{forgesource} 
+
+%{?fc39:Patch: 0002-downgrade-cairo-rs.patch}
 
 BuildRequires: rust-packaging >= 23
 BuildRequires: systemd-rpm-macros
