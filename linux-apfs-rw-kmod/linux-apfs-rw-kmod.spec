@@ -27,7 +27,7 @@ If you make use of the write support, expect data corruption. Encryption is not
 yet implemented even in read-only mode, and neither are fusion drives.
 
 # kmodtool does its magic here
-%{expand:%(kmodtool --target %{_target_cpu} --kmodname %{name} %{?buildforkernels:--%{buildforkernels}} %{?kernels:--for-kernels "%{?kernels}"} 2>/dev/null) }
+%{expand:%(kmodtool --target %{_target_cpu} --kmodname apfs %{?buildforkernels:--%{buildforkernels}} %{?kernels:--for-kernels "%{?kernels}"} 2>/dev/null) }
 
 %prep
 
