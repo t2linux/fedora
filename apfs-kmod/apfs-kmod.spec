@@ -9,7 +9,7 @@ Version: 0.3.9
 %define kmod_name apfs
 %define src_name linux-apfs-rw
 
-Name: %{src_name}-kmod
+Name: %{kmod_name}-kmod
 Release: 1%{?dist}
 Summary: APFS module for linux, with experimental write support
 URL: %{forgeurl}
@@ -27,7 +27,7 @@ If you make use of the write support, expect data corruption. Encryption is not
 yet implemented even in read-only mode, and neither are fusion drives.
 
 # kmodtool does its magic here
-%{expand:%(kmodtool --target %{_target_cpu} --kmodname apfs %{?buildforkernels:--%{buildforkernels}} %{?kernels:--for-kernels "%{?kernels}"} 2>/dev/null) }
+%{expand:%(kmodtool --target %{_target_cpu} --kmodname %{kmod_name} %{?buildforkernels:--%{buildforkernels}} %{?kernels:--for-kernels "%{?kernels}"} 2>/dev/null) }
 
 %prep
 
@@ -37,7 +37,7 @@ yet implemented even in read-only mode, and neither are fusion drives.
 # print kmodtool output for debugging purposes:
 kmodtool --target %{_target_cpu} --kmodname %{name} %{?buildforkernels:--%{buildforkernels}} %{?kernels:--for-kernels "%{?kernels}"} 2>/dev/null
 
-%forgeautosetup %{src_name}-%{version}
+%forgeautosetup
 
 ./genver.sh
 

@@ -42,8 +42,8 @@ jobs:
             rust-nonempty/*
             rust-rust-ini0.20/*
             t2fanrd/*
-            linux-apfs-rw/*
-            linux-apfs-rw-kmod/*
+            apfs/*
+            apfs-kmod/*
           dir_names: "true"
 
       - name: "Increase Disk Space"

@@ -13,8 +13,8 @@ on:
       - "rust-nonempty/*"
       - "rust-rust-ini0.20/*"
       - "t2fanrd/*"
-      - "linux-apfs-rw/*"
-      - "linux-apfs-rw-kmod/*"
+      - "apfs/*"
+      - "apfs-kmod/*"
 
 jobs:
   copr-webhook:

@@ -4,7 +4,7 @@
 Version: 0.3.9
 %forgemeta
 
-Name: linux-apfs-rw
+Name: apfs
 Release: 1%{?dist}
 Summary: APFS module for linux, with experimental write support
 URL: %{forgeurl}
