@@ -1,5 +1,5 @@
 Name: t2linux-config
-Version: 11.5.0
+Version: 12.0.0
 Release: 1%{?dist}
 Summary: System configuration for linux on t2 macs.
 License: MIT
@@ -10,7 +10,7 @@ Recommends: t2fanrd
 
 URL: https://t2linux.org
 
-Source1: firmware.sh
+Source1: https://raw.githubusercontent.com/t2linux/wiki/0a60cf22516c49a445c5edd1b3910f158dbc92f5/docs/tools/firmware.sh
 
 %description
 Configuration and tools for linux on T2 macs.
@@ -18,11 +18,17 @@ Configuration and tools for linux on T2 macs.
 %prep
 
 %build
-echo -e 'apple_bce\nsnd-seq' > t2linux-modules.conf
+cat << EOF > t2linux-modules.conf
+apple_bce
+snd-seq
+EOF
 echo -e 'add_drivers+=" apple_bce snd_seq "' > t2linux-modules-install.conf
 
 echo -e 'SUBSYSTEM=="net", ACTION=="add", ATTR{address}=="ac:de:48:00:11:22", NAME="t2_ncm"' > 99-network-t2-ncm.rules
-echo -e '[main]\nno-auto-default=t2_ncm' > 99-network-t2-ncm.conf
+cat << EOF > 99-network-t2-ncm.conf
+[main]
+no-auto-default=t2_ncm
+EOF
 
 %install
 
