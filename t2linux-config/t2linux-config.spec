@@ -38,8 +38,8 @@ install -D -m 644 t2linux-modules-install.conf %{buildroot}/etc/dracut.conf.d/t2
 
 install -D -m 644 t2linux-modules.conf %{buildroot}/etc/modules-load.d/t2linux-modules.conf
 
-install -D -m 644 99-network-t2-ncm.rules /etc/udev/rules.d/99-network-t2-ncm.rules
-install -D -m 644 99-network-t2-ncm.conf /etc/NetworkManager/conf.d/99-network-t2-ncm.conf
+install -D -m 644 99-network-t2-ncm.rules %{buildroot}/etc/udev/rules.d/99-network-t2-ncm.rules
+install -D -m 644 99-network-t2-ncm.conf %{buildroot}/etc/NetworkManager/conf.d/99-network-t2-ncm.conf
 
 %post
 grubby --args="intel_iommu=on iommu=pt mem_sleep_default=s2idle" --update-kernel=ALL
