@@ -20,4 +20,5 @@ sed -i "/Patch1:/a Patch2: t2linux-combined.patch" "kernel.spec"
 sed -i "/ApplyOptionalPatch patch-%{patchversion}-redhat.patch/a ApplyOptionalPatch t2linux-combined.patch" "kernel.spec"
 
 cat "linux-t2-patches/extra_config" > "kernel-local"
+echo "CONFIG_MODULE_FORCE_UNLOAD=y" >> "kernel-local"
 cat "linux-t2-patches"/*.patch > "t2linux-combined.patch"
