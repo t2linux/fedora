@@ -1,16 +1,13 @@
 #!/usr/bin/bash
 set -e
 
-KERNEL_VERSION=6.9.4-200.fc40
+KERNEL_VERSION=6.9.7-200.fc40
 
 cd "$sourcedir"
 koji download-build --quiet --arch=src "kernel-$KERNEL_VERSION"
 rpmdev-extract -q "kernel-$KERNEL_VERSION.src.rpm"
 mv -n "kernel-$KERNEL_VERSION.src"/* .
 rm -r "kernel-$KERNEL_VERSION.src.rpm" "kernel-$KERNEL_VERSION.src"
-
-# Fedora devs are against merging kernel-local for all architectures when keys are not properly specified, so we have to patch it in.
-sed -i "s@for i in %{all_arch_configs}@for i in *.config@g" "kernel.spec"
 
 # Set buildid to .t2
 sed -i 's/# define buildid .local/%define buildid .t2/g' "kernel.spec"
