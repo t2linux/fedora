@@ -19,11 +19,11 @@ Follow the [firmware guide](https://wiki.t2linux.org/guides/wifi/).
 Clone this repo locally:
 
 ```bash
-git clone --depth 1 https://github.com/t2linux/fedora t2-fedora
+git clone --recursive --depth 1 https://github.com/t2linux/fedora t2-fedora
 cd t2-fedora
 ```
 
-Then run the build container, which has dependencies already installed. The packages will be in `builddir`:
+Then run the build container, which has dependencies already installed. The packages will be in `builddir`. If you want to only build a specific package, pass its name as a argument to this command:
 
 ```bash
 podman run --privileged -v "$PWD":/repo ghcr.io/t2linux/fedora-dev:latest /repo/build-packages.sh
