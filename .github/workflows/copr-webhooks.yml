@@ -15,6 +15,7 @@ on:
       - "t2fanrd/*"
       - "linux-apfs-rw/*"
       - "linux-apfs-rw-kmod/*"
+      - "t2linux-scripts/*"
 
 jobs:
   copr-webhook:
