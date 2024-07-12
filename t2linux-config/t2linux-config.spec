@@ -1,5 +1,5 @@
 Name: t2linux-config
-Version: 13.0.0
+Version: 13.1.0
 Release: 1%{?dist}
 Summary: System configuration for linux on t2 macs.
 License: MIT
@@ -39,8 +39,7 @@ install -D -m 644 99-network-t2-ncm.rules %{buildroot}/etc/udev/rules.d/99-netwo
 install -D -m 644 99-network-t2-ncm.conf %{buildroot}/etc/NetworkManager/conf.d/99-network-t2-ncm.conf
 
 %post
-grubby --args="intel_iommu=on iommu=pt mem_sleep_default=s2idle" --update-kernel=ALL
-grubby --remove-args="pcie_ports=compat" --update-kernel=ALL
+grubby --args="intel_iommu=on iommu=pt mem_sleep_default=s2idle pcie_ports=native" --update-kernel=ALL
 
 %files
 /etc/modules-load.d/t2linux-modules.conf
