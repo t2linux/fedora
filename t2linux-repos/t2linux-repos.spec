@@ -1,10 +1,12 @@
-Name: copr-sharpenedblade-t2linux-release
-Version: 1.0.0
+Name: t2linux-repos
+Version: 2.0.0
 Release: 1%{?dist}
 Summary: Copr repo for t2linux owned by sharpenedblade.
 License: MIT
 URL: https://copr.fedorainfracloud.org/coprs/sharpenedblade/t2linux
 
+Provides: copr-sharpenedblade-t2linux-release = 2.0.0-1
+Obsoletes: copr-sharpenedblade-t2linux-release < 1.0.0-2
 Obsoletes: t2linux-repo < 7.0.0-2
 
 Source0: copr-sharpenedblade-t2linux.repo

@@ -8,7 +8,7 @@ on:
       - "t2linux-config/*"
       - "t2linux-audio/*"
       - "rust-tiny-dfr/*"
-      - "copr-sharpenedblade-t2linux-release/*"
+      - "t2linux-repos/*"
       - "rust-arraydeque/*"
       - "rust-nonempty/*"
       - "rust-rust-ini0.20/*"

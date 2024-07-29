@@ -34,7 +34,7 @@ jobs:
           base_sha: ${{ steps.branch-name.outputs.base_ref_branch }} 
           files: |
             kernel/*
-            copr-sharpenedblade-t2linux-release/*
+            t2linux-repos/*
             rust-tiny-dfr/*
             t2linux-audio/*
             t2linux-config/*
