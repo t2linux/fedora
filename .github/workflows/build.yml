@@ -45,6 +45,7 @@ jobs:
             linux-apfs-rw/*
             linux-apfs-rw-kmod/*
             t2linux-scripts/*
+            t2linux-release/*
           dir_names: "true"
 
       - name: "Increase Disk Space"
