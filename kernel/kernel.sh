@@ -12,6 +12,9 @@ rm -r "kernel-$KERNEL_VERSION.src.rpm" "kernel-$KERNEL_VERSION.src"
 # Set buildid to .t2
 sed -i 's/# define buildid .local/%define buildid .t2/g' "kernel.spec"
 
+# Bump release
+sed -i 's/%define specrelease 200/%define specrelease 201/g' "kernel.spec"
+
 # Disable debug kernels
 sed -i "/%define with_debug /c %define with_debug 0" "kernel.spec"
 
