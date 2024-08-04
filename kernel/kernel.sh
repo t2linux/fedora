@@ -24,4 +24,5 @@ sed -i "/ApplyOptionalPatch patch-%{patchversion}-redhat.patch/a ApplyOptionalPa
 
 cat "linux-t2-patches/extra_config" > "kernel-local"
 echo "CONFIG_MODULE_FORCE_UNLOAD=y" >> "kernel-local"
+echo "CONFIG_BRCMDBG=y" >> "kernel-local"
 cat "linux-t2-patches"/*.patch > "t2linux-combined.patch"
