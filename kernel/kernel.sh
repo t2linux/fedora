@@ -1,7 +1,7 @@
 #!/usr/bin/bash
 set -e
 
-KERNEL_VERSION=6.9.11-200.fc40
+KERNEL_VERSION=6.9.12-200.fc40
 
 cd "$sourcedir"
 koji download-build --quiet --arch=src "kernel-$KERNEL_VERSION"
@@ -13,7 +13,7 @@ rm -r "kernel-$KERNEL_VERSION.src.rpm" "kernel-$KERNEL_VERSION.src"
 sed -i 's/# define buildid .local/%define buildid .t2/g' "kernel.spec"
 
 # Bump release
-sed -i 's/%define specrelease 200/%define specrelease 202/g' "kernel.spec"
+# sed -i 's/%define specrelease 200/%define specrelease 202/g' "kernel.spec"
 
 # Disable debug kernels
 sed -i "/%define with_debug /c %define with_debug 0" "kernel.spec"
