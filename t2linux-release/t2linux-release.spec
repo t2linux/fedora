@@ -1,10 +1,9 @@
 Name: t2linux-release
 Version: 1.1.0
-Release: 1%{?dist}
+Release: 2%{?dist}
 Summary: Support for linux on t2 macs.
 License: MIT
 
-Requires: t2linux-repos
 Requires: t2linux-audio
 Requires: t2linux-scripts
 Requires: t2linux-config
