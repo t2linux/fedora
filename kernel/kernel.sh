@@ -1,7 +1,7 @@
 #!/usr/bin/bash
 set -e
 
-KERNEL_VERSION=6.11.1-300.fc41 
+KERNEL_VERSION=6.11.2-300.fc41 
 
 cd "$sourcedir"
 koji download-build --quiet --arch=src "kernel-$KERNEL_VERSION"
@@ -23,5 +23,12 @@ sed -i "/Patch1:/a Patch2: t2linux-combined.patch" "kernel.spec"
 sed -i "/ApplyOptionalPatch patch-%{patchversion}-redhat.patch/a ApplyOptionalPatch t2linux-combined.patch" "kernel.spec"
 
 cat "linux-t2-patches/extra_config" > "kernel-local"
-echo "CONFIG_MODULE_FORCE_UNLOAD=y" >> "kernel-local"
+cat << EOF >> "kernel-local"
+CONFIG_MODULE_FORCE_UNLOAD=y
+EOF
+cat << EOF | tee -a "kernel-x86_64-*.config" > /dev/null
+CONFIG_CMDLINE="intel_iommu=on iommu=pt mem_sleep=s2idle pcie_ports=native"
+CONFIG_CMDLINE_BOOL=y
+CONFIG_CMDLINE_OVERRIDE=n
+EOF
 cat "linux-t2-patches"/*.patch > "t2linux-combined.patch"
