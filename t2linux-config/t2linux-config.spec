@@ -1,5 +1,5 @@
 Name: t2linux-config
-Version: 13.3.0
+Version: 14.0.0
 Release: 1%{?dist}
 Summary: System configuration for linux on t2 macs.
 License: MIT
@@ -26,15 +26,15 @@ EOF
 
 %install
 
-install -D -m 644 t2linux-modules-install.conf %{buildroot}/etc/dracut.conf.d/t2linux-modules-install.conf
+install -D -m 644 t2linux-modules-install.conf %{buildroot}/usr/lib/dracut/dracut.conf.d/t2linux-modules-install.conf
 
-install -D -m 644 t2linux-modules.conf %{buildroot}/etc/modules-load.d/t2linux-modules.conf
+install -D -m 644 t2linux-modules.conf %{buildroot}/usr/lib/modules-load.d/t2linux-modules.conf
 
-install -D -m 644 99-network-t2-ncm.rules %{buildroot}/etc/udev/rules.d/99-network-t2-ncm.rules
-install -D -m 644 99-network-t2-ncm.conf %{buildroot}/etc/NetworkManager/conf.d/99-network-t2-ncm.conf
+install -D -m 644 99-network-t2-ncm.rules %{buildroot}%{_udevrulesdir}/99-network-t2-ncm.rules
+install -D -m 644 99-network-t2-ncm.conf %{buildroot}/usr/lib/NetworkManager/conf.d/99-network-t2-ncm.conf
 
 %files
-/etc/modules-load.d/t2linux-modules.conf
-/etc/dracut.conf.d/t2linux-modules-install.conf
-/etc/udev/rules.d/99-network-t2-ncm.rules
-/etc/NetworkManager/conf.d/99-network-t2-ncm.conf
+/usr/lib/modules-load.d/t2linux-modules.conf
+/usr/lib/dracut/dracut.conf.d/t2linux-modules-install.conf
+%{_udevrulesdir}/99-network-t2-ncm.rules
+/usr/lib/NetworkManager/conf.d/99-network-t2-ncm.conf
