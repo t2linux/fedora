@@ -36,5 +36,5 @@ install -D -m 644 99-network-t2-ncm.conf %{buildroot}/usr/lib/NetworkManager/con
 %files
 /usr/lib/modules-load.d/t2linux-modules.conf
 /usr/lib/dracut/dracut.conf.d/t2linux-modules-install.conf
-%{_udevrulesdir}/99-network-t2-ncm.rules
+/%{_udevrulesdir}/99-network-t2-ncm.rules
 /usr/lib/NetworkManager/conf.d/99-network-t2-ncm.conf
