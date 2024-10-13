@@ -4,7 +4,7 @@ Patched kernel and supporting packages for hardware enablement on t2 macs. Binar
 
 The internal ssd, camera, mic, and the keyboard/trackpad work out of the box. WiFi and Bluetooth might work with some extra steps. Read [the wiki](https://wiki.t2linux.org/state/) for information about the latest hardware support.
 
-This kernel is usually at the same version as the stable Fedora kernel. It is currently built for Fedora 39.
+This kernel is usually at the same version as the stable Fedora kernel. It is currently built for Fedora 41.
 
 ## Instalation
 
@@ -26,7 +26,7 @@ cd t2-fedora
 Then run the build container, which has dependencies already installed. The packages will be in `builddir`. If you want to only build a specific package, pass its name as a argument to this command:
 
 ```bash
-podman run --privileged -v "$PWD":/repo ghcr.io/t2linux/fedora-dev:latest /repo/build-packages.sh
+podman run --privileged -v "$PWD":/repo ghcr.io/t2linux/fedora-ci:40 /repo/build-packages.sh
 ```
 
 ## Credits
