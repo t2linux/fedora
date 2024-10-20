@@ -1,5 +1,5 @@
 #!/usr/bin/bash
-set -e
+set -ex
 
 KERNEL_VERSION=6.11.2-300.fc41 
 
@@ -13,7 +13,7 @@ rm -r "kernel-$KERNEL_VERSION.src.rpm" "kernel-$KERNEL_VERSION.src"
 sed -i 's/# define buildid .local/%define buildid .t2/g' "kernel.spec"
 
 # Bump release
-# sed -i 's/%define specrelease 200/%define specrelease 202/g' "kernel.spec"
+sed -i 's/%define specrelease 200/%define specrelease 210/g' "kernel.spec"
 
 # Disable debug kernels
 sed -i "/%define with_debug /c %define with_debug 0" "kernel.spec"
@@ -26,12 +26,18 @@ sed -i "/Patch1:/a Patch2: t2linux-combined.patch" "kernel.spec"
 sed -i "/ApplyOptionalPatch patch-%{patchversion}-redhat.patch/a ApplyOptionalPatch t2linux-combined.patch" "kernel.spec"
 
 cat "linux-t2-patches/extra_config" > "kernel-local"
-cat << EOF >> "kernel-local"
-CONFIG_MODULE_FORCE_UNLOAD=y
-EOF
-cat << EOF | tee -a "kernel-x86_64-*.config" > /dev/null
-CONFIG_CMDLINE="intel_iommu=on iommu=pt mem_sleep=s2idle pcie_ports=native"
-CONFIG_CMDLINE_BOOL=y
-CONFIG_CMDLINE_OVERRIDE=n
-EOF
+
+function apply_kconfig {
+  kconfig="kernel-x86_64-fedora.config"
+  config_opt=$(echo "$1" | cut -d'=' -f1)
+  sed -i "/# $config_opt is not set/d" "$kconfig"
+  sed -i "/$config_opt=/d" "$kconfig"
+  echo "$1" >> "$kconfig"
+}
+
+apply_kconfig 'CONFIG_MODULE_FORCE_UNLOAD=y'
+apply_kconfig 'CONFIG_CMDLINE="intel_iommu=on iommu=pt mem_sleep=s2idle pcie_ports=native"'
+apply_kconfig 'CONFIG_CMDLINE_BOOL=y'
+echo "# CONFIG_CMDLINE_OVERRIDE is not set" >> kernel-x86_64-fedora.config
+
 cat "linux-t2-patches"/*.patch > "t2linux-combined.patch"
