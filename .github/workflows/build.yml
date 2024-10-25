@@ -14,7 +14,7 @@ jobs:
           docker run \
             --quiet \
             -v "$PWD":/repo \
-            ghcr.io/t2linux/fedora-ci:latest \
+            ghcr.io/t2linux/fedora-ci:40 \
             /repo/lint.sh
 
   build:
