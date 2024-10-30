@@ -1,4 +1,4 @@
-[copr:copr.fedorainfracloud.org:sharpenedblade:t2linux]
+[copr-sharpenedblade-t2linux]
 name=Copr repo for t2linux owned by sharpenedblade
 baseurl=https://download.copr.fedorainfracloud.org/results/sharpenedblade/t2linux/fedora-$releasever-$basearch/
 type=rpm-md

@@ -1,5 +1,5 @@
 Name: t2linux-repos
-Version: 2.0.0
+Version: 3.0.0
 Release: 1%{?dist}
 Summary: Copr repo for t2linux owned by sharpenedblade.
 License: MIT
