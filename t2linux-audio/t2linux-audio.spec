@@ -1,13 +1,10 @@
 Name: t2linux-audio
 Version: 0.3.1
-Release: 1%{?dist}
+Release: 2%{?dist}
 Summary: Speaker and mic config for T2 macs
 License: MIT
 URL: https://wiki.t2linux.org/guides/audio-config/
 BuildArch: noarch
-
-Requires: pipewire
-Requires: wireplumber
 
 Source0: https://github.com/kekrby/t2-better-audio/archive/e46839a28963e2f7d364020518b9dac98236bcae.tar.gz
 
