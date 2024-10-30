@@ -14,7 +14,7 @@ jobs:
           docker run \
             --quiet \
             -v "$PWD":/repo \
-            ghcr.io/t2linux/fedora-ci:40 \
+            ghcr.io/t2linux/fedora-ci:41 \
             /repo/lint.sh
 
   build:
@@ -70,7 +70,7 @@ jobs:
           docker run \
             --privileged \
             -v "$PWD":/repo \
-            ghcr.io/t2linux/fedora-ci:40 \
+            ghcr.io/t2linux/fedora-ci:41 \
             /repo/build-packages.sh "${CHANGED_PACKAGES[@]}"
         env:
           CHANGES: ${{ steps.changed-files.outputs.all_changed_files }}

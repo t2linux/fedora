@@ -26,7 +26,7 @@ cd t2-fedora
 Then run the build container, which has dependencies already installed. The packages will be in `builddir`. If you want to only build a specific package, pass its name as a argument to this command:
 
 ```bash
-podman run --privileged -v "$PWD":/repo ghcr.io/t2linux/fedora-ci:40 /repo/build-packages.sh
+podman run --privileged -v "$PWD":/repo ghcr.io/t2linux/fedora-ci:41 /repo/build-packages.sh
 ```
 
 ## Credits
