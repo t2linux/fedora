@@ -1,7 +1,7 @@
 #!/usr/bin/bash
 set -ex
 
-KERNEL_VERSION=6.11.5-300.fc41 
+KERNEL_VERSION=6.11.7-300.fc41 
 
 cd "$sourcedir"
 koji download-build --quiet --arch=src "kernel-$KERNEL_VERSION"
