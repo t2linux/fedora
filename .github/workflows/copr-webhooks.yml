@@ -7,7 +7,6 @@ on:
       - "kernel/*"
       - "t2linux-config/*"
       - "t2linux-audio/*"
-      - "rust-tiny-dfr/*"
       - "t2linux-repos/*"
       - "rust-arraydeque/*"
       - "rust-nonempty/*"

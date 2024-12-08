@@ -35,7 +35,6 @@ jobs:
           files: |
             kernel/*
             t2linux-repos/*
-            rust-tiny-dfr/*
             t2linux-audio/*
             t2linux-config/*
             rust-arraydeque/*
