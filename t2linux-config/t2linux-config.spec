@@ -3,8 +3,9 @@ Version: 14.0.0
 Release: 1%{?dist}
 Summary: System configuration for linux on t2 macs.
 License: MIT
-
 URL: https://t2linux.org
+
+BuildRequires: systemd
 
 %description
 System configuration for linux on T2 macs.
@@ -36,5 +37,5 @@ install -D -m 644 99-network-t2-ncm.conf %{buildroot}/usr/lib/NetworkManager/con
 %files
 /usr/lib/modules-load.d/t2linux-modules.conf
 /usr/lib/dracut/dracut.conf.d/t2linux-modules-install.conf
-/%{_udevrulesdir}/99-network-t2-ncm.rules
+%{_udevrulesdir}/99-network-t2-ncm.rules
 /usr/lib/NetworkManager/conf.d/99-network-t2-ncm.conf
