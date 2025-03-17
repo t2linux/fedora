@@ -27,25 +27,25 @@ jobs:
           submodules: recursive
           fetch-depth: 0
 
-      # - name: Get changed files
-      #   id: changed-files
-      #   uses: tj-actions/changed-files@v41
-      #   with:
-      #     base_sha: ${{ steps.branch-name.outputs.base_ref_branch }} 
-      #     files: |
-      #       kernel/*
-      #       t2linux-repos/*
-      #       t2linux-audio/*
-      #       t2linux-config/*
-      #       rust-arraydeque/*
-      #       rust-nonempty/*
-      #       rust-rust-ini0.20/*
-      #       t2fanrd/*
-      #       linux-apfs-rw/*
-      #       linux-apfs-rw-kmod/*
-      #       t2linux-scripts/*
-      #       t2linux-release/*
-      #     dir_names: "true"
+      - name: Get changed files
+        id: changed-files
+        uses: tj-actions/changed-files@v44
+        with:
+          base_sha: ${{ steps.branch-name.outputs.base_ref_branch }} 
+          files: |
+            kernel/*
+            t2linux-repos/*
+            t2linux-audio/*
+            t2linux-config/*
+            rust-arraydeque/*
+            rust-nonempty/*
+            rust-rust-ini0.20/*
+            t2fanrd/*
+            linux-apfs-rw/*
+            linux-apfs-rw-kmod/*
+            t2linux-scripts/*
+            t2linux-release/*
+          dir_names: "true"
 
       - name: "Increase Disk Space"
         if: contains(steps.changed-files.outputs.modified_files, 'kernel')
