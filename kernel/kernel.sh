@@ -1,5 +1,5 @@
 #!/usr/bin/bash
-set -ex
+set -e
 
 KERNEL_VERSION=6.13.7-200.fc41 
 
@@ -26,19 +26,44 @@ sed -i "/Patch1:/a Patch2: t2linux-combined.patch" "kernel.spec"
 sed -i "/ApplyOptionalPatch patch-%{patchversion}-redhat.patch/a ApplyOptionalPatch t2linux-combined.patch" "kernel.spec"
 
 cat "linux-t2-patches/extra_config" > "kernel-local"
+cat << 'EOF' > "kernel-local"
+CONFIG_SPI_HID_APPLE_OF=y
+CONFIG_HID_DOCKCHANNEL=y
+CONFIG_APPLE_DOCKCHANNEL=y
+CONFIG_APPLE_RTKIT_HELPER=m
+CONFIG_DRM_APPLETBDRM=y
+CONFIG_HID_APPLETB_BL=y
+CONFIG_HID_APPLETB_KBD=y
+CONFIG_APFS_FS=y
+CONFIG_INPUT_SPARSEKMAP=y
+EOF
 
-function apply_kconfig {
-  kconfig="kernel-x86_64-fedora.config"
+function write_kconfig_to_file {
   config_opt=$(echo "$1" | cut -d'=' -f1)
-  sed -i "/# $config_opt is not set/d" "$kconfig"
-  sed -i "/$config_opt=/d" "$kconfig"
-  echo "$1" >> "$kconfig"
+  if [[ "$config_opt" =~ '# '(.+)' is not set' ]]; then
+    config_opt="${BASH_REMATCH[1]}"
+  fi
+  sed -i "/# $config_opt is not set/d" "$2"
+  sed -i "/$config_opt=/d" "$2"
+  echo "$1" >> "$2"
 }
 
-apply_kconfig 'CONFIG_MODULE_FORCE_UNLOAD=y'
-apply_kconfig 'CONFIG_CMDLINE="intel_iommu=on iommu=pt mem_sleep=s2idle pcie_ports=native"'
-apply_kconfig 'CONFIG_CMDLINE_BOOL=y'
-echo "# CONFIG_CMDLINE_OVERRIDE is not set" >> kernel-x86_64-fedora.config
+function set_kconfig_x86_64 {
+  for file in \
+    "kernel-x86_64-fedora.config" \
+    "kernel-x86_64-rt-debug-fedora.config" \
+    "kernel-x86_64-rt-fedora.config" \
+    "kernel-x86_64-debug-fedora.config"
+  do
+    write_kconfig_to_file "$1" "$file"
+  done
+}
+
+set_kconfig_x86_64 'CONFIG_APPLE_BCE=m'
+set_kconfig_x86_64 'CONFIG_MODULE_FORCE_UNLOAD=y'
+set_kconfig_x86_64 'CONFIG_CMDLINE="intel_iommu=on iommu=pt mem_sleep=s2idle pcie_ports=native"'
+set_kconfig_x86_64 'CONFIG_CMDLINE_BOOL=y'
+set_kconfig_x86_64 '# CONFIG_CMDLINE_OVERRIDE is not set'
 
 git apply --directory="linux-t2-patches" "./fix-context-4001-asahi-trackpad.patch"
 cat "linux-t2-patches"/*.patch > "t2linux-combined.patch"
