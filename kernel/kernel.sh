@@ -40,4 +40,5 @@ apply_kconfig 'CONFIG_CMDLINE="intel_iommu=on iommu=pt mem_sleep=s2idle pcie_por
 apply_kconfig 'CONFIG_CMDLINE_BOOL=y'
 echo "# CONFIG_CMDLINE_OVERRIDE is not set" >> kernel-x86_64-fedora.config
 
+git apply --directory="linux-t2-patches" "./fix-context-4001-asahi-trackpad.patch"
 cat "linux-t2-patches"/*.patch > "t2linux-combined.patch"
