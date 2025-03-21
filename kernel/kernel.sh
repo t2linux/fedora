@@ -13,7 +13,7 @@ rm -r "kernel-$KERNEL_VERSION.src.rpm" "kernel-$KERNEL_VERSION.src"
 sed -i 's/# define buildid .local/%define buildid .t2/g' "kernel.spec"
 
 # Bump release
-# sed -i 's/%define specrelease 200/%define specrelease 210/g' "kernel.spec"
+sed -i 's/%define specrelease 200/%define specrelease 210/g' "kernel.spec"
 
 # Disable debug kernels
 sed -i "/%define with_debug /c %define with_debug 0" "kernel.spec"
@@ -31,9 +31,9 @@ CONFIG_SPI_HID_APPLE_OF=y
 CONFIG_HID_DOCKCHANNEL=y
 CONFIG_APPLE_DOCKCHANNEL=y
 CONFIG_APPLE_RTKIT_HELPER=m
-CONFIG_DRM_APPLETBDRM=y
-CONFIG_HID_APPLETB_BL=y
-CONFIG_HID_APPLETB_KBD=y
+CONFIG_DRM_APPLETBDRM=m
+CONFIG_HID_APPLETB_BL=m
+CONFIG_HID_APPLETB_KBD=m
 CONFIG_APFS_FS=y
 CONFIG_INPUT_SPARSEKMAP=y
 EOF
