@@ -41,8 +41,6 @@ jobs:
             rust-nonempty/*
             rust-rust-ini0.20/*
             t2fanrd/*
-            linux-apfs-rw/*
-            linux-apfs-rw-kmod/*
             t2linux-scripts/*
             t2linux-release/*
           dir_names: "true"
