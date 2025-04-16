@@ -65,5 +65,4 @@ set_kconfig_x86_64 'CONFIG_CMDLINE="intel_iommu=on iommu=pt mem_sleep=s2idle pci
 set_kconfig_x86_64 'CONFIG_CMDLINE_BOOL=y'
 set_kconfig_x86_64 '# CONFIG_CMDLINE_OVERRIDE is not set'
 
-git apply --directory="linux-t2-patches" "./fix-context-4001-asahi-trackpad.patch"
 cat "linux-t2-patches"/*.patch > "t2linux-combined.patch"
