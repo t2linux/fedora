@@ -1,7 +1,7 @@
-%global wiki_commit fe8c338e6cf1238a390984ba06544833ab8792d3
+%global wiki_commit f71483df460fb97d5c39edf3af03dfc5f6be9a7c
 
 Name: t2linux-scripts
-Version: 1.0.0
+Version: 2.0.0
 Release: 1%{?dist}
 Summary: t2linux support scripts
 License: MIT
