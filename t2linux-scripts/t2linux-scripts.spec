@@ -1,7 +1,7 @@
 %global wiki_commit f71483df460fb97d5c39edf3af03dfc5f6be9a7c
 
 Name: t2linux-scripts
-Version: 2.0.0
+Version: 2.1.0
 Release: 1%{?dist}
 Summary: t2linux support scripts
 License: MIT
@@ -29,6 +29,18 @@ EOF
 install -D -m 755 %{SOURCE0} %{buildroot}/%{_libexecdir}/get-apple-firmware
 install -D -m 644 %{SOURCE1} %{buildroot}/%{_unitdir}/get-apple-firmware.service
 install -D -m 644 55-get-apple-firmware.preset %{buildroot}/usr/lib/systemd/system-preset/55-get-apple-firmware.preset
+
+
+%post
+%systemd_post get-apple-firmware.service
+
+
+%preun
+%systemd_preun get-apple-firmware.service
+
+
+%postun
+%systemd_postun get-apple-firmware.service
 
 
 %files
