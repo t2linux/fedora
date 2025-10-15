@@ -18,9 +18,6 @@ sed -i 's/%define specrelease 200/%define specrelease 210/g' "kernel.spec"
 # Disable debug kernels
 sed -i "/%define with_debug /c %define with_debug 0" "kernel.spec"
 
-# Disable debuginfo
-sed -i "/%define with_debuginfo /c %define with_debuginfo 0" "kernel.spec"
-
 # Add our patches
 sed -i "/Patch1:/a Patch2: t2linux-combined.patch" "kernel.spec"
 sed -i "/ApplyOptionalPatch patch-%{patchversion}-redhat.patch/a ApplyOptionalPatch t2linux-combined.patch" "kernel.spec"
