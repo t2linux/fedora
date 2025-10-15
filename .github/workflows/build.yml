@@ -67,7 +67,7 @@ jobs:
           docker run \
             --privileged \
             -v "$PWD":/repo \
-            ghcr.io/t2linux/fedora-ci:41 \
+            ghcr.io/t2linux/fedora-ci:43 \
             /repo/build-packages.sh "${CHANGED_PACKAGES[@]}"
         env:
           CHANGES: ${{ steps.changed-files.outputs.all_changed_files }}
