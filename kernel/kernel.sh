@@ -23,7 +23,7 @@ sed -i "/Patch1:/a Patch2: t2linux-combined.patch" "kernel.spec"
 sed -i "/ApplyOptionalPatch patch-%{patchversion}-redhat.patch/a ApplyOptionalPatch t2linux-combined.patch" "kernel.spec"
 
 cat "linux-t2-patches/extra_config" > "kernel-local"
-cat << 'EOF' > "kernel-local"
+cat << 'EOF' >> "kernel-local"
 CONFIG_SPI_HID_APPLE_OF=y
 CONFIG_HID_DOCKCHANNEL=y
 CONFIG_APPLE_DOCKCHANNEL=y
