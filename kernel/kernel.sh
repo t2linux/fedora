@@ -58,7 +58,7 @@ function set_kconfig_x86_64 {
 
 set_kconfig_x86_64 'CONFIG_APPLE_BCE=m'
 set_kconfig_x86_64 'CONFIG_MODULE_FORCE_UNLOAD=y'
-set_kconfig_x86_64 'CONFIG_CMDLINE="intel_iommu=on iommu=pt mem_sleep=s2idle pcie_ports=native"'
+set_kconfig_x86_64 'CONFIG_CMDLINE="intel_iommu=on iommu=pt pm_async=off"'
 set_kconfig_x86_64 'CONFIG_CMDLINE_BOOL=y'
 set_kconfig_x86_64 '# CONFIG_CMDLINE_OVERRIDE is not set'
 
