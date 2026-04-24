@@ -1,7 +1,7 @@
 %global wiki_commit f71483df460fb97d5c39edf3af03dfc5f6be9a7c
 
 Name: t2linux-scripts
-Version: 2.2.0
+Version: 2.2.1
 Release: 1%{?dist}
 Summary: t2linux support scripts
 License: MIT
@@ -35,7 +35,7 @@ install -D -m 644 %{SOURCE1} %{buildroot}/%{_unitdir}/get-apple-firmware.service
 
 
 %postun
-%systemd_postun get-apple-firmware.service
+%systemd_postun_with_restart get-apple-firmware.service
 
 
 %files
