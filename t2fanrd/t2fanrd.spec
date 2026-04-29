@@ -1,5 +1,5 @@
 %global forgeurl https://github.com/GnomedDev/T2FanRD
-%global commit 68859ca5f858d542444c64391faa90678afb6995
+%global commit 48baf962697ec3d4d969c74cf601ee8e15b7aeaa
 %forgemeta -iv
 
 %bcond_without check
@@ -10,7 +10,7 @@
 %global crate t2fanrd
 
 Name:           t2fanrd
-Version:        0.1.0
+Version:        0.1.1
 Release:        1%{?dist}
 Summary:        Simple Fan Daemon for T2 Macs
 
