@@ -1,0 +1,107 @@
+---
+name: Automatically update kernel and patches
+
+on:
+  schedule:
+    - cron: '0 */8 * * *'
+  workflow_dispatch:
+
+jobs:
+  kernel:
+    permissions:
+      contents: write
+    runs-on: ubuntu-latest
+    container: ghcr.io/t2linux/fedora-ci:44
+    defaults:
+      run:
+        shell: "bash"
+    steps:
+
+      - name: 'Checkout Repo'
+        uses: actions/checkout@v7
+        with:
+          submodules: recursive
+
+      - run: git config --global --add safe.directory $PWD
+
+      - name: Check for kernel updates
+        run: |
+          current_kernel=$(cat ./kernel/version)
+          repo_kernel=$(dnf repoquery kernel --quiet --srpm | rpmsort | tail -n1  | cut -d : -f 2 | sed -s "s/.src//")
+          if [[ "$(echo -e "$current_kernel\n$repo_kernel" | rpmsort | tail -n1)" != "$current_kernel" ]]; then
+            echo "updating: $current_kernel (current) is older than $repo_kernel (repo)"
+            echo "kernel_update=yes" >> $GITHUB_ENV
+            echo "kernel_version=$repo_kernel" >> $GITHUB_ENV
+          else
+            echo "$current_kernel is up to date"
+            echo "kernel_update=no" >> $GITHUB_ENV
+            exit 0
+          fi
+
+      - name: Update kernel version
+        if: env.kernel_update == 'yes'
+        run: |
+          echo "${{ env.kernel_version }}" > "./kernel/version"
+
+      - name: Check for patch updates
+        if: env.kernel_update == 'yes'
+        run: |
+          current_version=$(cat ./kernel/version)
+          cd ./kernel/linux-t2-patches
+          current_commit=$(git rev-parse HEAD)
+          git fetch origin main
+          readarray -t new_commits < <(git log --pretty=format:'%H' HEAD..origin/main) 
+
+          if [[ -z "${new_commits[@]}" ]]; then
+            echo "Patch commit is already up to date"
+            echo "patch_update=no" >> $GITHUB_ENV
+            exit 0
+          fi
+
+          for commit in "${new_commits[@]}"; do
+            min_version=$(git show $commit:version | cut -d = -f 2)
+            readarray -t sorted < <(echo -e "$current_version\n$min_version" | rpmsort)
+            # If $min_ver > $cur_ver
+            if [[ "${sorted[1]}" = $min_ver ]]; then
+              echo "skipping: $commit ($min_version)"
+            else
+              echo "using: $commit ($min_version)"
+              new_commit=$commit
+            fi
+          done
+
+          if [[ -z "$new_commit" ]]; then
+            echo "No newer patch commits support this kernel"
+            echo "patch_update=no" >> $GITHUB_ENV
+            exit 0
+          else
+            echo "patch_update=yes" >> $GITHUB_ENV
+            echo "patch_commit=$new_commit" >> $GITHUB_ENV
+          fi
+
+      - name: Update patch commit
+        if: env.patch_update == 'yes'
+        run: |
+          cd ./kernel/linux-t2-patches
+          git switch --detach ${{ env.patch_commit }}
+
+      - name: Commit changes
+        if: env.kernel_update == 'yes'
+        run: |
+          git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git commit -a -m "kernel: Update to v${{ env.kernel_version }}"
+
+      - name: Push changes to the repo
+        if: env.kernel_update == 'yes'
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: main
+
+      - name: "Trigger COPR webhook"
+        if: env.kernel_update == 'yes'
+        run: |
+          curl -sS -X POST $COPR_WEBHOOK/kernel
+        env:
+          COPR_WEBHOOK: ${{ secrets.COPR_WEBHOOK }}
