@@ -22,17 +22,12 @@ sed -i "/%define with_debug /c %define with_debug 0" "kernel.spec"
 sed -i "/Patch1:/a Patch2: t2linux-combined.patch" "kernel.spec"
 sed -i "/ApplyOptionalPatch patch-%{patchversion}-redhat.patch/a ApplyOptionalPatch t2linux-combined.patch" "kernel.spec"
 
-cat "linux-t2-patches/extra_config" > "kernel-local"
-cat << 'EOF' > "kernel-local"
+cp "linux-t2-patches/extra_config" "kernel-local"
+cat << 'EOF' >> "kernel-local"
 CONFIG_SPI_HID_APPLE_OF=y
 CONFIG_HID_DOCKCHANNEL=y
 CONFIG_APPLE_DOCKCHANNEL=y
 CONFIG_APPLE_RTKIT_HELPER=m
-CONFIG_DRM_APPLETBDRM=m
-CONFIG_HID_APPLETB_BL=m
-CONFIG_HID_APPLETB_KBD=m
-CONFIG_APFS_FS=y
-CONFIG_INPUT_SPARSEKMAP=y
 EOF
 
 function write_kconfig_to_file {
@@ -57,6 +52,13 @@ function set_kconfig_x86_64 {
 }
 
 set_kconfig_x86_64 'CONFIG_APPLE_BCE=m'
+
+readarray -t extra_config < linux-t2-patches/extra_config
+for config in "${extra_config[@]}"; do
+  set_kconfig_x86_64 "$config"
+done
+
+set_kconfig_x86_64 'CONFIG_INPUT_SPARSEKMAP=y'
 set_kconfig_x86_64 'CONFIG_MODULE_FORCE_UNLOAD=y'
 set_kconfig_x86_64 'CONFIG_CMDLINE="intel_iommu=on iommu=pt pm_async=off"'
 set_kconfig_x86_64 'CONFIG_CMDLINE_BOOL=y'
