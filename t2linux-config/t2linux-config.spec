@@ -1,5 +1,5 @@
 Name: t2linux-config
-Version: 15.0.0
+Version: 16.0.0
 Release: 1%{?dist}
 Summary: System configuration for linux on t2 macs.
 License: MIT
@@ -14,10 +14,11 @@ System configuration for linux on T2 macs.
 
 %build
 cat << EOF > t2linux-modules.conf
-apple_bce
-snd-seq
+t2bce_dma
+t2bce_core
+t2bce_vhci
 EOF
-echo -e 'add_drivers+=" apple_bce snd_seq "' > t2linux-modules-install.conf
+echo -e 'add_drivers+=" t2bce_dma t2bce_core t2bce_vhci "' > t2linux-modules-install.conf
 
 echo -e 'SUBSYSTEM=="net", ACTION=="add", ATTR{address}=="ac:de:48:00:11:22", NAME="t2_ncm"' > 90-network-t2-ncm.rules
 cat << EOF > 90-network-t2-ncm.conf
