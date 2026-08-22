@@ -62,7 +62,7 @@ jobs:
             min_version=$(git show $commit:version | cut -d = -f 2)
             readarray -t sorted < <(echo -e "$current_version\n$min_version" | rpmsort)
             # If $min_ver > $cur_ver
-            if [[ "${sorted[1]}" = $min_ver ]]; then
+            if [[ "${sorted[1]}" = $min_version ]]; then
               echo "skipping: $commit ($min_version)"
             else
               echo "using: $commit ($min_version)"
