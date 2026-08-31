@@ -1,5 +1,5 @@
-%global forgeurl https://github.com/sharpenedblade/KaiT2en-Fedora
-%global commit b45ca92cb9c5bdfd885068556733d44bfd3d5afe
+%global forgeurl https://github.com/kaiT2en/KaiT2en-Fedora
+%global commit 3cd03334448ed7d37c1ecf11f48baa24d10770b7
 %forgemeta -iv
 
 Name: t2linux-audio
