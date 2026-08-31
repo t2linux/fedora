@@ -3,9 +3,9 @@
 %forgemeta -iv
 
 Name: t2linux-audio
-Version: 2.0.0
+Version: 2.1.0
 Release: 1%{?dist}
-Summary: Speaker and mic config and dsp for T2 macs
+Summary: Speaker, mic, and DSP config for T2 macs
 License: MIT
 URL: https://wiki.t2linux.org/guides/audio-config/
 BuildArch: noarch
@@ -22,8 +22,8 @@ Source0:        %{forgesource}
 
 %description
 Configuration files for audio on T2 macs. This fixes the mic volume, and also 
-enables the internal speakers. It is highly recommended to install this, even
-if you do not use the speakers.
+enables and calibrates the internal speakers. It is highly recommended to
+install this, even if you do not use the speakers.
 
 %prep
 %forgeautosetup -p1
