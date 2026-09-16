@@ -5,7 +5,7 @@
 %global crate nonempty
 
 Name:           rust-nonempty
-Version:        0.9.0
+Version:        0.10.0
 Release:        %autorelease
 Summary:        Correct by construction non-empty vector
 
