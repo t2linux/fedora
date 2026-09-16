@@ -19,7 +19,9 @@ for current_package in "${packages[@]}"; do
 
     cp -fr "/repo/$current_package"/* "$sourcedir" 
     if [ "$current_package" == "kernel" ]; then
+        pushd /repo/kernel
         /repo/kernel/kernel.sh
+        popd
     fi
 
     export specfile="$sourcedir/$current_package.spec"
