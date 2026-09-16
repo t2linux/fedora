@@ -11,7 +11,7 @@ jobs:
     permissions:
       contents: write
     runs-on: ubuntu-latest
-    container: ghcr.io/t2linux/fedora-ci:44
+    container: ghcr.io/t2linux/fedora-ci:45
     defaults:
       run:
         shell: "bash"
