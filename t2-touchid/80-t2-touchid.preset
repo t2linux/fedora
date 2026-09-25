@@ -1,0 +1,2 @@
+# Enable the T2 Touch ID bridge on systems where the package is installed.
+enable kait2en-t2-touchid.service
