@@ -1,0 +1,140 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+connection="Apple T2 Bridge"
+t2_mac="ac:de:48:00:11:22"
+
+find_interface() {
+    local net driver parent
+    local -a matches=()
+
+    for net in /sys/class/net/*; do
+        [[ -e "$net/device/driver" ]] || continue
+        driver="$(readlink -f "$net/device/driver" 2>/dev/null || true)"
+        [[ "${driver##*/}" == "cdc_ncm" ]] || continue
+
+        parent="$(readlink -f "$net/device" 2>/dev/null || true)"
+        while [[ -n "$parent" && "$parent" != "/" ]]; do
+            if [[ -r "$parent/idVendor" && -r "$parent/idProduct" ]] &&
+               [[ "$(<"$parent/idVendor")" == "05ac" ]] &&
+               [[ "$(<"$parent/idProduct")" == "8233" ]]; then
+                matches+=("${net##*/}")
+                break
+            fi
+            parent="${parent%/*}"
+        done
+    done
+
+    case ${#matches[@]} in
+        1) printf '%s\n' "${matches[0]}" ;;
+        0)
+            echo "t2-touchid: Apple T2 CDC-NCM interface not found" >&2
+            return 1
+            ;;
+        *)
+            echo "t2-touchid: multiple Apple T2 CDC-NCM interfaces found" >&2
+            return 1
+            ;;
+    esac
+}
+
+carrier_up() {
+    local iface=$1
+    [[ -r "/sys/class/net/$iface/carrier" ]] &&
+        [[ "$(<"/sys/class/net/$iface/carrier")" == "1" ]]
+}
+
+rebind_cdc_ncm() {
+    local iface=$1 usb_interface rebound
+
+    carrier_up "$iface" && {
+        printf '%s\n' "$iface"
+        return 0
+    }
+
+    usb_interface="$(basename "$(readlink -f "/sys/class/net/$iface/device")")"
+    [[ -e "/sys/bus/usb/drivers/cdc_ncm/$usb_interface" ]] || {
+        echo "t2-touchid: cdc_ncm binding for $iface not found" >&2
+        return 1
+    }
+
+    printf '%s' "$usb_interface" > /sys/bus/usb/drivers/cdc_ncm/unbind
+    sleep 1
+    printf '%s' "$usb_interface" > /sys/bus/usb/drivers/cdc_ncm/bind
+
+    for _ in {1..50}; do
+        if rebound="$(find_interface 2>/dev/null)" && carrier_up "$rebound"; then
+            printf '%s\n' "$rebound"
+            return 0
+        fi
+        sleep 0.1
+    done
+
+    echo "t2-touchid: CDC-NCM link did not report carrier after rebind" >&2
+    return 1
+}
+
+usable_link_local() {
+    local iface=$1
+
+    /usr/sbin/ip -o -6 address show dev "$iface" scope link |
+        grep -Ev ' tentative( |$)| dadfailed( |$)' |
+        grep -q ' scope link '
+}
+
+iface="$(find_interface)"
+iface="$(rebind_cdc_ncm "$iface")"
+
+if ! /usr/bin/systemctl is-active --quiet NetworkManager.service; then
+    echo "t2-touchid: NetworkManager is not running" >&2
+    exit 1
+fi
+
+for _ in {1..50}; do
+    if /usr/bin/nmcli -g GENERAL.DEVICE device show "$iface" >/dev/null 2>&1; then
+        break
+    fi
+    sleep 0.1
+done
+
+/usr/bin/nmcli device set "$iface" managed yes
+/usr/bin/nmcli connection reload
+
+profile_uuid="$(
+    /usr/bin/nmcli -g UUID connection show "$connection" 2>/dev/null |
+        head -n1 || true
+)"
+
+if [[ -z "$profile_uuid" ]]; then
+    profile_uuid="$(< /proc/sys/kernel/random/uuid)"
+    /usr/bin/nmcli connection add \
+        type ethernet \
+        con-name "$connection" \
+        connection.uuid "$profile_uuid" \
+        ifname "*" \
+        802-3-ethernet.mac-address "$t2_mac" \
+        connection.autoconnect yes \
+        connection.autoconnect-retries 0 \
+        ipv4.method disabled \
+        ipv6.method link-local
+else
+    /usr/bin/nmcli connection modify uuid "$profile_uuid" \
+        connection.id "$connection" \
+        connection.interface-name "" \
+        802-3-ethernet.mac-address "$t2_mac" \
+        connection.permissions "" \
+        connection.autoconnect yes \
+        connection.autoconnect-retries 0 \
+        ipv4.method disabled \
+        ipv6.method link-local
+fi
+
+/usr/bin/nmcli connection up uuid "$profile_uuid" ifname "$iface"
+
+for _ in {1..100}; do
+    usable_link_local "$iface" && exit 0
+    sleep 0.1
+done
+
+echo "t2-touchid: no usable IPv6 link-local address on $iface" >&2
+exit 1
