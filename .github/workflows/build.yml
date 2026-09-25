@@ -43,6 +43,7 @@ jobs:
             t2fanrd/*
             t2linux-scripts/*
             t2linux-release/*
+            t2-touchid/*
           dir_names: "true"
 
       - name: "Increase Disk Space"
