@@ -40,26 +40,30 @@ BridgeXPC support is linked into the daemon.
 %prep
 %forgeautosetup -p1
 
-pushd t2-services/t2-touchid
+cd t2-services/t2-touchid
 %cargo_prep
-popd
 
 %generate_buildrequires
-pushd t2-services/t2-touchid
+# cargo2rpm does not recurse into in-tree path dependencies, so generate the
+# requirements for each Rust crate that is linked into t2-touchid.
+cd t2-services/t2-touchid
 %cargo_generate_buildrequires
-popd
+
+cd protocols/t2-biometrickit
+%cargo_generate_buildrequires
+
+cd ../../../shared/protocols/t2-bridgexpc
+%cargo_generate_buildrequires
 
 %build
-pushd t2-services/t2-touchid
+cd t2-services/t2-touchid
 %cargo_build
-popd
 
-make -C t2-services/t2-touchid/integration/selinux
+make -C integration/selinux
 
 %check
-pushd t2-services/t2-touchid
+cd t2-services/t2-touchid
 %cargo_test
-popd
 
 %install
 make -C t2-services/t2-touchid install \
