@@ -1,0 +1,11 @@
+[Unit]
+Description=Prepare Apple T2 CDC-NCM link for Touch ID
+Requires=sys-subsystem-net-devices-t2_ncm.device
+Wants=NetworkManager.service
+After=sys-subsystem-net-devices-t2_ncm.device NetworkManager.service
+Before=NetworkManager-wait-online.service network-online.target kait2en-t2-touchid.service
+
+[Service]
+Type=oneshot
+ExecStart=/usr/libexec/t2-touchid/network-setup
+RemainAfterExit=yes
