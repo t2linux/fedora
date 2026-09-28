@@ -21,7 +21,7 @@ BuildRequires:  systemd-rpm-macros
 BuildRequires:  checkpolicy
 BuildRequires:  policycoreutils-devel
 
-Requires:       t2linux-config >= 16.0.0-2
+Requires:       t2linux-config >= 16.1.0
 Requires:       fprintd
 Requires:       fprintd-pam
 Requires:       libfprint
@@ -115,10 +115,8 @@ fi
 %{_bindir}/t2-touchid
 %{_libexecdir}/t2-touchid/network-setup
 %{_unitdir}/t2-touchid-network-setup.service
-%dir %{_unitdir}/kait2en-t2-touchid.service.d
 %{_unitdir}/kait2en-t2-touchid.service.d/10-network-setup.conf
 %{_unitdir}/kait2en-t2-touchid.service
-%dir %{_unitdir}/fprintd.service.d
 %{_unitdir}/fprintd.service.d/kait2en-t2-touchid.conf
 %{_datadir}/dbus-1/system.d/org.kait2en.TouchId.conf
 %config(noreplace) %{_sysconfdir}/kait2en/t2-touchid.conf
