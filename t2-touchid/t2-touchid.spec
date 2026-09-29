@@ -1,5 +1,5 @@
 %global forgeurl https://github.com/kaiT2en/KaiT2en-Fedora
-%global commit fbc43ad316312228e27d70aa39710fb44dd1464f
+%global commit ca705e4f6409c2c879f119eea4c9584467dcd0ca
 %forgemeta -iv
 
 Name:           t2-touchid
@@ -71,7 +71,7 @@ make -C t2-services/t2-touchid install \
     DESTDIR=%{buildroot} \
     SYSTEMD_UNIT_DIR=%{_unitdir} \
     DATADIR=%{_datadir} \
-    SYSCONFDIR=%{_sysconfdir}
+    SYSCONFDIR=%{_datadir}
 
 install -Dm0755 %{SOURCE1} \
     %{buildroot}%{_libexecdir}/t2-touchid/network-setup
@@ -119,6 +119,6 @@ fi
 %{_unitdir}/kait2en-t2-touchid.service
 %{_unitdir}/fprintd.service.d/kait2en-t2-touchid.conf
 %{_datadir}/dbus-1/system.d/org.kait2en.TouchId.conf
-%config(noreplace) %{_sysconfdir}/kait2en/t2-touchid.conf
+%{_datadir}/kait2en/t2-touchid.conf
 %{_datadir}/selinux/packages/kait2en-t2-touchid.pp
 %{_prefix}/lib/NetworkManager/system-connections/t2-touchid.nmconnection
