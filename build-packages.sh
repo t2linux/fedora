@@ -2,7 +2,7 @@
 set -e
 
 if [ "$1" == "all" ]; then
-    packages=( "t2linux-config" "t2linux-audio" "kernel" "t2linux-repos" "rust-arraydeque" "rust-nonempty" "rust-rust-ini0.20" "t2fanrd" "t2linux-scripts" "t2linux-release" )
+    packages=( "t2linux-config" "t2linux-audio" "kernel" "t2linux-repos" "rust-arraydeque" "rust-nonempty" "rust-rust-ini0.20" "t2fanrd" "t2linux-scripts" "t2linux-release" "t2-touchid" )
 else
     packages=( "$@" )
 fi

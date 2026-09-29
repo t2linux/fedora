@@ -1,5 +1,5 @@
 Name: t2linux-config
-Version: 16.0.0
+Version: 16.1.0
 Release: 1%{?dist}
 Summary: System configuration for linux on t2 macs.
 License: MIT
@@ -29,6 +29,7 @@ EOF
 cat << EOF > 91-t2linux.preset
 enable get-apple-firmware.service
 enable t2fanrd.service
+enable kait2en-t2-touchid.service
 EOF
 
 %install

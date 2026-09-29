@@ -1,0 +1,34 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+iface="t2_ncm"
+
+carrier_up() {
+    [[ -r "/sys/class/net/$iface/carrier" ]] &&
+        [[ "$(<"/sys/class/net/$iface/carrier")" == "1" ]]
+}
+
+carrier_up && exit 0
+
+[[ -e "/sys/class/net/$iface/device" ]] || {
+    echo "t2-touchid: $iface not found" >&2
+    exit 1
+}
+
+usb_interface="$(basename "$(readlink -f "/sys/class/net/$iface/device")")"
+[[ -e "/sys/bus/usb/drivers/cdc_ncm/$usb_interface" ]] || {
+    echo "t2-touchid: cdc_ncm binding for $iface not found" >&2
+    exit 1
+}
+
+printf '%s' "$usb_interface" > /sys/bus/usb/drivers/cdc_ncm/unbind
+sleep 1
+printf '%s' "$usb_interface" > /sys/bus/usb/drivers/cdc_ncm/bind
+
+for _ in {1..50}; do
+    carrier_up && exit 0
+    sleep 0.1
+done
+
+echo "t2-touchid: CDC-NCM link did not report carrier after rebind" >&2
+exit 1

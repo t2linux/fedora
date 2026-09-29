@@ -14,6 +14,7 @@ on:
       - "t2fanrd/*"
       - "t2linux-scripts/*"
       - "t2linux-release/*"
+      - "t2-touchid/*"
 
 jobs:
   copr-webhook:
@@ -31,7 +32,7 @@ jobs:
         with:
           since_last_remote_commit: true
           dir_names: "true"
-      
+
       - name: "Trigger COPR webhook"
         run: |
           CHANGED_PACKAGES=( $(for c in ${CHANGES[@]}; do cut -d/ -f1<<<$c; done | sort -u) )
