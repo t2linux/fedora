@@ -1,5 +1,5 @@
 Name: t2linux-repos
-Version: 3.0.0
+Version: 4.0.0
 Release: 1%{?dist}
 Summary: Copr repo for t2linux owned by sharpenedblade.
 License: MIT
@@ -20,7 +20,7 @@ macs.
 %build
 
 %install
-install -D -m 644 %{SOURCE0} %{buildroot}/etc/yum.repos.d/copr-sharpenedblade-t2linux.repo
+install -D -m 644 %{SOURCE0} %{buildroot}%{_datadir}/dnf5/repos.d/copr-sharpenedblade-t2linux.repo
 	
 %files
-/etc/yum.repos.d/copr-sharpenedblade-t2linux.repo
+%{_datadir}/dnf5/repos.d/copr-sharpenedblade-t2linux.repo
