@@ -3,7 +3,7 @@ name: Automatically update kernel and patches
 
 on:
   schedule:
-    - cron: '0 */8 * * *'
+    - cron: "0 */8 * * *"
   workflow_dispatch:
 
 jobs:
@@ -16,8 +16,7 @@ jobs:
       run:
         shell: "bash"
     steps:
-
-      - name: 'Checkout Repo'
+      - name: "Checkout Repo"
         uses: actions/checkout@v7
         with:
           submodules: recursive
@@ -27,16 +26,14 @@ jobs:
       - name: Check for kernel updates
         run: |
           current_kernel=$(cat ./kernel/version)
-          repo_kernel=$(dnf repoquery kernel --quiet --srpm | rpmsort | tail -n1  | cut -d : -f 2 | sed -s "s/.src//")
-          if [[ "$(echo -e "$current_kernel\n$repo_kernel" | rpmsort | tail -n1)" != "$current_kernel" ]]; then
-            echo "updating: $current_kernel (current) is older than $repo_kernel (repo)"
-            echo "kernel_update=yes" >> $GITHUB_ENV
-            echo "kernel_version=$repo_kernel" >> $GITHUB_ENV
-          else
-            echo "$current_kernel is up to date"
-            echo "kernel_update=no" >> $GITHUB_ENV
-            exit 0
-          fi
+          repo_kernel=$(dnf repoquery kernel --quiet --srpm | rpmsort | tail -n1  | cut -d : -f 2 | sed -s "s/\.src$//")
+          vercmp_status=0
+          rpmdev-vercmp "$repo_kernel" "$current_kernel" || vercmp_status=$?
+          case $vercmp_status in
+            11) echo -e "kernel_update=yes\nkernel_version=$repo_kernel" >> $GITHUB_ENV ;;
+            0|12) echo "kernel_update=no" >> $GITHUB_ENV exit 0 ;;
+            *) echo "rpmdev-vercmp failed: exit status $vercmp_status"; exit 1 ;;
+          esac
 
       - name: Update kernel version
         if: env.kernel_update == 'yes'
@@ -59,15 +56,14 @@ jobs:
           fi
 
           for commit in "${new_commits[@]}"; do
-            min_version=$(git show $commit:version | cut -d = -f 2)
-            readarray -t sorted < <(echo -e "$current_version\n$min_version" | rpmsort)
-            # If $min_ver > $cur_ver
-            if [[ "${sorted[1]}" = $min_version ]]; then
-              echo "skipping: $commit ($min_version)"
-            else
-              echo "using: $commit ($min_version)"
-              new_commit=$commit
-            fi
+            minimum_version="$(git show $commit:version | cut -d = -f 2)"
+            vercmp_status=0
+            rpmdev-vercmp "$minimum_version" "$current_version" || vercmp_status=$?
+            case $vercmp_status in
+              11) echo "skipping: $commit" ;;
+              0|12) echo "using: $commit"; new_commit=$commit ;;
+              *) echo "rpmdev-vercmp failed: exit status $vercmp_status"; exit 1 ;;
+            esac
           done
 
           if [[ -z "$new_commit" ]]; then
