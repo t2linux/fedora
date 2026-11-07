@@ -204,4 +204,16 @@ set_kconfig_x86_64 'CONFIG_DVB_TDA665x=m'
 set_kconfig_x86_64 'CONFIG_DVB_DRX39XYJ=m'
 set_kconfig_x86_64 'CONFIG_DVB_SP2=m'
 
-cat "linux-t2-patches"/*.patch > "t2linux-combined.patch"
+upstream_kernel_version=${KERNEL_VERSION%%-*}
+skip_vi_reset_quirk=false
+if [[ "$(printf '%s\n' "$upstream_kernel_version" "7.2.10" | sort -V | head -n1)" == "7.2.10" ]]; then
+  skip_vi_reset_quirk=true
+  echo "Skipping 7002-drm-amdgpu-reset-VI-ASIC-on-MacBookPro15-1.patch; it is included upstream in Linux 7.2.10 and later"
+fi
+
+for patch in linux-t2-patches/*.patch; do
+  if [[ "$skip_vi_reset_quirk" == true && "${patch##*/}" == "7002-drm-amdgpu-reset-VI-ASIC-on-MacBookPro15-1.patch" ]]; then
+    continue
+  fi
+  cat "$patch"
+done > "t2linux-combined.patch"
