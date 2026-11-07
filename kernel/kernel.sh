@@ -204,4 +204,5 @@ set_kconfig_x86_64 'CONFIG_DVB_TDA665x=m'
 set_kconfig_x86_64 'CONFIG_DVB_DRX39XYJ=m'
 set_kconfig_x86_64 'CONFIG_DVB_SP2=m'
 
+rm "linux-t2-patches/7002-drm-amdgpu-reset-VI-ASIC-on-MacBookPro15-1.patch"
 cat "linux-t2-patches"/*.patch > "t2linux-combined.patch"
