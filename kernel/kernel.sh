@@ -55,7 +55,7 @@ function set_kconfig_x86_64 {
 set_kconfig_x86_64 'CONFIG_APPLE_BCE=m'
 
 for file in kernel-*-fedora.config; do
-  write_kconfig_to_file '# CONFIG_MFD_MACSMC_CORE is not set' "$file"
+  write_kconfig_to_file 'CONFIG_MFD_MACSMC_CORE=n' "$file"
 done
 
 readarray -t extra_config < linux-t2-patches/extra_config
