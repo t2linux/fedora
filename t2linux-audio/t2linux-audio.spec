@@ -4,7 +4,7 @@
 
 Name: t2linux-audio
 Version: 3.0.0
-Release: 2%{?dist}
+Release: 3%{?dist}
 Summary: Audio configuration for t2 macs
 License: GPL-3.0-or-later
 URL: https://kait2en.org

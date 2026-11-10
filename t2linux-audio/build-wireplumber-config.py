@@ -3,18 +3,36 @@ import json
 import sys
 from pathlib import Path
 
-if len(sys.argv) != 3:
-    sys.exit(f"usage: {sys.argv[0]} BUILD_DIR DATADIR")
-build_dir, data_dir = Path(sys.argv[1]), sys.argv[2].rstrip("/")
+build_dir = Path(sys.argv[1])
+data_dir = sys.argv[2].rstrip("/")
 profiles_dir = build_dir / "profiles"
-
-rules = []
+filter_rules = []
+alsa_rules = []
 for model in json.loads((build_dir / "models.json").read_text()).values():
-    rules.append({
+    alsa_rules.append({
         "matches": [{
             "alsa.id": f"t2-{model}",
             "api.alsa.pcm.stream": "playback",
             "device.profile.name": "HiFi: Speaker: sink",
+        }],
+        "actions": {"update-props": {
+            "node.name": f"alsa_output.t2-{model}.RawSpeakers",
+            "audio.allowed-rates": [96000, 88200, 48000, 44100],
+        }},
+    })
+    alsa_rules.append({
+        "matches": [{
+            "alsa.id": f"t2-{model}",
+            "api.alsa.pcm.stream": "capture",
+            "device.profile.name": "HiFi: Mic: source",
+        }],
+        "actions": {"update-props": {
+            "node.name": f"alsa_input.t2-{model}.RawMic",
+        }},
+    })
+    filter_rules.append({
+        "matches": [{
+            "node.name": f"alsa_output.t2-{model}.RawSpeakers",
         }],
         "actions": {"create-filter": {
             "filter-path": f"{data_dir}/t2-dsp/profiles/{model}/graph.json",
@@ -22,11 +40,13 @@ for model in json.loads((build_dir / "models.json").read_text()).values():
         }},
     })
     if (profiles_dir / model / "mic.json").is_file():
-        rules.append({
+        mic = json.loads((profiles_dir / model / "mic.json").read_text())
+        mic["playback.props"]["priority.session"] = 2005
+        (profiles_dir / model / "mic.json").write_text(
+            json.dumps(mic, indent=4) + "\n")
+        filter_rules.append({
             "matches": [{
-                "alsa.id": f"t2-{model}",
-                "api.alsa.pcm.stream": "capture",
-                "device.profile.name": "HiFi: Mic: source",
+                "node.name": f"alsa_input.t2-{model}.RawMic",
             }],
             "actions": {"create-filter": {
                 "filter-path": f"{data_dir}/t2-dsp/profiles/{model}/mic.json",
@@ -35,16 +55,8 @@ for model in json.loads((build_dir / "models.json").read_text()).values():
         })
 
 conf = {
-    "node.software-dsp.rules": rules,
-    "monitor.alsa.rules": [{
-        "matches": [{
-            "alsa.id": "~t2-.*",
-            "api.alsa.pcm.stream": "playback",
-        }],
-        "actions": {"update-props": {
-            "audio.allowed-rates": [96000, 88200, 48000, 44100],
-        }},
-    }],
+    "monitor.alsa.rules": alsa_rules,
+    "node.software-dsp.rules": filter_rules,
     "wireplumber.profiles": {"main": {"node.software-dsp": "required"}},
 }
 (build_dir / "50-t2-dsp.conf").write_text(json.dumps(conf, indent=4) + "\n")
