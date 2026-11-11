@@ -13,7 +13,7 @@ rm -r "kernel-$KERNEL_VERSION.src.rpm" "kernel-$KERNEL_VERSION.src"
 sed -i 's/# define buildid .local/%define buildid .t2/g' "kernel.spec"
 
 # Bump release
-sed -i 's/%define specrelease 300/%define specrelease 310/g' "kernel.spec"
+sed -i 's/%define specrelease 300/%define specrelease 311/g' "kernel.spec"
 
 # Disable debug kernels
 sed -i "/%define with_debug /c %define with_debug 0" "kernel.spec"
@@ -210,3 +210,4 @@ set_kconfig_x86_64 'CONFIG_DVB_DRX39XYJ=m'
 set_kconfig_x86_64 'CONFIG_DVB_SP2=m'
 
 cat "linux-t2-patches"/*.patch > "t2linux-combined.patch"
+cat "apfs-fix-null-dereference.patch" >> "t2linux-combined.patch"
