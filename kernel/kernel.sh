@@ -210,4 +210,3 @@ set_kconfig_x86_64 'CONFIG_DVB_DRX39XYJ=m'
 set_kconfig_x86_64 'CONFIG_DVB_SP2=m'
 
 cat "linux-t2-patches"/*.patch > "t2linux-combined.patch"
-cat "apfs-fix-null-dereference.patch" >> "t2linux-combined.patch"
