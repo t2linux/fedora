@@ -1,5 +1,5 @@
 %global forgeurl https://github.com/sharpenedblade/T2FanRD
-%global commit 9863c6b40cd3ffd2be881b8deddc2d22bcc496bb
+%global commit 4b5439ad0c0f37485d0bff0cc7c4a049a72f8982
 %forgemeta -iv
 
 %bcond_without check
@@ -11,7 +11,7 @@
 
 Name:           t2fanrd
 Version:        0.1.2
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Simple Fan Daemon for T2 Macs
 
 SourceLicense:  GPL-3.0-or-later
